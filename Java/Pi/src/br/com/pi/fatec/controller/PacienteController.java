@@ -8,7 +8,7 @@ import br.com.pi.fatec.model.*;
 import br.com.pi.fatec.model.DTO.PacienteDTO;
 
 public class PacienteController {
-	private IDataObject<PacienteDTO> pacienteDAO = null;
+	private DataObject<PacienteDTO> pacienteDAO = null;
 
 	public void cadastraPaciente(PacienteDTO dto) {
 		try {

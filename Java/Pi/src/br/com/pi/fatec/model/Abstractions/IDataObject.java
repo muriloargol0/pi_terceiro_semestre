@@ -1,4 +1,4 @@
-package br.com.pi.fatec.model;
+package br.com.pi.fatec.model.Abstractions;
 
 import java.sql.SQLException;
 

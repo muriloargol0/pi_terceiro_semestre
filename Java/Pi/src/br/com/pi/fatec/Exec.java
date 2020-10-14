@@ -3,16 +3,19 @@ package br.com.pi.fatec;
 import java.sql.SQLException;
 
 import br.com.pi.fatec.controller.PacienteController;
-import br.com.pi.fatec.model.IDataObject;
 import br.com.pi.fatec.model.TesteDAO;
 import br.com.pi.fatec.model.DTO.TesteDTO;
+import br.com.pi.fatec.view.Login;
 
 public class Exec {
 
 	public static void main(String[] args) throws SQLException {
 
-		Paciente p = new Paciente();
-		p.btnCadastrar();
+		Login login = new Login();
+		login.createScreen();
+		
+		//Paciente p = new Paciente();
+		//p.btnCadastrar();
 		
 		/* IDataObject<TesteDTO> dao = new TesteDAO<TesteDTO>();
 		
