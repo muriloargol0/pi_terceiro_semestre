@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 import br.com.pi.fatec.model.*;
 import br.com.pi.fatec.model.DTO.PacienteDTO;
 
-public class PacienteController {
+public class PatientController {
 	private DataObject<PacienteDTO> pacienteDAO = null;
 
 	public void cadastraPaciente(PacienteDTO dto) {

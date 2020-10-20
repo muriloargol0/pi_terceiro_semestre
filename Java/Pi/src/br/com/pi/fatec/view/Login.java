@@ -7,9 +7,20 @@ import java.text.ParseException;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 
+import br.com.pi.fatec.controller.LoginController;
+
 
 public class Login extends JFrame implements ActionListener{
-
+	LoginController login;
+	
+    private LoginController getLoginController() {
+    	if(login == null) {
+    		login = new LoginController();
+    	}
+    	
+    	return login;
+    }
+	
 	public void createScreen() {
 		Container screen = getContentPane();
 		setLayout(null);
@@ -52,7 +63,7 @@ public class Login extends JFrame implements ActionListener{
 	}
 	
 	public void btnEnterClick() {
-		JOptionPane.showMessageDialog(null, "Entrou");
+		getLoginController().doLogin();
 	}
 	
 	public void btnCloseClick() {

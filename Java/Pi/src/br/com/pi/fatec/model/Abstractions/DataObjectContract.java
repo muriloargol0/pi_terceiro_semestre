@@ -2,7 +2,7 @@ package br.com.pi.fatec.model.Abstractions;
 
 import java.sql.SQLException;
 
-public interface IDataObject<T> {
+public interface DataObjectContract<T> {
 	int create(T dto) throws SQLException;
 	int update(T dto) throws SQLException;
 	boolean delete(int id) throws SQLException;	
