@@ -4,35 +4,27 @@ import java.sql.SQLException;
 
 import br.com.pi.fatec.model.DTO.TesteDTO;
 
-public class TesteDAO<T> extends DataObject<T>  {
+public class TesteDAO extends DataObject  {
 
-	@Override
-	public int create(T dto) throws SQLException {
-		if(dto instanceof TesteDTO) {
-			System.out.println(((TesteDTO) dto).id);
-			System.out.println(((TesteDTO) dto).descricao);
-		}
+	public int create(TesteDTO dto) throws SQLException {
 		return 0;
 	}
 
-	@Override
 	public boolean delete(int id) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
-	public <T> T read() throws SQLException {
+	public TesteDTO read() throws SQLException {
 		TesteDTO t = new TesteDTO();
 		//Faz a consulta e preenche os dados
 		t.id = 1;
 		t.descricao = "Teste do read";
 		
-		return (T) t;
+		return t;
 	}
 
-	@Override
-	public int update(T dto) throws SQLException {
+	public int update(TesteDTO dto) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;
 	}

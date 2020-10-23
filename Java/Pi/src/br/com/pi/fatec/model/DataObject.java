@@ -1,7 +1,9 @@
 package br.com.pi.fatec.model;
 
-import br.com.pi.fatec.model.Abstractions.DataObjectContract;
+import java.sql.Connection;
 
-public abstract class DataObject<T> extends SqlCnn implements DataObjectContract<T> {
+
+public abstract class DataObject extends SqlCnn {
+
 
 }

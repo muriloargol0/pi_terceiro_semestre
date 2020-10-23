@@ -9,7 +9,7 @@ public class SqlCnn {
 	
 	protected void doConnection() {
 		String server = System.getenv("LocalServer");
-		String db = System.getenv("PITS");
+		String db = "PI"; //System.getenv("PITS");
 		String pw = System.getenv("Senha");
 		
 		String url = "jdbc:sqlserver://" + server + ";databaseName=" + db +
@@ -20,7 +20,6 @@ public class SqlCnn {
 		    
 		    this.cnn = conexao;
 		    
-		    System.out.println("Conectou");
 		} catch (ClassNotFoundException e) {
 		    // Erro caso o driver JDBC não foi instalado
 		    e.printStackTrace();

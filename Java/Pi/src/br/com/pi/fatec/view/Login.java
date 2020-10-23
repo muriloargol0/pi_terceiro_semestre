@@ -55,7 +55,7 @@ public class Login extends JFrame implements ActionListener{
         screen.add(btnEnter);
         screen.add(btnClose);
         
-        this.setSize(430, 250);
+        this.setSize(430, 220);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);

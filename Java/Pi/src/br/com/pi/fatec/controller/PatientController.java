@@ -5,15 +5,15 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import br.com.pi.fatec.model.*;
-import br.com.pi.fatec.model.DTO.PacienteDTO;
+import br.com.pi.fatec.model.DTO.PatientDTO;
 
 public class PatientController {
-	private DataObject<PacienteDTO> pacienteDAO = null;
+	private PatientDAO pacienteDAO = null;
 
-	public void cadastraPaciente(PacienteDTO dto) {
+	public void cadastraPaciente(PatientDTO dto) {
 		try {
 			if(pacienteDAO == null) {
-				pacienteDAO = new PacienteDAO<PacienteDTO>();
+				pacienteDAO = new PatientDAO();
 			}
 			
 			pacienteDAO.create(dto);
