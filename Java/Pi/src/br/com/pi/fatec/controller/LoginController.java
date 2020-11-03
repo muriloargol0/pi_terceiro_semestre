@@ -8,13 +8,12 @@ import br.com.pi.fatec.model.DTO.LoginDTO;
 
 public class LoginController {
 	
-	public boolean doLogin() {
+	public boolean doLogin(String user, char[] pw) {
 		LoginDAO l = new LoginDAO();
+		
 		try {
-			System.out.println(l.read().user);
-			System.out.println(l.read().password);
+			return l.doLogin(user, pw);
 			
-			return true;
 		} catch (Exception e) {
 			return false;
 		}

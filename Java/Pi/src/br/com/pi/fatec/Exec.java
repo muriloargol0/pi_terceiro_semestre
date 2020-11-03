@@ -12,7 +12,6 @@ public class Exec {
 	public static void main(String[] args) throws SQLException {
 
 		Login login = new Login();
-		login.createScreen();
 		
 		//Paciente p = new Paciente();
 		//p.btnCadastrar();

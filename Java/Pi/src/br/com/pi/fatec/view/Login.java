@@ -11,7 +11,9 @@ import br.com.pi.fatec.controller.LoginController;
 
 
 public class Login extends JFrame implements ActionListener{
-	LoginController login;
+	private LoginController login;
+	private JTextField txtUser;
+	private JPasswordField txtPassword;
 	
     private LoginController getLoginController() {
     	if(login == null) {
@@ -21,6 +23,10 @@ public class Login extends JFrame implements ActionListener{
     	return login;
     }
 	
+    public Login(){
+    	createScreen();
+    }
+    
 	public void createScreen() {
 		Container screen = getContentPane();
 		setLayout(null);
@@ -32,8 +38,8 @@ public class Login extends JFrame implements ActionListener{
         lblUser.setBounds(100, 15, 100, 20);
         lblPassword.setBounds(100, 50, 100, 20);
         
-        JTextField txtUser = new JTextField();
-        JPasswordField txtPassword = new JPasswordField();
+        txtUser = new JTextField();
+        txtPassword = new JPasswordField();
         txtUser.setBounds(160, 15, 150, 20);
         txtPassword.setBounds(160, 50, 150, 20);
         
@@ -63,16 +69,24 @@ public class Login extends JFrame implements ActionListener{
 	}
 	
 	public void btnEnterClick() {
-		getLoginController().doLogin();
+		if(getLoginController().doLogin(this.txtUser.getText(), this.txtPassword.getPassword())) {
+			System.out.println("Logou");
+		}else {
+			JOptionPane.showMessageDialog(null, "Usuário e senha incompatíveis.");
+			txtUser.setText("");
+			txtPassword.setText("");
+			txtUser.requestFocus();
+		}
 	}
 	
 	public void btnCloseClick() {
-		JOptionPane.showMessageDialog(null, "Fechou");
+		System.exit(EXIT_ON_CLOSE);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "Entrar") {
+			
 			this.btnEnterClick();
 		}
 		
