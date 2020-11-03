@@ -19,7 +19,7 @@ public class PatientDAO extends DataObject {
 	}
 
 
-	public boolean delete(int id) throws SQLException {
+	public boolean delete(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}

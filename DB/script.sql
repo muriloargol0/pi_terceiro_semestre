@@ -1,3 +1,5 @@
+USE PI
+
 BEGIN TRY  
      BEGIN TRAN
 
@@ -91,10 +93,17 @@ BEGIN TRY
 
 	INSERT INTO TIPO (DESCRICAO) VALUES
 		('Médico'),
-		('Infermeira')
+		('Infermeira'),
+		('administrador do sistema')
 
+	INSERT INTO FUNCIONARIO (BAIRRO, CATEGORIA, CEP, CIDADE, COREN, CPF, CRM, DATA_CADASTRO, DATA_NASCIMENTO, ESPECIALIDADE, ESTADO_CIVIL,
+		ID_TIPO, NOME, NUMERO, OBSERVACOES, RG, RUA, SENHA, SITUACAO, STTS, UF, USUARIO)
+	VALUES
+		('Teste', 'Teste', '13348-122', 'Indaiatuba', '1213566', '40718516900', '102015', GETDATE(), '1993-11-01', 'ADM', 'Solteiro', 3, 'ADMIN', 
+		333, 'Usuário para testar o sistema', '48648136', 'Rua adm', '123', 1, 1, 'SP','adm')
 	 COMMIT
 END TRY  
 BEGIN CATCH  
       ROLLBACK
 END CATCH
+

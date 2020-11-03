@@ -4,6 +4,8 @@ import java.sql.Connection;
 
 
 public abstract class DataObject extends SqlCnn {
-
-
+	
+	public boolean delete(int id) {
+		return false;
+	}	
 }
