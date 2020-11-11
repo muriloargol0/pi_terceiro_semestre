@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
-import br.com.pi.fatec.model.DTO.LoginDTO;
 
 public class LoginDAO extends DataObject {
 

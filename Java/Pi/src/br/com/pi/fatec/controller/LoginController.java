@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 import br.com.pi.fatec.model.DataObject;
 import br.com.pi.fatec.model.LoginDAO;
-import br.com.pi.fatec.model.DTO.LoginDTO;
 
 public class LoginController {
 	

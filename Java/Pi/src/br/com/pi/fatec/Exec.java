@@ -3,8 +3,6 @@ package br.com.pi.fatec;
 import java.sql.SQLException;
 
 import br.com.pi.fatec.controller.PatientController;
-import br.com.pi.fatec.model.TesteDAO;
-import br.com.pi.fatec.model.DTO.TesteDTO;
 import br.com.pi.fatec.view.Login;
 
 public class Exec {
