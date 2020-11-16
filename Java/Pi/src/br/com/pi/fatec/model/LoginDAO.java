@@ -7,12 +7,14 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 
-public class LoginDAO extends DataObject {
+public class LoginDAO {
 
 	public boolean doLogin(String user, char[] pw) {
-		try {		
-			super.getConnection();
-			PreparedStatement stmt = this.getConnection().prepareStatement("SELECT USUARIO, SENHA FROM FUNCIONARIO WHERE USUARIO = ?");
+		try {
+			SqlCnn cnn = new SqlCnn();
+			
+			cnn.getConnection();
+			PreparedStatement stmt = cnn.getConnection().prepareStatement("SELECT USUARIO, SENHA FROM FUNCIONARIO WHERE USUARIO = ?");
 			stmt.setString(1, user);
 			ResultSet rs = stmt.executeQuery();
 			

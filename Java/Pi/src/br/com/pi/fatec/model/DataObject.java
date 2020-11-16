@@ -6,19 +6,11 @@ import java.sql.SQLException;
 
 public abstract class DataObject extends SqlCnn {
 	
-	public int create() throws SQLException {
-		return 0;
-	}
+	public abstract int create() throws SQLException;
 
 
-	public boolean update() throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public abstract boolean update() throws SQLException;
 
 
-	public boolean delete() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public abstract boolean delete();
 }
