@@ -13,7 +13,6 @@ public class LoginDAO {
 		try {
 			SqlCnn cnn = new SqlCnn();
 			
-			cnn.getConnection();
 			PreparedStatement stmt = cnn.getConnection().prepareStatement("SELECT USUARIO, SENHA FROM FUNCIONARIO WHERE USUARIO = ?");
 			stmt.setString(1, user);
 			ResultSet rs = stmt.executeQuery();
@@ -26,7 +25,6 @@ public class LoginDAO {
 					return true;
 				}
 
-				
 				return false;
 			}
 		} catch (Exception e) {

@@ -70,7 +70,9 @@ public class Login extends JFrame implements ActionListener{
 	
 	public void btnEnterClick() {
 		if(getLoginController().doLogin(this.txtUser.getText(), this.txtPassword.getPassword())) {
-			System.out.println("Logou");
+			Menu menu = new Menu();
+			//menu.setVisible(true);
+			this.dispose();
 		}else {
 			JOptionPane.showMessageDialog(null, "Usuário e senha incompatíveis.");
 			txtUser.setText("");

@@ -11,10 +11,10 @@ public class Exec {
 
 	public static void main(String[] args) throws SQLException {
 
-		//Login login = new Login();
+		Login login = new Login();
 		
-		Menu menu = new Menu();
-		menu.setVisible(true);
+		//Menu menu = new Menu();
+		//menu.setVisible(true);
 		
 		//Paciente p = new Paciente();
 		//p.btnCadastrar();

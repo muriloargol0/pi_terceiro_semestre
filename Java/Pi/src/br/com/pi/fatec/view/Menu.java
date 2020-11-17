@@ -2,6 +2,8 @@ package br.com.pi.fatec.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,25 +13,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class Menu extends JFrame {
+public class Menu extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Menu frame = new Menu();
-					frame.setVisible(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -44,18 +30,33 @@ public class Menu extends JFrame {
 		
 		JButton btnDiagnostico = new JButton("DIAGNÓSTICO");
 		btnDiagnostico.setBounds(76, 82, 210, 70);
+		btnDiagnostico.addActionListener(this);
 		contentPane.add(btnDiagnostico);
 		
 		JButton btnPaciente = new JButton("PACIENTE");
 		btnPaciente.setBounds(335, 82, 210, 70);
+		btnPaciente.addActionListener(this);
 		contentPane.add(btnPaciente);
 		
 		JButton btnReceita = new JButton("RECEITA");
 		btnReceita.setBounds(76, 201, 210, 70);
+		btnReceita.addActionListener(this);
 		contentPane.add(btnReceita);
 		
 		JButton btnUsuario = new JButton("USUÁRIO");
 		btnUsuario.setBounds(335, 201, 210, 70);
+		btnUsuario.addActionListener(this);
 		contentPane.add(btnUsuario);
+		
+		setVisible(true);
+		this.setLocationRelativeTo(null);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand() == "DIAGNÓSTICO") {
+			Diagnostico diagnostico = new Diagnostico();
+			
+		}
 	}
 }

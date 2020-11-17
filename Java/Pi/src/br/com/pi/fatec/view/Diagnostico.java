@@ -2,11 +2,19 @@ package br.com.pi.fatec.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import br.com.pi.fatec.controller.DiagnosisController;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
@@ -14,8 +22,10 @@ import javax.swing.JSeparator;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 
-public class Diagnostico extends JFrame {
-
+public class Diagnostico extends JFrame implements ActionListener, KeyListener {
+	
+	private int idPaciente;
+	
 	private JPanel contentPane;
 	private JTextField textFieldProntuario;
 	private JTextField textFieldIdade;
@@ -41,22 +51,6 @@ public class Diagnostico extends JFrame {
 	private JButton btnFechar;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Diagnostico frame = new Diagnostico();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public Diagnostico() {
@@ -76,6 +70,7 @@ public class Diagnostico extends JFrame {
 		textFieldProntuario.setBounds(100, 47, 132, 20);
 		contentPane.add(textFieldProntuario);
 		textFieldProntuario.setColumns(10);
+		textFieldProntuario.addKeyListener(this);
 		
 		JLabel lblPaciente = new JLabel("Paciente");
 		lblPaciente.setBounds(242, 50, 60, 14);
@@ -181,6 +176,7 @@ public class Diagnostico extends JFrame {
 				
 		btnAnexar = new JButton("Anexar");
 		btnAnexar.setBounds(622, 167, 133, 23);
+		btnAnexar.addActionListener(this);
 		contentPane.add(btnAnexar);
 		
 		lblSintomas = new JLabel("Sintomas");
@@ -203,18 +199,100 @@ public class Diagnostico extends JFrame {
 		
 		btnSalvar = new JButton("SALVAR");
 		btnSalvar.setBounds(100, 392, 132, 35);
+		btnSalvar.addActionListener(this);
 		contentPane.add(btnSalvar);
 		
 		btnEditar = new JButton("EDITAR");
 		btnEditar.setBounds(242, 392, 132, 35);
+		btnEditar.addActionListener(this);
 		contentPane.add(btnEditar);
 		
 		btnGerarReceita = new JButton("GERAR RECEITA");
 		btnGerarReceita.setBounds(384, 392, 132, 35);
+		btnGerarReceita.addActionListener(this);
 		contentPane.add(btnGerarReceita);
 		
 		btnFechar = new JButton("FECHAR");
 		btnFechar.setBounds(526, 392, 132, 35);
+		btnFechar.addActionListener(this);
 		contentPane.add(btnFechar);
+		
+		setVisible(true);
+		setLocationRelativeTo(null);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand() == "Anexar") {
+			
+		}
+		
+		if(e.getActionCommand() == "SALVAR") {
+			DiagnosisController dc = new DiagnosisController();
+			
+			//dc.setAnexo();
+			dc.setColesterol(this.textFieldColesterol.getText());
+			dc.setDataDiagnostico(this.textFieldData.getText());
+			dc.setDiagnostico(this.textFieldDiagnostico.getText());
+			dc.setGlicemia(textFieldGlicemia.getText());
+			dc.setIdFuncionario(1); // Alterar para o id do funcionário logado
+			dc.setIdPaciente(1); // Alterar para buscar o id paciente
+			
+			
+			
+		}
+		
+		if(e.getActionCommand() == "EDITAR") {
+			String diag = JOptionPane.showInputDialog("Digite o id do diagnóstico: ");
+		}
+		
+		if(e.getActionCommand() == "GERAR RECEITA") {
+			
+		}	
+		
+		if(e.getActionCommand() == "FECHAR") {
+			this.dispose();
+		}	
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == 10) {
+			try {
+				int idPac = Integer.parseInt(this.textFieldProntuario.getText());
+				
+				System.out.println(idPac);
+				
+				DiagnosisController dc = new DiagnosisController();
+				
+				String[] pacienteDados = dc.getProntuario(idPac);
+				
+				System.out.println("aqui " + pacienteDados[0]);
+				
+				//this.idPaciente = Integer.parseInt(pacienteDados[0]);
+				
+				this.textFieldPaciente.setText(pacienteDados[1]);
+				this.textFieldIdade.setText(pacienteDados[2]);
+				this.textFieldObservacoes.setText(pacienteDados[3]);
+				
+			} catch (Exception e2) {
+				this.textFieldPaciente.setText("");
+				this.textFieldPaciente.requestFocus();
+				JOptionPane.showMessageDialog(this, "O id do paciente precisa ser um número inteiro!");
+			}
+		}
+		//textFieldPaciente.setText(textFieldProntuario.getText());
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

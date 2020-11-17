@@ -1,6 +1,8 @@
 package br.com.pi.fatec.controller;
 
-public class diagnosisController {
+import br.com.pi.fatec.model.DiagnosisDAO;
+
+public class DiagnosisController {
 	private int idDianostico;
 	private String diagnostico;
 	private String sintomas;
@@ -80,5 +82,10 @@ public class diagnosisController {
 		this.colesterol = colesterol;
 	}
 	
-	
+	public String[] getProntuario(int idPaciente) {
+		DiagnosisDAO d = new DiagnosisDAO();
+		
+		System.out.println("Controller " + idPaciente);
+		return d.getProntuario(idPaciente);
+	}
 }

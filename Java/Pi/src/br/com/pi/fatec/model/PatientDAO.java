@@ -1,5 +1,6 @@
 package br.com.pi.fatec.model;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PatientDAO extends DataObject {	
@@ -21,5 +22,11 @@ public class PatientDAO extends DataObject {
 	
 	public void teste() {
 	
+	}
+
+
+	public ResultSet read() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

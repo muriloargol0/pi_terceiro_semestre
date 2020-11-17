@@ -1,12 +1,14 @@
 package br.com.pi.fatec.model;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class EmployeeDAO extends DataObject {
 	
 	public int create() {
-		// TODO Auto-generated method stub
+		super.getConnection();
 		return 0;
+		
 	}
 
 
@@ -20,7 +22,8 @@ public class EmployeeDAO extends DataObject {
 		return false;
 	}
 
-	public void read() throws SQLException {
+	public ResultSet read() {
+		return null;
 		// TODO Auto-generated method stub
 	}
 
