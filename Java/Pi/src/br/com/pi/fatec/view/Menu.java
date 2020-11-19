@@ -56,7 +56,15 @@ public class Menu extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "DIAGNÓSTICO") {
 			Diagnostico diagnostico = new Diagnostico();
-			
+		}
+		if(e.getActionCommand() == "PACIENTE") {
+			Paciente paciente = new Paciente();
+		}
+		if(e.getActionCommand() == "RECEITA") {
+			Receita receita = new Receita();
+		}
+		if(e.getActionCommand() == "USUÁRIO") {
+			Usuario usuario = new Usuario();
 		}
 	}
 }

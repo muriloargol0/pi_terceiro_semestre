@@ -27,7 +27,21 @@ public class PatientController {
 	private int numero;
 	private String sexo;
 	private String anexo;
+	private String responsavel;
+	private String dataNascimento;
 	
+	public String getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(String dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public String getTipoSanguineo() {
+		return tipoSanguineo;
+	}
+
 	public int getIdPaciente() {
 		return idPaciente;
 	}
@@ -186,6 +200,14 @@ public class PatientController {
 
 	public void setAnexo(String anexo) {
 		this.anexo = anexo;
+	}
+	
+	public String getResponsavel() {
+		return responsavel;
+	}
+
+	public void setResponsavel(String responsavel) {
+		this.responsavel = responsavel;
 	}
 
 	public PatientDAO getPacienteDAO() {
