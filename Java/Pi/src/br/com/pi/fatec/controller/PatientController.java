@@ -16,7 +16,7 @@ public class PatientController {
 	private String cpf;
 	private String cep;
 	private String bairro;
-	private char uf;
+	private String uf;
 	private int status;
 	private String nome;
 	private String estadoCivil;
@@ -38,10 +38,6 @@ public class PatientController {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public String getTipoSanguineo() {
-		return tipoSanguineo;
-	}
-
 	public int getIdPaciente() {
 		return idPaciente;
 	}
@@ -50,7 +46,7 @@ public class PatientController {
 		this.idPaciente = idPaciente;
 	}
 
-	public String getTipo_sanguineo() {
+	public String getTipoSanguineo() {
 		return tipoSanguineo;
 	}
 
@@ -114,11 +110,11 @@ public class PatientController {
 		this.bairro = bairro;
 	}
 
-	public char getUf() {
+	public String getUf() {
 		return uf;
 	}
 
-	public void setUf(char uf) {
+	public void setUf(String uf) {
 		this.uf = uf;
 	}
 

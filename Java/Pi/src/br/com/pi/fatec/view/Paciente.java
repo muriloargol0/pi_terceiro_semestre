@@ -37,6 +37,7 @@ public class Paciente extends JFrame implements ActionListener {
 	private JTextField tfSexo;
 	private JTextField tfResponsavel;
 	private JTextField tfTipoSanguineo;
+	private JComboBox cbStatus;
 
 	/**
 	 * Create the frame.
@@ -251,7 +252,7 @@ public class Paciente extends JFrame implements ActionListener {
 			PatientController pc = new PatientController();
 			
 			pc.setNome(this.tfNome.getText());
-			//pc.setStatus(this.);
+			pc.setStatus(this.cbStatus.getSelectedIndex());
 			pc.setRg(this.tfRG.getText());
 			pc.setCpf(this.tfCPF.getText());
 			pc.setDataNascimento(this.tfDataNascimento.getText());
@@ -266,9 +267,11 @@ public class Paciente extends JFrame implements ActionListener {
 			pc.setNumero(Integer.parseInt(this.tfNumero.getText()));
 			pc.setBairro(this.tfBairro.getText());
 			pc.setCidade(this.tfCidade.getText());
-			//pc.setUf(this.tfUF.get());
+			pc.setUf(this.tfUF.getText());
 			pc.setCep(this.tfCEP.getText());
 			pc.setObservacoes(this.tfObservacoes.getText());
+			
+			pc.cadastraPaciente();
 		}
 		
 		if(e.getActionCommand() == "EDITAR") {
