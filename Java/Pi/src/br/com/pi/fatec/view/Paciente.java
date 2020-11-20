@@ -18,6 +18,8 @@ import br.com.pi.fatec.controller.PatientController;
 
 public class Paciente extends JFrame implements ActionListener {
 
+	private PatientController pc;
+	
 	private JPanel contentPane;
 	private	JTextField tfNome;
 	private JTextField tfRG;
@@ -54,6 +56,7 @@ public class Paciente extends JFrame implements ActionListener {
 		JButton btnBuscarPaciente = new JButton("BUSCAR PACIENTE");
 		btnBuscarPaciente.setBounds(28, 22, 132, 35);
 		contentPane.add(btnBuscarPaciente);
+		btnBuscarPaciente.addActionListener(this);
 		
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setBounds(30, 78, 70, 14);
@@ -245,33 +248,41 @@ public class Paciente extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 				
 	}
+	
+	private PatientController getController() {
+		if(pc == null) {
+			pc = new PatientController();
+		}
+		
+		return pc;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "SALVAR") {
-			PatientController pc = new PatientController();
 			
-			pc.setNome(this.tfNome.getText());
-			pc.setStatus(this.cbStatus.getSelectedIndex());
-			pc.setRg(this.tfRG.getText());
-			pc.setCpf(this.tfCPF.getText());
-			pc.setDataNascimento(this.tfDataNascimento.getText());
-			pc.setIdade(this.tfIdade.getText());
-			pc.setSexo(this.tfSexo.getText());
-			pc.setTipoSanguineo(this.tfTipoSanguineo.getText());
-			pc.setResponsavel(this.tfResponsavel.getText());
-			pc.setEstadoCivil(this.tfEstadoCivil.getText());
-			pc.setEmail(this.tfEmail.getText());
-			pc.setTelefone(this.tfTelefone.getText());
-			pc.setRua(this.tfRua.getText());
-			pc.setNumero(Integer.parseInt(this.tfNumero.getText()));
-			pc.setBairro(this.tfBairro.getText());
-			pc.setCidade(this.tfCidade.getText());
-			pc.setUf(this.tfUF.getText());
-			pc.setCep(this.tfCEP.getText());
-			pc.setObservacoes(this.tfObservacoes.getText());
 			
-			pc.cadastraPaciente();
+			this.getController().setNome(this.tfNome.getText());
+			//pc.setStatus(this.cbStatus.getSelectedIndex());
+			this.getController().setRg(this.tfRG.getText());
+			this.getController().setCpf(this.tfCPF.getText());
+			this.getController().setDataNascimento(this.tfDataNascimento.getText());
+			this.getController().setIdade(this.tfIdade.getText());
+			this.getController().setSexo(this.tfSexo.getText());
+			this.getController().setTipoSanguineo(this.tfTipoSanguineo.getText());
+			this.getController().setResponsavel(this.tfResponsavel.getText());
+			this.getController().setEstadoCivil(this.tfEstadoCivil.getText());
+			this.getController().setEmail(this.tfEmail.getText());
+			this.getController().setTelefone(this.tfTelefone.getText());
+			this.getController().setRua(this.tfRua.getText());
+//			this.getController().setNumero(Integer.parseInt(this.tfNumero.getText()));
+			this.getController().setBairro(this.tfBairro.getText());
+			this.getController().setCidade(this.tfCidade.getText());
+			this.getController().setUf(this.tfUF.getText());
+			this.getController().setCep(this.tfCEP.getText());
+			this.getController().setObservacoes(this.tfObservacoes.getText());
+			
+			this.getController().cadastraPaciente();
 		}
 		
 		if(e.getActionCommand() == "EDITAR") {
@@ -282,6 +293,12 @@ public class Paciente extends JFrame implements ActionListener {
 			this.dispose();
 		}
 		
+		if(e.getActionCommand() == "BUSCAR PACIENTE") {
+			this.getController().findPatient(tfNome.getText());
+			
+			this.tfNome.setText(this.getController().getNome());
+			this.tfCidade.setText(this.getController().getCidade());
+			
+		}
 	}
-
 }

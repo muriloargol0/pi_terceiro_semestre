@@ -4,9 +4,11 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
+import br.com.pi.fatec.dto.PatientDTO;
 import br.com.pi.fatec.model.*;
 
 public class PatientController {
+	private PatientDTO dto;
 	private int idPaciente;
 	private String tipoSanguineo;
 	private String dataCadastro;
@@ -29,6 +31,12 @@ public class PatientController {
 	private String anexo;
 	private String responsavel;
 	private String dataNascimento;
+	
+	private PatientDAO pacienteDAO = null;
+	
+	public PatientController() {
+		dto = new PatientDTO();
+	}
 	
 	public String getDataNascimento() {
 		return dataNascimento;
@@ -207,21 +215,59 @@ public class PatientController {
 	}
 
 	public PatientDAO getPacienteDAO() {
+		if(this.pacienteDAO == null) {
+			this.pacienteDAO = new PatientDAO();
+		}
 		return pacienteDAO;
 	}
-
-	public void setPacienteDAO(PatientDAO pacienteDAO) {
-		this.pacienteDAO = pacienteDAO;
-	}
 	
-	private PatientDAO pacienteDAO = null;
+	private void fillDTO() {
+		dto.anexo = this.getAnexo();
+		dto.bairro = this.getBairro();
+		dto.cep = this.getCep();
+		dto.cidade = this.getCidade();
+		dto.cpf = this.getCpf();
+		dto.dataCadastro = this.getDataCadastro();
+		dto.dataNascimento = this.getDataNascimento();
+		dto.email = this.getEmail();
+		dto.estadoCivil = this.getEstadoCivil();
+		dto.idade = this.getIdade();
+		dto.idPaciente = this.getIdPaciente();
+		dto.nome = this.getNome();
+		dto.numero = this.getNumero();
+		dto.observacoes = this.getObservacoes();
+		dto.responsavel = this.getResponsavel();
+		dto.rg = this.getRg();
+		dto.rua = this.getRua();
+		dto.sexo = this.getSexo();
+		dto.status = this.getStatus();
+		dto.telefone = this.getTelefone();
+		dto.tipoSanguineo = this.getTipoSanguineo();
+		dto.uf = this.getUf();
+	}
 
+	
 	public void cadastraPaciente() {
 		try {
-			pacienteDAO.create();
+			this.fillDTO();
+			
+			this.getPacienteDAO().dto = dto;
+			
+			this.getPacienteDAO().create();
 			
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "Erro ao criar o registro do Paciente" + ex.getMessage());
 		}
+	}
+	
+	public void findPatient(String nome) {
+		// Faz a busca e preenche o DTO
+		this.getPacienteDAO().read(nome);
+		
+		PatientDTO dto = this.getPacienteDAO().dto;
+		
+		this.setNome(dto.nome);
+		this.setCidade(dto.cidade);
+		
 	}
 }

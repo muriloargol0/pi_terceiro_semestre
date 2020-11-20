@@ -22,8 +22,7 @@ public class EmployeeDAO extends DataObject {
 		return false;
 	}
 
-	public ResultSet read() {
-		return null;
+	public void read(String param) {
 		// TODO Auto-generated method stub
 	}
 

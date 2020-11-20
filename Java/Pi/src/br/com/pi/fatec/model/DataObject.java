@@ -15,5 +15,5 @@ public abstract class DataObject extends SqlCnn {
 
 	public abstract boolean delete();
 	
-	public abstract ResultSet read();
+	public abstract void read(String param);
 }

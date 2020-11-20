@@ -27,9 +27,8 @@ public class DiagnosisDAO extends DataObject {
 	}
 
 	@Override
-	public ResultSet read() {
-		// TODO Auto-generated method stub
-		return null;
+	public void read(String param) {
+
 	}
 
 	public String[] getProntuario(int idPaciente) {
