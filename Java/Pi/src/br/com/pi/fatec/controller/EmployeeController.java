@@ -1,10 +1,17 @@
 package br.com.pi.fatec.controller;
 
+import javax.swing.JOptionPane;
+
+import br.com.pi.fatec.dto.EmployeeDTO;
+import br.com.pi.fatec.dto.PatientDTO;
+import br.com.pi.fatec.model.EmployeeDAO;
+
 public class EmployeeController {
+	private EmployeeDTO dto;
 	private int idFuncionario;
 	private String usuario; 
 	private String senha;
-	private boolean stts;
+	private int status; //alterado de boolean stts para int status
 	private String nome;
 	private String dataNascimento;
 	private String rg;
@@ -16,7 +23,7 @@ public class EmployeeController {
 	private String bairro;
 	private String cidade;
 	private int idTipo;
-	private char uf;
+	private String uf;
 	private String observacoes;
 	private String dataCadastro;
 	private String crm;
@@ -24,8 +31,22 @@ public class EmployeeController {
 	private String especialidade;
 	private String coren;
 	private String categoria;
+	private String telefone;
 	
+	private EmployeeDAO funcionarioDAO = null;
 	
+	public EmployeeController() {
+		dto = new EmployeeDTO();
+	}
+	
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
 	public int getIdFuncionario() {
 		return idFuncionario;
 	}
@@ -56,12 +77,6 @@ public class EmployeeController {
 	public void setDataCadastro(String dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
-	public int getId_funcionario() {
-		return idFuncionario;
-	}
-	public void setId_funcionario(int id_funcionario) {
-		this.idFuncionario = id_funcionario;
-	}
 	public String getUsuario() {
 		return usuario;
 	}
@@ -74,23 +89,17 @@ public class EmployeeController {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public boolean isStts() {
-		return stts;
+	public int getStatus() {
+		return status;
 	}
-	public void setStts(boolean stts) {
-		this.stts = stts;
+	public void setStts(int status) {
+		this.status = status;
 	}
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	public String getData_nascimento() {
-		return dataNascimento;
-	}
-	public void setData_nascimento(String dataNascimento) {
-		this.dataNascimento = dataNascimento;
 	}
 	public String getRg() {
 		return rg;
@@ -103,12 +112,6 @@ public class EmployeeController {
 	}
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}
-	public String getEstado_civil() {
-		return estadoCivil;
-	}
-	public void setEstado_civil(String estadoCivil) {
-		this.estadoCivil = estadoCivil;
 	}
 	public String getCep() {
 		return cep;
@@ -140,16 +143,10 @@ public class EmployeeController {
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
-	public int getId_tipo() {
-		return idTipo;
-	}
-	public void setId_tipo(int id_tipo) {
-		this.idTipo = id_tipo;
-	}
-	public char getUf() {
+	public String getUf() {
 		return uf;
 	}
-	public void setUf(char uf) {
+	public void setUf(String uf) {
 		this.uf = uf;
 	}
 	public String getObservacoes() {
@@ -157,12 +154,6 @@ public class EmployeeController {
 	}
 	public void setObservacoes(String observacoes) {
 		this.observacoes = observacoes;
-	}
-	public String getData_cadastro() {
-		return dataCadastro;
-	}
-	public void setData_cadastro(String dataCadastro) {
-		this.dataCadastro = dataCadastro;
 	}
 	public String getCrm() {
 		return crm;
@@ -195,5 +186,61 @@ public class EmployeeController {
 		this.categoria = categoria;
 	}
 	
+	public EmployeeDAO getFuncionarioDAO() {
+		if(this.funcionarioDAO == null) {
+			this.funcionarioDAO = new EmployeeDAO();
+		}
+		return funcionarioDAO;
+	}
 	
+	private void fillDTO() {
+		dto.bairro = this.getBairro();
+		dto.categoria = this.getCategoria();
+		dto.cep = this.getCep();
+		dto.cidade = this.getCidade();
+		dto.coren = this.getCoren();
+		dto.cpf = this.getCpf();
+		dto.crm = this.getCrm();
+		dto.dataCadastro = this.getDataCadastro();
+		dto.dataNascimento = this.getDataNascimento();
+		dto.especialidade = this.getEspecialidade();
+		dto.estadoCivil = this.getEstadoCivil();
+		dto.idFuncionario = this.getIdFuncionario();
+		dto.idTipo = this.getIdTipo();
+		dto.nome = this.getNome();
+		dto.numero = this.getNumero();
+		dto.observacoes = this.getObservacoes();
+		dto.rg = this.getRg();
+		dto.rua = this.getRua();
+		dto.senha = this.getSenha();
+		dto.situacao = this.getSituacao();
+		dto.status = this.getStatus();
+		dto.uf = this.getUf();
+		dto.usuario = this.getUsuario();
+		dto.telefone = this.getTelefone();
+	}
+	
+	public void cadastraFuncionario() {
+		try {
+			this.fillDTO();
+			
+			this.getFuncionarioDAO().dto = dto;
+			
+			this.getFuncionarioDAO().create();
+			
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "Erro ao criar o registro do Funcionário: " + ex.getMessage());
+		}
+	}
+	
+	public void findEmployee(String nome) {
+		// Faz a busca e preenche o DTO
+		this.getFuncionarioDAO().read(nome);
+		
+		EmployeeDTO dto = this.getFuncionarioDAO().dto;
+		
+		this.setNome(dto.nome);
+		this.setCidade(dto.cidade);
+		
+	}
 }

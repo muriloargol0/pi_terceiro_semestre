@@ -15,5 +15,5 @@ public abstract class DataObject extends SqlCnn {
 
 	public abstract boolean delete();
 	
-	public abstract void read(String param);
+	public abstract void read(String param) throws SQLException;
 }

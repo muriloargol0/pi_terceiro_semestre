@@ -256,18 +256,33 @@ public class PatientController {
 			this.getPacienteDAO().create();
 			
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Erro ao criar o registro do Paciente" + ex.getMessage());
+			JOptionPane.showMessageDialog(null, "Erro ao criar o registro do Paciente: " + ex.getMessage());
 		}
 	}
 	
-	public void findPatient(String nome) {
+	public void findPatient(String nome) throws SQLException {
 		// Faz a busca e preenche o DTO
 		this.getPacienteDAO().read(nome);
 		
 		PatientDTO dto = this.getPacienteDAO().dto;
-		
-		this.setNome(dto.nome);
-		this.setCidade(dto.cidade);
+		this.setNome(dto.getNome());
+		this.setStatus(dto.getStatus());
+		this.setRg(dto.getRg());
+		this.setCpf(dto.getCpf());
+		this.setDataNascimento(dto.getDataNascimento());
+		this.setSexo(dto.getSexo());
+		this.setTipoSanguineo(dto.getTipoSanguineo());
+		this.setResponsavel(dto.getResponsavel());
+		this.setEstadoCivil(dto.getEstadoCivil());
+		this.setEmail(dto.getEmail());
+		this.setTelefone(dto.getTelefone());
+		this.setRua(dto.getRua());
+		this.setNumero(dto.getNumero());
+		this.setBairro(dto.getBairro());
+		this.setCidade(dto.getCidade());
+		this.setUf(dto.getUf());
+		this.setCep(dto.getCep());
+		this.setObservacoes(dto.getObservacoes());
 		
 	}
 }

@@ -30,19 +30,21 @@ public class Usuario extends JFrame implements ActionListener{
 	private JTextField tfCRMCOREN;
 	private JTextField tfEspecCateg;
 	private JTextField tfRG;
-	private JTextField tfTelefone;
+	private JTextField tfCOREN;
 	private JTextField tfRua;
 	private JTextField tfBairro;
 	private JTextField tfObservacoes;
 	private JTextField tfCPF;
 	private JTextField tfDataNascimento;
-	private JTextField tfIdade;
 	private JTextField tfEstadoCivil;
 	private JTextField tfEmail;
 	private JTextField tfNumero;
 	private JTextField tfCidade;
 	private JTextField tfCEP;
 	private JTextField tfUF;
+	private JTextField tfCategoria;
+	private JTextField tfTelefone;
+	
 
 	/**
 	 * Create the frame.
@@ -83,60 +85,51 @@ public class Usuario extends JFrame implements ActionListener{
 		contentPane.add(lblRG);
 		
 		tfRG = new JTextField();
-		tfRG.setBounds(99, 105, 125, 20);
+		tfRG.setBounds(99, 105, 110, 20);
 		contentPane.add(tfRG);
 		tfRG.setColumns(10);
 		
 		JLabel lblCPF = new JLabel("CPF");
-		lblCPF.setBounds(237, 108, 27, 14);
+		lblCPF.setBounds(219, 108, 27, 14);
 		contentPane.add(lblCPF);
 		
 		tfCPF = new JTextField();
-		tfCPF.setBounds(272, 105, 115, 20);
+		tfCPF.setBounds(249, 105, 110, 20);
 		contentPane.add(tfCPF);
 		tfCPF.setColumns(10);
 		
 		JLabel lblDataNascimento = new JLabel("Data Nascimento");
-		lblDataNascimento.setBounds(399, 108, 86, 14);
+		lblDataNascimento.setBounds(369, 108, 86, 14);
 		contentPane.add(lblDataNascimento);
 		
 		tfDataNascimento = new JTextField();
 		tfDataNascimento.setColumns(10);
-		tfDataNascimento.setBounds(495, 105, 113, 20);
+		tfDataNascimento.setBounds(466, 105, 100, 20);
 		contentPane.add(tfDataNascimento);
 		
-		JLabel lblIdade = new JLabel("Idade");
-		lblIdade.setBounds(629, 108, 46, 14);
-		contentPane.add(lblIdade);
-		
-		tfIdade = new JTextField();
-		tfIdade.setBounds(674, 105, 80, 20);
-		contentPane.add(tfIdade);
-		tfIdade.setColumns(10);		
-		
-		JLabel lblCRMCOREN = new JLabel("CRM/COREN");
-		lblCRMCOREN.setBounds(30, 138, 70, 14);
-		contentPane.add(lblCRMCOREN);
+		JLabel lblCRM = new JLabel("CRM");
+		lblCRM.setBounds(30, 138, 70, 14);
+		contentPane.add(lblCRM);
 		
 		tfCRMCOREN = new JTextField();
-		tfCRMCOREN.setBounds(99, 135, 125, 20);
+		tfCRMCOREN.setBounds(99, 135, 100, 20);
 		contentPane.add(tfCRMCOREN);
 		tfCRMCOREN.setColumns(10);
 		
 		JLabel lblTipo = new JLabel("Tipo");
-		lblTipo.setBounds(234, 138, 48, 14);
+		lblTipo.setBounds(576, 108, 33, 14);
 		contentPane.add(lblTipo);
 		
 		JComboBox cbTipo = new JComboBox();
-		cbTipo.setBounds(272, 135, 115, 20);
+		cbTipo.setBounds(604, 105, 150, 20);
 		contentPane.add(cbTipo);
 		
-		JLabel lblEspecCateg = new JLabel("Espec./Categ.");
-		lblEspecCateg.setBounds(399, 138, 70, 14);
-		contentPane.add(lblEspecCateg);
+		JLabel lblEspecialidade = new JLabel("Especialidade");
+		lblEspecialidade.setBounds(209, 138, 70, 14);
+		contentPane.add(lblEspecialidade);
 		
 		tfEspecCateg = new JTextField();
-		tfEspecCateg.setBounds(495, 135, 259, 20);
+		tfEspecCateg.setBounds(284, 135, 145, 20);
 		contentPane.add(tfEspecCateg);
 		tfEspecCateg.setColumns(10);
 		
@@ -154,18 +147,18 @@ public class Usuario extends JFrame implements ActionListener{
 		contentPane.add(lblEmail);
 		
 		tfEmail = new JTextField();
-		tfEmail.setBounds(272, 165, 294, 20);
+		tfEmail.setBounds(272, 165, 260, 20);
 		contentPane.add(tfEmail);
 		tfEmail.setColumns(10);
 				
-		JLabel lblTelefone = new JLabel("Telefone");
-		lblTelefone.setBounds(576, 168, 48, 14);
-		contentPane.add(lblTelefone);
+		JLabel lblCOREN = new JLabel("COREN");
+		lblCOREN.setBounds(439, 138, 48, 14);
+		contentPane.add(lblCOREN);
 		
-		tfTelefone = new JTextField();
-		tfTelefone.setBounds(634, 165, 120, 20);
-		contentPane.add(tfTelefone);
-		tfTelefone.setColumns(10);
+		tfCOREN = new JTextField();
+		tfCOREN.setBounds(480, 135, 100, 20);
+		contentPane.add(tfCOREN);
+		tfCOREN.setColumns(10);
 		
 		JLabel lblRua = new JLabel("Rua");
 		lblRua.setBounds(30, 198, 70, 14);
@@ -228,7 +221,25 @@ public class Usuario extends JFrame implements ActionListener{
 		tfObservacoes = new JTextField();
 		tfObservacoes.setBounds(99, 255, 655, 100);
 		contentPane.add(tfObservacoes);
-		tfObservacoes.setColumns(10);		
+		tfObservacoes.setColumns(10);
+		
+		JLabel lblCategoria = new JLabel("Categoria");
+		lblCategoria.setBounds(586, 138, 57, 14);
+		contentPane.add(lblCategoria);
+		
+		tfCategoria = new JTextField();
+		tfCategoria.setBounds(644, 135, 110, 20);
+		contentPane.add(tfCategoria);
+		tfCategoria.setColumns(10);
+		
+		JLabel lblTelefone = new JLabel("Telefone");
+		lblTelefone.setBounds(542, 168, 46, 14);
+		contentPane.add(lblTelefone);
+		
+		tfTelefone = new JTextField();
+		tfTelefone.setBounds(596, 165, 158, 20);
+		contentPane.add(tfTelefone);
+		tfTelefone.setColumns(10);
 		
 		JButton btnSalvar = new JButton("SALVAR");
 		btnSalvar.setBounds(100, 392, 132, 35);
@@ -256,22 +267,22 @@ public class Usuario extends JFrame implements ActionListener{
 			EmployeeController ec = new EmployeeController();
 			
 			ec.setNome(this.tfNome.getText());
-			//ec.setStts(this);
-			ec.setRg(this.tfRG.getText());
+			//ec.set
+			//ec.setRg(this.tfRG.getText());
 			ec.setCpf(this.tfCPF.getText());
 			ec.setDataNascimento(this.tfDataNascimento.getText());
-			//ec.setIdade????
+			
 			//ec.setCoren(???????);
 			//ec.setCrm(?????????);
-			//ec.setEspec/categoria
-			ec.setEstadoCivil(this.tfEstadoCivil.getText());
+			//ec
+			//ec.setEstadoCivil(this.tfEstadoCivil.getText());
 			//ec.setEmail????
-			//ec.setTelefone??
-			ec.setRua(this.tfRua.getText());
+			//ec.sett
+			//ec.setRua(this.tfRua.getText());
 			ec.setNumero(Integer.parseInt(this.tfNumero.getText()));
 			ec.setBairro(this.tfBairro.getText());
 			ec.setCidade(this.tfCidade.getText());
-			//ec.setUf(this.tfUF.getText()); char
+			ec.setUf(this.tfUF.getText());
 			ec.setCep(this.tfCEP.getText());
 			ec.setObservacoes(this.tfObservacoes.getText());
 		}

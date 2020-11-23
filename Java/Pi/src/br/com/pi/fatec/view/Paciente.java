@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -40,7 +42,7 @@ public class Paciente extends JFrame implements ActionListener {
 	private JTextField tfResponsavel;
 	private JTextField tfTipoSanguineo;
 	private JComboBox cbStatus;
-
+		
 	/**
 	 * Create the frame.
 	 */
@@ -72,9 +74,12 @@ public class Paciente extends JFrame implements ActionListener {
 		contentPane.add(lblStatus);
 		
 		JComboBox cbStatus = new JComboBox();
-		cbStatus.setModel(new DefaultComboBoxModel(new String[] {"Ativo", "Inativo"}));
+		cbStatus.setToolTipText("");
+		cbStatus.setMaximumRowCount(2);
+		cbStatus.setModel(new DefaultComboBoxModel(new String[] {"Inativo", "Ativo"}));
 		cbStatus.setBounds(674, 75, 80, 20);
 		contentPane.add(cbStatus);
+		cbStatus.setSelectedIndex(1);
 		
 		JLabel lblRG = new JLabel("RG");
 		lblRG.setBounds(30, 108, 70, 14);
@@ -122,20 +127,20 @@ public class Paciente extends JFrame implements ActionListener {
 		tfSexo.setColumns(10);
 		
 		JLabel lblTipoSanguineo = new JLabel("Tipo Sangu\u00EDneo");
-		lblTipoSanguineo.setBounds(234, 137, 86, 14);
+		lblTipoSanguineo.setBounds(234, 137, 95, 14);
 		contentPane.add(lblTipoSanguineo);
 		
 		tfTipoSanguineo = new JTextField();
-		tfTipoSanguineo.setBounds(315, 135, 72, 20);
+		tfTipoSanguineo.setBounds(330, 134, 40, 20);
 		contentPane.add(tfTipoSanguineo);
 		tfTipoSanguineo.setColumns(10);
 		
 		JLabel lblResponsavel = new JLabel("Respons\u00E1vel");
-		lblResponsavel.setBounds(399, 137, 70, 14);
+		lblResponsavel.setBounds(384, 137, 80, 14);
 		contentPane.add(lblResponsavel);
 		
 		tfResponsavel = new JTextField();
-		tfResponsavel.setBounds(479, 135, 275, 20);
+		tfResponsavel.setBounds(474, 135, 280, 20);
 		contentPane.add(tfResponsavel);
 		tfResponsavel.setColumns(10);
 		
@@ -158,7 +163,7 @@ public class Paciente extends JFrame implements ActionListener {
 		tfEmail.setColumns(10);
 		
 		JLabel lblTelefone = new JLabel("Telefone");
-		lblTelefone.setBounds(576, 168, 48, 14);
+		lblTelefone.setBounds(576, 168, 57, 14);
 		contentPane.add(lblTelefone);
 		
 		tfTelefone = new JTextField();
@@ -185,7 +190,7 @@ public class Paciente extends JFrame implements ActionListener {
 		tfNumero.setColumns(10);
 		
 		JLabel lblBairro = new JLabel("Bairro");
-		lblBairro.setBounds(30, 228, 33, 14);
+		lblBairro.setBounds(30, 228, 57, 14);
 		contentPane.add(lblBairro);
 		
 		tfBairro = new JTextField();
@@ -221,7 +226,7 @@ public class Paciente extends JFrame implements ActionListener {
 		tfCEP.setColumns(10);		
 		
 		JLabel lblObservacoes = new JLabel("Observa\u00E7\u00F5es");
-		lblObservacoes.setBounds(30, 258, 70, 14);
+		lblObservacoes.setBounds(20, 258, 80, 14);
 		contentPane.add(lblObservacoes);
 		
 		tfObservacoes = new JTextField();
@@ -230,14 +235,14 @@ public class Paciente extends JFrame implements ActionListener {
 		tfObservacoes.setColumns(10);
 		
 		JButton btnSalvar = new JButton("SALVAR");
-		btnSalvar.setBounds(99, 392, 132, 35);
+		btnSalvar.setBounds(242, 392, 132, 35);
 		btnSalvar.addActionListener(this);
 		contentPane.add(btnSalvar);
 		
-		JButton btnEditar = new JButton("EDITAR");
-		btnEditar.setBounds(242, 392, 132, 35);
-		btnEditar.addActionListener(this);
-		contentPane.add(btnEditar);
+		JButton btnNovo = new JButton("NOVO");
+		btnNovo.setBounds(99, 392, 132, 35);
+		btnNovo.addActionListener(this);
+		contentPane.add(btnNovo);
 		
 		JButton btnFechar = new JButton("FECHAR");
 		btnFechar.setBounds(384, 392, 132, 35);
@@ -247,6 +252,27 @@ public class Paciente extends JFrame implements ActionListener {
 		setVisible(true);
 		setLocationRelativeTo(null);
 				
+	}
+	
+	private void limparCampos() {
+		this.tfNome.setText("");
+		this.tfBairro.setText("");
+		this.tfCEP.setText("");
+		this.tfCidade.setText("");
+		this.tfCPF.setText("");
+		this.tfDataNascimento.setText("");
+		this.tfEmail.setText("");
+		this.tfEstadoCivil.setText("");
+		this.tfNumero.setText("");
+		this.tfObservacoes.setText("");
+		this.tfResponsavel.setText("");
+		this.tfRG.setText("");
+		this.tfRua.setText("");
+		this.tfSexo.setText("");
+		this.tfTelefone.setText("");
+		this.tfTipoSanguineo.setText("");
+		this.tfUF.setText("");
+		this.tfNome.requestFocus();
 	}
 	
 	private PatientController getController() {
@@ -260,10 +286,8 @@ public class Paciente extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "SALVAR") {
-			
-			
 			this.getController().setNome(this.tfNome.getText());
-			//pc.setStatus(this.cbStatus.getSelectedIndex());
+			this.getController().setStatus(this.cbStatus.getSelectedIndex());
 			this.getController().setRg(this.tfRG.getText());
 			this.getController().setCpf(this.tfCPF.getText());
 			this.getController().setDataNascimento(this.tfDataNascimento.getText());
@@ -275,18 +299,18 @@ public class Paciente extends JFrame implements ActionListener {
 			this.getController().setEmail(this.tfEmail.getText());
 			this.getController().setTelefone(this.tfTelefone.getText());
 			this.getController().setRua(this.tfRua.getText());
-//			this.getController().setNumero(Integer.parseInt(this.tfNumero.getText()));
+			this.getController().setNumero(Integer.parseInt(this.tfNumero.getText()));
 			this.getController().setBairro(this.tfBairro.getText());
 			this.getController().setCidade(this.tfCidade.getText());
 			this.getController().setUf(this.tfUF.getText());
 			this.getController().setCep(this.tfCEP.getText());
 			this.getController().setObservacoes(this.tfObservacoes.getText());
-			
+
 			this.getController().cadastraPaciente();
 		}
 		
-		if(e.getActionCommand() == "EDITAR") {
-			
+		if(e.getActionCommand() == "NOVO") {
+			limparCampos();
 		}
 		
 		if(e.getActionCommand() == "FECHAR") {
@@ -294,11 +318,34 @@ public class Paciente extends JFrame implements ActionListener {
 		}
 		
 		if(e.getActionCommand() == "BUSCAR PACIENTE") {
-			this.getController().findPatient(tfNome.getText());
-			
-			this.tfNome.setText(this.getController().getNome());
-			this.tfCidade.setText(this.getController().getCidade());
-			
-		}
+			try {
+				String msg = JOptionPane.showInputDialog("Digite o CPF do paciente: ");
+				this.getController().findPatient(msg);
+				
+				this.tfNome.setText(this.getController().getNome());
+				//this.cbStatus.setSelectedItem(this.getController().getStatus());
+				this.tfRG.setText(this.getController().getRg());
+				this.tfCPF.setText(this.getController().getCpf());
+				this.tfDataNascimento.setText(this.getController().getDataNascimento());
+				this.tfSexo.setText(this.getController().getSexo());
+				this.tfTipoSanguineo.setText(this.getController().getTipoSanguineo());
+				this.tfResponsavel.setText(this.getController().getResponsavel());
+				this.tfEstadoCivil.setText(this.getController().getEstadoCivil());
+				this.tfEmail.setText(this.getController().getEmail());
+				this.tfTelefone.setText(this.getController().getTelefone());
+				this.tfRua.setText(this.getController().getRua());
+				this.tfNumero.setText(String.valueOf(this.getController().getNumero()));
+				this.tfBairro.setText(this.getController().getBairro());
+				this.tfCidade.setText(this.getController().getCidade());
+				this.tfUF.setText(this.getController().getUf());
+				this.tfCEP.setText(this.getController().getCep());
+				this.tfObservacoes.setText(this.getController().getObservacoes());
+			} 
+			catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}	
+		} 
 	}
 }
+
