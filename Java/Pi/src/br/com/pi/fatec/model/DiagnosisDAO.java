@@ -21,7 +21,7 @@ public class DiagnosisDAO extends DataObject {
 	}
 
 	@Override
-	public boolean delete() {
+	public boolean delete(int id) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}

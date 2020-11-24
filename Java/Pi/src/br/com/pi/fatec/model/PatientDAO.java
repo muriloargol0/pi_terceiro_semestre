@@ -26,16 +26,16 @@ public class PatientDAO extends DataObject {
 	}
 
 
-	public boolean update(String param) throws SQLException {
-		SqlCnn cnn = new SqlCnn();
-		try {	
-			PreparedStatement stmt = cnn.getConnection().prepareStatement("SELECT * FROM PACIENTE WHERE CPF = ?");
-			stmt.setString(1, param);
+	public boolean update() throws SQLException {
+		//SqlCnn cnn = new SqlCnn();
+		//try {	
+		//	PreparedStatement stmt = cnn.getConnection().prepareStatement("SELECT * FROM PACIENTE WHERE CPF = ?");
+		//	stmt.setString(1, param);
 		return false;
 	}
 
 
-	public boolean delete() {
+	public boolean delete(int id) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -91,4 +91,6 @@ public class PatientDAO extends DataObject {
 	public PatientDTO getDTO() {
 		return this.dto;
 	}
+
+
 }

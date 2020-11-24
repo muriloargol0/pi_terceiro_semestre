@@ -9,12 +9,15 @@ import javax.swing.border.EmptyBorder;
 
 import br.com.pi.fatec.controller.EmployeeController;
 import br.com.pi.fatec.controller.PatientController;
+import br.com.pi.fatec.dto.EmployeeDTO;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
@@ -25,6 +28,7 @@ import javax.swing.DefaultComboBoxModel;
 
 public class Usuario extends JFrame implements ActionListener{
 
+	private int idFuncionario = 0;
 	private JPanel contentPane;
 	private JTextField tfNome;
 	private JTextField tfCRMCOREN;
@@ -44,8 +48,11 @@ public class Usuario extends JFrame implements ActionListener{
 	private JTextField tfUF;
 	private JTextField tfCategoria;
 	private JTextField tfTelefone;
+	private JTextField tfUsuario;
+	private JTextField tfSenha;
+	private JComboBox cbStatus;
+	private JComboBox cbTipo;
 	
-
 	/**
 	 * Create the frame.
 	 */
@@ -58,9 +65,11 @@ public class Usuario extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnBuscarUsuario = new JButton("BUSCAR USU\u00C1RIO");
+		JButton btnBuscarUsuario = new JButton("BUSCAR");
 		btnBuscarUsuario.setBounds(28, 22, 132, 35);
 		contentPane.add(btnBuscarUsuario);
+		btnBuscarUsuario.addActionListener(this);
+		
 		
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setBounds(30, 78, 70, 14);
@@ -75,8 +84,8 @@ public class Usuario extends JFrame implements ActionListener{
 		lblStatus.setBounds(629, 78, 46, 14);
 		contentPane.add(lblStatus);
 		
-		JComboBox cbStatus = new JComboBox();
-		cbStatus.setModel(new DefaultComboBoxModel(new String[] {"Ativo", "Inativo"}));
+		cbStatus = new JComboBox();
+		cbStatus.setModel(new DefaultComboBoxModel(new String[] {"Inativo", "Ativo"}));
 		cbStatus.setBounds(674, 75, 80, 20);
 		contentPane.add(cbStatus);
 		
@@ -120,7 +129,8 @@ public class Usuario extends JFrame implements ActionListener{
 		lblTipo.setBounds(576, 108, 33, 14);
 		contentPane.add(lblTipo);
 		
-		JComboBox cbTipo = new JComboBox();
+		cbTipo = new JComboBox();
+		 cbTipo.setModel(new DefaultComboBoxModel(new String[] {"M\u00E9dica(o)", "Enfermeira(o)", "Administrador", "Recepcionista(o)"}));
 		cbTipo.setBounds(604, 105, 150, 20);
 		contentPane.add(cbTipo);
 		
@@ -173,7 +183,7 @@ public class Usuario extends JFrame implements ActionListener{
 		lblNumero.setBounds(618, 198, 46, 14);
 		contentPane.add(lblNumero);
 		
-		tfNumero = new JTextField();
+		tfNumero = new JTextField("1");
 		tfNumero.setBounds(674, 195, 80, 20);
 		contentPane.add(tfNumero);
 		tfNumero.setColumns(10);
@@ -219,9 +229,9 @@ public class Usuario extends JFrame implements ActionListener{
 		contentPane.add(lblObservacoes);
 		
 		tfObservacoes = new JTextField();
-		tfObservacoes.setBounds(99, 255, 655, 100);
-		contentPane.add(tfObservacoes);
-		tfObservacoes.setColumns(10);
+        tfObservacoes.setBounds(99, 255, 655, 70);
+        contentPane.add(tfObservacoes);
+        tfObservacoes.setColumns(10);
 		
 		JLabel lblCategoria = new JLabel("Categoria");
 		lblCategoria.setBounds(586, 138, 57, 14);
@@ -240,6 +250,24 @@ public class Usuario extends JFrame implements ActionListener{
 		tfTelefone.setBounds(596, 165, 158, 20);
 		contentPane.add(tfTelefone);
 		tfTelefone.setColumns(10);
+
+        JLabel lblUsuario = new JLabel("Usu\u00E1rio");
+        lblUsuario.setBounds(28, 339, 46, 14);
+        contentPane.add(lblUsuario);
+
+        tfUsuario = new JTextField();
+        tfUsuario.setBounds(99, 336, 140, 20);
+        contentPane.add(tfUsuario);
+        tfUsuario.setColumns(10);
+
+        JLabel lblSenha = new JLabel("Senha");
+        lblSenha.setBounds(249, 339, 46, 14);
+        contentPane.add(lblSenha);
+
+        tfSenha = new JTextField();
+        tfSenha.setBounds(304, 336, 125, 20);
+        contentPane.add(tfSenha);
+        tfSenha.setColumns(10);
 		
 		JButton btnSalvar = new JButton("SALVAR");
 		btnSalvar.setBounds(100, 392, 132, 35);
@@ -263,32 +291,71 @@ public class Usuario extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		EmployeeController ec = new EmployeeController();
+		
+		ec.getDto().bairro = this.tfBairro.getText();
+		ec.getDto().categoria = this.tfCategoria.getText();
+		ec.getDto().cep = this.tfCEP.getText();
+		ec.getDto().cidade = this.tfCidade.getText();
+		ec.getDto().coren = this.tfCOREN.getText();
+		ec.getDto().cpf = this.tfCPF.getText();
+		ec.getDto().crm = this.tfCRMCOREN.getText();
+		ec.getDto().dataCadastro = (new Date()).toString();
+		ec.getDto().dataNascimento = this.tfDataNascimento.getText();
+		ec.getDto().especialidade = this.tfEspecCateg.getText();
+		ec.getDto().estadoCivil = this.tfEstadoCivil.getText();
+		ec.getDto().idTipo = this.cbTipo.getSelectedIndex();
+		ec.getDto().nome = this.tfNome.getText();
+		ec.getDto().numero = Integer.parseInt(this.tfNumero.getText());
+		ec.getDto().observacoes = this.tfObservacoes.getText();
+		ec.getDto().rg = this.tfRG.getText();
+		ec.getDto().rua = this.tfRua.getText();
+		ec.getDto().senha = this.tfSenha.getText();
+		ec.getDto().status = this.cbStatus.getSelectedIndex();
+		ec.getDto().telefone = this.tfTelefone.getText();
+		ec.getDto().uf = this.tfUF.getText();
+		ec.getDto().usuario = this.tfUsuario.getText();
+		
 		if(e.getActionCommand() == "SALVAR") {
-			EmployeeController ec = new EmployeeController();
-			
-			ec.setNome(this.tfNome.getText());
-			//ec.set
-			//ec.setRg(this.tfRG.getText());
-			ec.setCpf(this.tfCPF.getText());
-			ec.setDataNascimento(this.tfDataNascimento.getText());
-			
-			//ec.setCoren(???????);
-			//ec.setCrm(?????????);
-			//ec
-			//ec.setEstadoCivil(this.tfEstadoCivil.getText());
-			//ec.setEmail????
-			//ec.sett
-			//ec.setRua(this.tfRua.getText());
-			ec.setNumero(Integer.parseInt(this.tfNumero.getText()));
-			ec.setBairro(this.tfBairro.getText());
-			ec.setCidade(this.tfCidade.getText());
-			ec.setUf(this.tfUF.getText());
-			ec.setCep(this.tfCEP.getText());
-			ec.setObservacoes(this.tfObservacoes.getText());
+			ec.cadastraFuncionario();
 		}
 		
 		if(e.getActionCommand() == "EDITAR") {
+			ec.getDto().idFuncionario = this.idFuncionario;
+			ec.editarFuncionario();
+		}
+		
+		if(e.getActionCommand() == "DELETE") {
+			ec.deletarFuncionario(ec.getDto().idFuncionario);
+		}
+		
+		if(e.getActionCommand() == "BUSCAR") {
+			String scpf = JOptionPane.showInputDialog("Digite o CPF para buscar:");
+			ec.findEmployee(scpf);
 			
+			this.idFuncionario = ec.getDto().idFuncionario;
+			this.tfBairro.setText(ec.getDto().bairro);
+			this.tfCategoria.setText(ec.getDto().categoria);
+			this.tfCEP.setText(ec.getDto().cep);
+			this.tfCidade.setText(ec.getDto().cidade);
+			this.tfCOREN.setText(ec.getDto().coren);
+			this.tfCPF.setText(ec.getDto().cpf);
+			this.tfCRMCOREN.setText(ec.getDto().coren);
+			this.tfDataNascimento.setText(ec.getDto().dataNascimento);
+			this.tfEspecCateg.setText(ec.getDto().especialidade);
+			this.tfEstadoCivil.setText(ec.getDto().estadoCivil);
+			this.tfNome.setText(ec.getDto().nome);
+			this.tfNumero.setText(Integer.toString(ec.getDto().numero));
+			this.tfObservacoes.setText(ec.getDto().observacoes);
+			this.tfRG.setText(ec.getDto().rg);
+			this.tfRua.setText(ec.getDto().rua);
+			this.tfSenha.setText(ec.getDto().senha);
+			this.tfTelefone.setText(ec.getDto().telefone);
+			this.tfUF.setText(ec.getDto().uf);
+			this.tfUsuario.setText(ec.getDto().usuario);
+			this.cbStatus.setSelectedIndex(ec.getDto().status);
+			this.cbTipo.setSelectedIndex(ec.getDto().idTipo - 1);
 		}
 		
 		if(e.getActionCommand() == "FECHAR") {

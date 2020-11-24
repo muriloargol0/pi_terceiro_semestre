@@ -42,7 +42,7 @@ public class Login extends JFrame implements ActionListener{
         txtPassword = new JPasswordField();
         txtUser.setBounds(160, 15, 150, 20);
         txtPassword.setBounds(160, 50, 150, 20);
-        
+
         JButton btnEnter = new JButton("Entrar");
         btnEnter.setVisible(true);
         btnEnter.setBounds(100, 80, 210, 40);

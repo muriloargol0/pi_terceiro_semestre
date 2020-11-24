@@ -73,7 +73,7 @@ public class Paciente extends JFrame implements ActionListener {
 		lblStatus.setBounds(629, 78, 46, 14);
 		contentPane.add(lblStatus);
 		
-		JComboBox cbStatus = new JComboBox();
+		cbStatus = new JComboBox();
 		cbStatus.setToolTipText("");
 		cbStatus.setMaximumRowCount(2);
 		cbStatus.setModel(new DefaultComboBoxModel(new String[] {"Inativo", "Ativo"}));
@@ -323,7 +323,7 @@ public class Paciente extends JFrame implements ActionListener {
 				this.getController().findPatient(msg);
 				
 				this.tfNome.setText(this.getController().getNome());
-				//this.cbStatus.setSelectedItem(this.getController().getStatus());
+				this.cbStatus.setSelectedIndex(this.getController().getStatus());
 				this.tfRG.setText(this.getController().getRg());
 				this.tfCPF.setText(this.getController().getCpf());
 				this.tfDataNascimento.setText(this.getController().getDataNascimento());

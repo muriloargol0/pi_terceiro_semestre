@@ -13,7 +13,7 @@ public abstract class DataObject extends SqlCnn {
 	public abstract boolean update() throws SQLException;
 
 
-	public abstract boolean delete();
+	public abstract boolean delete(int id) throws SQLException;
 	
 	public abstract void read(String param) throws SQLException;
 }
