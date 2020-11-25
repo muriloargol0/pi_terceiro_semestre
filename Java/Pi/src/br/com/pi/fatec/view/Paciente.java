@@ -18,11 +18,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import br.com.pi.fatec.controller.PatientController;
+import br.com.pi.fatec.globals.Globals;
+
 import javax.swing.SwingConstants;
 import javax.swing.JFormattedTextField;
 
 public class Paciente extends JFrame implements ActionListener {
 
+	PatientController pc;
 	private int idPaciente = 0;
 	private JPanel contentPane;
 	private	JTextField tfNome;
@@ -48,6 +51,8 @@ public class Paciente extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public Paciente() {
+		this.pc = new PatientController();
+		
 		setTitle("PACIENTE");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 500);
@@ -130,17 +135,18 @@ public class Paciente extends JFrame implements ActionListener {
 		tfDataNascimento.setBounds(604, 106, 150, 20);
 		contentPane.add(tfDataNascimento);
 		MaskFormatter formaterDataNascimento = new MaskFormatter();
+		
 		try {
 			formaterDataNascimento.setMask("##/##/####");
 			formaterDataNascimento.install(tfDataNascimento);
-			}
-			catch (ParseException pe) {
+		}
+		catch (ParseException pe) {
 			pe.printStackTrace();
-			}
-			catch ( Exception ex ) {
+		}
+		catch ( Exception ex ) {
 			// process remaining Exceptions here
 			ex.printStackTrace();
-			}
+		}
 		
 //		tfDataNascimento = new JTextField();
 //		tfDataNascimento.setColumns(10);
@@ -209,17 +215,16 @@ public class Paciente extends JFrame implements ActionListener {
 		tfTelefone.setBounds(634, 165, 120, 20);
 		contentPane.add(tfTelefone);
 		MaskFormatter formaterTelefone = new MaskFormatter();
+		
 		try {
 			formaterTelefone.setMask("(##) #####-####");
 			formaterTelefone.install(tfTelefone);
-			}
-			catch (ParseException pe) {
+		}catch (ParseException pe) {
 			pe.printStackTrace();
-			}
-			catch ( Exception ex ) {
+		}catch ( Exception ex ) {
 			// process remaining Exceptions here
 			ex.printStackTrace();
-			}
+		}
 		
 //		tfTelefone = new JTextField();
 //		tfTelefone.setBounds(634, 165, 120, 20);
@@ -287,6 +292,7 @@ public class Paciente extends JFrame implements ActionListener {
 		tfCEP.setColumns(8);
 		tfCEP.setBounds(604, 225, 150, 20);
 		contentPane.add(tfCEP);
+		
 		MaskFormatter formaterCEP = new MaskFormatter();
 		try {
 			formaterCEP.setMask("##.###-###");
@@ -372,12 +378,8 @@ public class Paciente extends JFrame implements ActionListener {
 		this.tfNome.requestFocus();
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		PatientController pc = new PatientController();
-		
-		pc.getDto().bairro = this.tfBairro.getText();
+	public void preencheDto() {
+		pc.getDto().bairro = this.tfBairro.getText() == null ? "" : this.tfBairro.getText();
 		pc.getDto().cep = this.tfCEP.getText();
 		pc.getDto().cidade = this.tfCidade.getText();
 		pc.getDto().cpf = this.tfCPF.getText();
@@ -396,23 +398,37 @@ public class Paciente extends JFrame implements ActionListener {
 		pc.getDto().telefone = this.tfTelefone.getText();
 		pc.getDto().tipoSanguineo = this.tfTipoSanguineo.getText();
 		pc.getDto().uf = this.tfUF.getText();
-		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "NOVO") {
+			
+			//TESTE GLOBALS
+			Globals g = new Globals();
+			System.out.println("Nome: " + g.nome);
+			System.out.println("Tipo:" + g.idTipo);
 			limparCampos();
 		}
 		
 		if(e.getActionCommand() == "SALVAR") {
+			this.preencheDto();
 			pc.cadastraPaciente();
 		}
 		
 		if(e.getActionCommand() == "EDITAR") {
-			pc.getDto().idPaciente = this.idPaciente;
-			pc.editarPaciente();
+			if(this.idPaciente != 0) {
+				this.preencheDto();
+				pc.getDto().idPaciente = this.idPaciente;
+				pc.editarPaciente();
+			}else {
+				JOptionPane.showMessageDialog(this, "Antes de editar, clique em buscar e selecione um paciente!");
+			}			
 		}
 		
 		if(e.getActionCommand() == "BUSCAR") {
-			
 			String scpf = JOptionPane.showInputDialog("Digite o CPF do paciente:");
+			
 			pc.findPatient(scpf);
 			
 			this.idPaciente = pc.getDto().idPaciente;
