@@ -45,6 +45,7 @@ public class Receita extends JFrame implements ActionListener{
 		contentPane.setLayout(null);
 		
 		JLabel lblProntuario = new JLabel("Prontu\u00E1rio");
+		lblProntuario.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblProntuario.setBounds(30, 50, 60, 14);
 		contentPane.add(lblProntuario);
 		
@@ -54,7 +55,8 @@ public class Receita extends JFrame implements ActionListener{
 		tfProntuario.setColumns(10);
 		
 		JLabel lblPaciente = new JLabel("Paciente");
-		lblPaciente.setBounds(242, 50, 60, 14);
+		lblPaciente.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPaciente.setBounds(256, 50, 60, 14);
 		contentPane.add(lblPaciente);
 		
 		tfPaciente = new JTextField();
@@ -63,7 +65,8 @@ public class Receita extends JFrame implements ActionListener{
 		contentPane.add(tfPaciente);
 		
 		JLabel lblIdade = new JLabel("Idade");
-		lblIdade.setBounds(30, 75, 46, 14);
+		lblIdade.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblIdade.setBounds(44, 75, 46, 14);
 		contentPane.add(lblIdade);
 		
 		tfIdade = new JTextField();
@@ -72,7 +75,8 @@ public class Receita extends JFrame implements ActionListener{
 		contentPane.add(tfIdade);
 		
 		JLabel lblObservacoes = new JLabel("Observa\u00E7\u00F5es");
-		lblObservacoes.setBounds(242, 75, 84, 14);
+		lblObservacoes.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblObservacoes.setBounds(232, 75, 84, 14);
 		contentPane.add(lblObservacoes);		
 		
 		tfObservacoes = new JTextField();
@@ -107,7 +111,8 @@ public class Receita extends JFrame implements ActionListener{
 		contentPane.add(separator_2_1);
 		
 		JLabel lblData = new JLabel("Data");
-		lblData.setBounds(30, 146, 46, 14);
+		lblData.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblData.setBounds(20, 146, 70, 14);
 		contentPane.add(lblData);
 		
 		tfData = new JTextField();
@@ -116,7 +121,8 @@ public class Receita extends JFrame implements ActionListener{
 		tfData.setColumns(10);
 		
 		JLabel lblPrescricao = new JLabel("Prescrição");
-		lblPrescricao.setBounds(30, 174, 70, 14);
+		lblPrescricao.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPrescricao.setBounds(20, 174, 70, 14);
 		contentPane.add(lblPrescricao);
 		
 		tfPrescricao = new JTextField();
@@ -125,7 +131,8 @@ public class Receita extends JFrame implements ActionListener{
 		tfPrescricao.setColumns(10);
 		
 		JLabel lblObservacao = new JLabel("Observação");
-		lblObservacao.setBounds(30, 260, 70, 14);
+		lblObservacao.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblObservacao.setBounds(0, 260, 90, 14);
 		contentPane.add(lblObservacao);		
 		
 		tfObservacao = new JTextField();

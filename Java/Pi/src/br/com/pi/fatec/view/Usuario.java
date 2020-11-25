@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
 import br.com.pi.fatec.controller.EmployeeController;
 import br.com.pi.fatec.controller.PatientController;
@@ -14,6 +15,7 @@ import br.com.pi.fatec.dto.EmployeeDTO;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.swing.JLabel;
@@ -24,7 +26,9 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingConstants;
 
 public class Usuario extends JFrame implements ActionListener{
 
@@ -38,16 +42,15 @@ public class Usuario extends JFrame implements ActionListener{
 	private JTextField tfRua;
 	private JTextField tfBairro;
 	private JTextField tfObservacoes;
-	private JTextField tfCPF;
-	private JTextField tfDataNascimento;
+	private JFormattedTextField tfCPF;
+	private JFormattedTextField tfDataNascimento;
 	private JTextField tfEstadoCivil;
-	private JTextField tfEmail;
 	private JTextField tfNumero;
 	private JTextField tfCidade;
-	private JTextField tfCEP;
+	private JFormattedTextField tfCEP;
 	private JTextField tfUF;
 	private JTextField tfCategoria;
-	private JTextField tfTelefone;
+	private JFormattedTextField tfTelefone;
 	private JTextField tfUsuario;
 	private JTextField tfSenha;
 	private JComboBox cbStatus;
@@ -65,14 +68,9 @@ public class Usuario extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnBuscarUsuario = new JButton("BUSCAR");
-		btnBuscarUsuario.setBounds(28, 22, 132, 35);
-		contentPane.add(btnBuscarUsuario);
-		btnBuscarUsuario.addActionListener(this);
-		
-		
 		JLabel lblNome = new JLabel("Nome");
-		lblNome.setBounds(30, 78, 70, 14);
+		lblNome.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNome.setBounds(20, 78, 70, 14);
 		contentPane.add(lblNome);
 		
 		tfNome = new JTextField();
@@ -81,7 +79,8 @@ public class Usuario extends JFrame implements ActionListener{
 		tfNome.setColumns(10);
 		
 		JLabel lblStatus = new JLabel("Status");
-		lblStatus.setBounds(629, 78, 46, 14);
+		lblStatus.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblStatus.setBounds(618, 78, 46, 14);
 		contentPane.add(lblStatus);
 		
 		cbStatus = new JComboBox();
@@ -90,88 +89,126 @@ public class Usuario extends JFrame implements ActionListener{
 		contentPane.add(cbStatus);
 		
 		JLabel lblRG = new JLabel("RG");
-		lblRG.setBounds(30, 108, 70, 14);
+		lblRG.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblRG.setBounds(20, 108, 70, 14);
 		contentPane.add(lblRG);
 		
 		tfRG = new JTextField();
-		tfRG.setBounds(99, 105, 110, 20);
+		tfRG.setBounds(99, 105, 105, 20);
 		contentPane.add(tfRG);
 		tfRG.setColumns(10);
 		
 		JLabel lblCPF = new JLabel("CPF");
-		lblCPF.setBounds(219, 108, 27, 14);
+		lblCPF.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCPF.setBounds(205, 108, 27, 14);
 		contentPane.add(lblCPF);
 		
-		tfCPF = new JTextField();
-		tfCPF.setBounds(249, 105, 110, 20);
+		tfCPF = new JFormattedTextField();
+		tfCPF.setToolTipText("");
+		tfCPF.setText("");
+		tfCPF.setColumns(11);
+		tfCPF.setBounds(242, 105, 105, 20);
 		contentPane.add(tfCPF);
-		tfCPF.setColumns(10);
+		MaskFormatter formaterCPF = new MaskFormatter();
+		try {
+			formaterCPF.setMask("###.###.###-##");
+			formaterCPF.install(tfCPF);
+			}
+			catch (ParseException pe) {
+			pe.printStackTrace();
+			}
+			catch ( Exception ex ) {
+			// process remaining Exceptions here
+			ex.printStackTrace();
+			}
+		
+//		tfCPF = new JTextField();
+//		tfCPF.setBounds(242, 105, 105, 20);
+//		contentPane.add(tfCPF);
+//		tfCPF.setColumns(10);
 		
 		JLabel lblDataNascimento = new JLabel("Data Nascimento");
-		lblDataNascimento.setBounds(369, 108, 86, 14);
+		lblDataNascimento.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblDataNascimento.setBounds(351, 108, 105, 14);
 		contentPane.add(lblDataNascimento);
 		
-		tfDataNascimento = new JTextField();
-		tfDataNascimento.setColumns(10);
+		tfDataNascimento = new JFormattedTextField();
+		tfDataNascimento.setToolTipText("");
+		tfDataNascimento.setText("");
+		tfDataNascimento.setColumns(8);
 		tfDataNascimento.setBounds(466, 105, 100, 20);
 		contentPane.add(tfDataNascimento);
+		MaskFormatter formaterDataNascimento = new MaskFormatter();
+		try {
+			formaterDataNascimento.setMask("##/##/####");
+			formaterDataNascimento.install(tfDataNascimento);
+			}
+			catch (ParseException pe) {
+			pe.printStackTrace();
+			}
+			catch ( Exception ex ) {
+			// process remaining Exceptions here
+			ex.printStackTrace();
+			}
+		
+//		tfDataNascimento = new JTextField();
+//		tfDataNascimento.setColumns(10);
+//		tfDataNascimento.setBounds(466, 105, 100, 20);
+//		contentPane.add(tfDataNascimento);
 		
 		JLabel lblCRM = new JLabel("CRM");
-		lblCRM.setBounds(30, 138, 70, 14);
+		lblCRM.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCRM.setBounds(20, 138, 70, 14);
 		contentPane.add(lblCRM);
 		
 		tfCRMCOREN = new JTextField();
-		tfCRMCOREN.setBounds(99, 135, 100, 20);
+		tfCRMCOREN.setBounds(99, 135, 105, 20);
 		contentPane.add(tfCRMCOREN);
 		tfCRMCOREN.setColumns(10);
 		
 		JLabel lblTipo = new JLabel("Tipo");
-		lblTipo.setBounds(576, 108, 33, 14);
+		lblTipo.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTipo.setBounds(561, 108, 33, 14);
 		contentPane.add(lblTipo);
 		
 		cbTipo = new JComboBox();
-		 cbTipo.setModel(new DefaultComboBoxModel(new String[] {"M\u00E9dica(o)", "Enfermeira(o)", "Administrador", "Recepcionista(o)"}));
+		cbTipo.setModel(new DefaultComboBoxModel(new String[] {"M\u00E9dica(o)", "Enfermeira(o)", "Administrador", "Recepcionista(o)"}));
 		cbTipo.setBounds(604, 105, 150, 20);
 		contentPane.add(cbTipo);
 		
 		JLabel lblEspecialidade = new JLabel("Especialidade");
-		lblEspecialidade.setBounds(209, 138, 70, 14);
+		lblEspecialidade.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblEspecialidade.setBounds(209, 138, 81, 14);
 		contentPane.add(lblEspecialidade);
 		
 		tfEspecCateg = new JTextField();
-		tfEspecCateg.setBounds(284, 135, 145, 20);
+		tfEspecCateg.setBounds(300, 135, 266, 20);
 		contentPane.add(tfEspecCateg);
 		tfEspecCateg.setColumns(10);
 		
 		JLabel lblEstadoCivil = new JLabel("Estado Civil");
-		lblEstadoCivil.setBounds(30, 168, 70, 14);
+		lblEstadoCivil.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblEstadoCivil.setBounds(347, 168, 70, 14);
 		contentPane.add(lblEstadoCivil);
 		
 		tfEstadoCivil = new JTextField();
-		tfEstadoCivil.setBounds(99, 165, 125, 20);
+		tfEstadoCivil.setBounds(427, 165, 125, 20);
 		contentPane.add(tfEstadoCivil);
 		tfEstadoCivil.setColumns(10);
-		
-		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setBounds(234, 168, 46, 14);
-		contentPane.add(lblEmail);
-		
-		tfEmail = new JTextField();
-		tfEmail.setBounds(272, 165, 260, 20);
-		contentPane.add(tfEmail);
-		tfEmail.setColumns(10);
 				
 		JLabel lblCOREN = new JLabel("COREN");
-		lblCOREN.setBounds(439, 138, 48, 14);
+		lblCOREN.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCOREN.setBounds(571, 138, 48, 14);
 		contentPane.add(lblCOREN);
 		
 		tfCOREN = new JTextField();
-		tfCOREN.setBounds(480, 135, 100, 20);
+		tfCOREN.setBounds(629, 135, 125, 20);
 		contentPane.add(tfCOREN);
 		tfCOREN.setColumns(10);
 		
 		JLabel lblRua = new JLabel("Rua");
-		lblRua.setBounds(30, 198, 70, 14);
+		lblRua.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblRua.setBounds(20, 198, 70, 14);
 		contentPane.add(lblRua);
 		
 		tfRua = new JTextField();
@@ -180,6 +217,7 @@ public class Usuario extends JFrame implements ActionListener{
 		tfRua.setColumns(10);
 		
 		JLabel lblNumero = new JLabel("N\u00FAmero");
+		lblNumero.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNumero.setBounds(618, 198, 46, 14);
 		contentPane.add(lblNumero);
 		
@@ -189,7 +227,8 @@ public class Usuario extends JFrame implements ActionListener{
 		tfNumero.setColumns(10);
 		
 		JLabel lblBairro = new JLabel("Bairro");
-		lblBairro.setBounds(30, 228, 33, 14);
+		lblBairro.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblBairro.setBounds(20, 228, 70, 14);
 		contentPane.add(lblBairro);
 		
 		tfBairro = new JTextField();
@@ -198,6 +237,7 @@ public class Usuario extends JFrame implements ActionListener{
 		tfBairro.setColumns(10);
 		
 		JLabel lblCidade = new JLabel("Cidade");
+		lblCidade.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCidade.setBounds(249, 228, 46, 14);
 		contentPane.add(lblCidade);
 		
@@ -207,6 +247,7 @@ public class Usuario extends JFrame implements ActionListener{
 		tfCidade.setColumns(10);
 		
 		JLabel lblUF = new JLabel("UF");
+		lblUF.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblUF.setBounds(455, 228, 33, 14);
 		contentPane.add(lblUF);
 		
@@ -216,43 +257,87 @@ public class Usuario extends JFrame implements ActionListener{
 		tfUF.setColumns(10);
 		
 		JLabel lblCEP = new JLabel("CEP");
-		lblCEP.setBounds(563, 228, 40, 14);
+		lblCEP.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCEP.setBounds(562, 228, 32, 14);
 		contentPane.add(lblCEP);
 		
-		tfCEP = new JTextField();
+		tfCEP = new JFormattedTextField();
+		tfCEP.setToolTipText("");
+		tfCEP.setText("");
+		tfCEP.setColumns(8);
 		tfCEP.setBounds(604, 225, 150, 20);
 		contentPane.add(tfCEP);
-		tfCEP.setColumns(10);
+		MaskFormatter formaterCEP = new MaskFormatter();
+		try {
+			formaterCEP.setMask("##.###-###");
+			formaterCEP.install(tfCEP);
+			}
+			catch (ParseException pe) {
+			pe.printStackTrace();
+			}
+			catch ( Exception ex ) {
+			// process remaining Exceptions here
+			ex.printStackTrace();
+			}
+		
+//		tfCEP = new JTextField();
+//		tfCEP.setBounds(604, 225, 150, 20);
+//		contentPane.add(tfCEP);
+//		tfCEP.setColumns(10);
 		
 		JLabel lblObservacoes = new JLabel("Observa\u00E7\u00F5es");
-		lblObservacoes.setBounds(30, 258, 70, 14);
+		lblObservacoes.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblObservacoes.setBounds(0, 258, 90, 14);
 		contentPane.add(lblObservacoes);
 		
 		tfObservacoes = new JTextField();
+		tfObservacoes.setHorizontalAlignment(SwingConstants.LEFT);
         tfObservacoes.setBounds(99, 255, 655, 70);
         contentPane.add(tfObservacoes);
         tfObservacoes.setColumns(10);
 		
 		JLabel lblCategoria = new JLabel("Categoria");
-		lblCategoria.setBounds(586, 138, 57, 14);
+		lblCategoria.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCategoria.setBounds(20, 168, 70, 14);
 		contentPane.add(lblCategoria);
 		
 		tfCategoria = new JTextField();
-		tfCategoria.setBounds(644, 135, 110, 20);
+		tfCategoria.setBounds(99, 165, 249, 20);
 		contentPane.add(tfCategoria);
 		tfCategoria.setColumns(10);
 		
 		JLabel lblTelefone = new JLabel("Telefone");
-		lblTelefone.setBounds(542, 168, 46, 14);
+		lblTelefone.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTelefone.setBounds(542, 168, 66, 14);
 		contentPane.add(lblTelefone);
 		
-		tfTelefone = new JTextField();
-		tfTelefone.setBounds(596, 165, 158, 20);
+		tfTelefone = new JFormattedTextField();
+		tfTelefone.setToolTipText("");
+		tfTelefone.setText("");
+		tfTelefone.setColumns(11);
+		tfTelefone.setBounds(618, 165, 136, 20);
 		contentPane.add(tfTelefone);
-		tfTelefone.setColumns(10);
+		MaskFormatter formaterTelefone = new MaskFormatter();
+		try {
+			formaterTelefone.setMask("(##) #####-####");
+			formaterTelefone.install(tfTelefone);
+			}
+			catch (ParseException pe) {
+			pe.printStackTrace();
+			}
+			catch ( Exception ex ) {
+			// process remaining Exceptions here
+			ex.printStackTrace();
+			}
+		
+//		tfTelefone = new JTextField();
+//		tfTelefone.setBounds(618, 165, 136, 20);
+//		contentPane.add(tfTelefone);
+//		tfTelefone.setColumns(10);
 
         JLabel lblUsuario = new JLabel("Usu\u00E1rio");
-        lblUsuario.setBounds(28, 339, 46, 14);
+        lblUsuario.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblUsuario.setBounds(20, 339, 70, 14);
         contentPane.add(lblUsuario);
 
         tfUsuario = new JTextField();
@@ -261,6 +346,7 @@ public class Usuario extends JFrame implements ActionListener{
         tfUsuario.setColumns(10);
 
         JLabel lblSenha = new JLabel("Senha");
+        lblSenha.setHorizontalAlignment(SwingConstants.RIGHT);
         lblSenha.setBounds(249, 339, 46, 14);
         contentPane.add(lblSenha);
 
@@ -268,19 +354,34 @@ public class Usuario extends JFrame implements ActionListener{
         tfSenha.setBounds(304, 336, 125, 20);
         contentPane.add(tfSenha);
         tfSenha.setColumns(10);
-		
+        
+        JButton btnBuscarUsuario = new JButton("BUSCAR");
+		btnBuscarUsuario.setBounds(45, 22, 132, 35);
+		contentPane.add(btnBuscarUsuario);
+		btnBuscarUsuario.addActionListener(this);
+        
 		JButton btnSalvar = new JButton("SALVAR");
-		btnSalvar.setBounds(100, 392, 132, 35);
+		btnSalvar.setBounds(185, 392, 132, 35);
 		btnSalvar.addActionListener(this);
 		contentPane.add(btnSalvar);
 		
+		JButton btnNovo = new JButton("NOVO");
+		btnNovo.setBounds(45, 392, 132, 35);
+		btnNovo.addActionListener(this);
+		contentPane.add(btnNovo);
+		
 		JButton btnEditar = new JButton("EDITAR");
-		btnEditar.setBounds(242, 392, 132, 35);
+		btnEditar.setBounds(325, 392, 132, 35);
 		btnEditar.addActionListener(this);
 		contentPane.add(btnEditar);
 		
+		JButton btnDeletar = new JButton("DELETAR");
+		btnDeletar.setBounds(465, 392, 132, 35);
+		btnDeletar.addActionListener(this);
+		contentPane.add(btnDeletar);
+		
 		JButton btnFechar = new JButton("FECHAR");
-		btnFechar.setBounds(384, 392, 132, 35);
+		btnFechar.setBounds(605, 392, 132, 35);
 		btnFechar.addActionListener(this);
 		contentPane.add(btnFechar);
 		
@@ -317,6 +418,10 @@ public class Usuario extends JFrame implements ActionListener{
 		ec.getDto().uf = this.tfUF.getText();
 		ec.getDto().usuario = this.tfUsuario.getText();
 		
+		if(e.getActionCommand() == "NOVO") {
+			
+		}
+		
 		if(e.getActionCommand() == "SALVAR") {
 			ec.cadastraFuncionario();
 		}
@@ -326,7 +431,7 @@ public class Usuario extends JFrame implements ActionListener{
 			ec.editarFuncionario();
 		}
 		
-		if(e.getActionCommand() == "DELETE") {
+		if(e.getActionCommand() == "DELETAR") {
 			ec.deletarFuncionario(ec.getDto().idFuncionario);
 		}
 		
@@ -341,7 +446,7 @@ public class Usuario extends JFrame implements ActionListener{
 			this.tfCidade.setText(ec.getDto().cidade);
 			this.tfCOREN.setText(ec.getDto().coren);
 			this.tfCPF.setText(ec.getDto().cpf);
-			this.tfCRMCOREN.setText(ec.getDto().coren);
+			this.tfCRMCOREN.setText(ec.getDto().crm);
 			this.tfDataNascimento.setText(ec.getDto().dataNascimento);
 			this.tfEspecCateg.setText(ec.getDto().especialidade);
 			this.tfEstadoCivil.setText(ec.getDto().estadoCivil);

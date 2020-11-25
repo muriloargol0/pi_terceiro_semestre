@@ -2,9 +2,11 @@ package br.com.pi.fatec.model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
+
+import br.com.pi.fatec.dto.LoginDTO;
+import br.com.pi.fatec.view.Login;
 
 
 public class LoginDAO {
@@ -12,7 +14,7 @@ public class LoginDAO {
 	public boolean doLogin(String user, char[] pw) {
 		try {
 			SqlCnn cnn = new SqlCnn();
-			
+						
 			PreparedStatement stmt = cnn.getConnection().prepareStatement("SELECT USUARIO, SENHA FROM FUNCIONARIO WHERE USUARIO = ?");
 			stmt.setString(1, user);
 			ResultSet rs = stmt.executeQuery();
@@ -20,6 +22,7 @@ public class LoginDAO {
 			if(rs.next()) {
 				String username = rs.getString("USUARIO");
 				String password = rs.getString("SENHA");
+				
 				
 				if(user.equals(username) && password.equals(String.valueOf(pw))) {
 					return true;

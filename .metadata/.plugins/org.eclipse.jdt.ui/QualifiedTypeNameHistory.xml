@@ -4,5 +4,14 @@
 <fullyQualifiedTypeName name="br.com.pi.fatec.dto.EmployeeDTO"/>
 <fullyQualifiedTypeName name="br.com.pi.fatec.view.Usuario"/>
 <fullyQualifiedTypeName name="javax.swing.JComboBox"/>
+<fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="java.sql.Statement"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="br.com.pi.fatec.view.Paciente"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="javax.swing.JFormattedTextField"/>
+<fullyQualifiedTypeName name="javax.swing.text.MaskFormatter"/>
+<fullyQualifiedTypeName name="java.text.ParseException"/>
+<fullyQualifiedTypeName name="br.com.pi.fatec.dto.DiagnosisDTO"/>
+<fullyQualifiedTypeName name="br.com.pi.fatec.view.Diagnostico"/>
 </qualifiedTypeNameHistroy>

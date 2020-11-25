@@ -12,5 +12,8 @@ public class DiagnosisDTO {
 	public String pressaoSanguinea;
 	public String glicemia;
 	public String colesterol;
+	public String nome;
+	public String observacoes;
+	
 
 }

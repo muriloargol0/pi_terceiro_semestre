@@ -14,6 +14,7 @@ public class Login extends JFrame implements ActionListener{
 	private LoginController login;
 	private JTextField txtUser;
 	private JPasswordField txtPassword;
+	private String tipoUsuario;
 	
     private LoginController getLoginController() {
     	if(login == null) {

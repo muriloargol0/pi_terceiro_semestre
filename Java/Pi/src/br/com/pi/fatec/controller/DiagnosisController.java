@@ -1,91 +1,66 @@
 package br.com.pi.fatec.controller;
 
+import javax.swing.JOptionPane;
+
+import br.com.pi.fatec.dto.DiagnosisDTO;
 import br.com.pi.fatec.model.DiagnosisDAO;
+import br.com.pi.fatec.model.EmployeeDAO;
 
 public class DiagnosisController {
-	private int idDianostico;
-	private String diagnostico;
-	private String sintomas;
-	private String anexo;
-	private int idPaciente;
-	private String temperatura;
-	private int idFuncionario;
-	private String dataDiagnostico;
-	private String pressaoSanguinea;
-	private String glicemia;
-	private String colesterol;
+	private DiagnosisDTO dto;
 	
-	public int getIdDianostico() {
-		return idDianostico;
-	}
-	public void setIdDianostico(int idDianostico) {
-		this.idDianostico = idDianostico;
-	}
-	public String getDiagnostico() {
-		return diagnostico;
-	}
-	public void setDiagnostico(String diagnostico) {
-		this.diagnostico = diagnostico;
-	}
-	public String getSintomas() {
-		return sintomas;
-	}
-	public void setSintomas(String sintomas) {
-		this.sintomas = sintomas;
-	}
-	public String getAnexo() {
-		return anexo;
-	}
-	public void setAnexo(String anexo) {
-		this.anexo = anexo;
-	}
-	public int getIdPaciente() {
-		return idPaciente;
-	}
-	public void setIdPaciente(int idPaciente) {
-		this.idPaciente = idPaciente;
-	}
-	public String getTemperatura() {
-		return temperatura;
-	}
-	public void setTemperatura(String temperatura) {
-		this.temperatura = temperatura;
-	}
-	public int getIdFuncionario() {
-		return idFuncionario;
-	}
-	public void setIdFuncionario(int idFuncionario) {
-		this.idFuncionario = idFuncionario;
-	}
-	public String getDataDiagnostico() {
-		return dataDiagnostico;
-	}
-	public void setDataDiagnostico(String dataDiagnostico) {
-		this.dataDiagnostico = dataDiagnostico;
-	}
-	public String getPressaoSanguinea() {
-		return pressaoSanguinea;
-	}
-	public void setPressaoSanguinea(String pressaoSanguinea) {
-		this.pressaoSanguinea = pressaoSanguinea;
-	}
-	public String getGlicemia() {
-		return glicemia;
-	}
-	public void setGlicemia(String glicemia) {
-		this.glicemia = glicemia;
-	}
-	public String getColesterol() {
-		return colesterol;
-	}
-	public void setColesterol(String colesterol) {
-		this.colesterol = colesterol;
+	private DiagnosisDAO diagnosticoDAO = null;
+	
+	public DiagnosisDTO getDto() {
+		if(dto == null) {
+			dto = new DiagnosisDTO();
+		}
+		return dto;
 	}
 	
-	public String[] getProntuario(int idPaciente) {
-		DiagnosisDAO d = new DiagnosisDAO();
-		
-		System.out.println("Controller " + idPaciente);
-		return d.getProntuario(idPaciente);
+	private DiagnosisDAO getDiagnosticoDAO() {
+		if(this.diagnosticoDAO == null) {
+			this.diagnosticoDAO = new DiagnosisDAO();
+		}
+		return diagnosticoDAO;
+	}
+	
+	public void cadastraDiagnostico() {
+		try {		
+			this.getDiagnosticoDAO().dto = this.getDto();
+			
+			this.getDiagnosticoDAO().create();
+			
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "Erro ao criar o registro de diagnóstico: " + ex.getMessage());
+		}
+	}
+	
+	public void editarDiagnostico() {
+		try {
+			this.getDiagnosticoDAO().dto = this.getDto();
+			
+			this.getDiagnosticoDAO().update();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao atualizar o registro de Diagnóstico: " + e.getMessage());
+		}
+	}
+	
+	public void deletarDiagnostico(int id) {
+		try {
+			this.getDiagnosticoDAO().delete(id);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao deletar o registro do Diagnóstico: " + e.getMessage());
+		}
+	}
+
+	public void findDiagnosis(String idDiagnostico) {
+		try {
+			this.getDiagnosticoDAO().read(idDiagnostico);
+			
+			this.dto = this.getDiagnosticoDAO().dto;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao buscar o registro do Diagnósco: " + e.getMessage());
+		}
 	}
 }

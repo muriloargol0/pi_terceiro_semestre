@@ -50,7 +50,7 @@ public class EmployeeDAO extends DataObject {
 			stmt.setString(1, this.dto.senha);
 			stmt.setInt(2, this.dto.status);
 			stmt.setString(3, this.dto.nome);
-			stmt.setString(4, this.dto.dataNascimento);
+			stmt.setString(4, this.formatarData(dto.dataNascimento));
 			stmt.setString(5, this.dto.rg);
 			stmt.setString(6, this.dto.cpf);
 			stmt.setString(7, this.dto.estadoCivil);
@@ -59,7 +59,7 @@ public class EmployeeDAO extends DataObject {
 			stmt.setInt(10, this.dto.numero);
 			stmt.setString(11, this.dto.bairro);
 			stmt.setString(12, this.dto.cidade);
-			stmt.setInt(13, this.dto.idTipo);
+			stmt.setInt(13, this.dto.idTipo + 1);
 			stmt.setString(14, this.dto.uf);
 			stmt.setString(15, this.dto.observacoes);
 			stmt.setString(16, this.dto.dataCadastro);
@@ -122,7 +122,7 @@ public class EmployeeDAO extends DataObject {
 			stmt.setString(1, this.dto.senha);
 			stmt.setInt(2, this.dto.status);
 			stmt.setString(3, this.dto.nome);
-			stmt.setString(4, this.dto.dataNascimento);
+			stmt.setString(4, this.formatarData(dto.dataNascimento));
 			stmt.setString(5, this.dto.rg);
 			stmt.setString(6, this.dto.cpf);
 			stmt.setString(7, this.dto.estadoCivil);
@@ -189,7 +189,7 @@ public class EmployeeDAO extends DataObject {
 				this.dto.senha = rs.getString("SENHA");
 				this.dto.status = rs.getInt("STTS");
 				this.dto.nome = rs.getString("NOME");
-				this.dto.dataNascimento = rs.getString("DATA_NASCIMENTO");
+				this.dto.dataNascimento = formatarDataRetorno(rs.getString("DATA_NASCIMENTO"));
 				this.dto.rg = rs.getString("RG");
 				this.dto.cpf = rs.getString("CPF");
 				this.dto.estadoCivil = rs.getString("ESTADO_CIVIL");
