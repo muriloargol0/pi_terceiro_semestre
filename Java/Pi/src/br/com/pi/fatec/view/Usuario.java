@@ -11,6 +11,7 @@ import javax.swing.text.MaskFormatter;
 import br.com.pi.fatec.controller.EmployeeController;
 import br.com.pi.fatec.controller.PatientController;
 import br.com.pi.fatec.dto.EmployeeDTO;
+import br.com.pi.fatec.globals.Globals;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -32,6 +33,8 @@ import javax.swing.SwingConstants;
 
 public class Usuario extends JFrame implements ActionListener{
 
+	Globals g = new Globals();
+	EmployeeController ec;
 	private int idFuncionario = 0;
 	private JPanel contentPane;
 	private JTextField tfNome;
@@ -39,7 +42,7 @@ public class Usuario extends JFrame implements ActionListener{
 	private JTextField tfEspecCateg;
 	private JTextField tfRG;
 	private JTextField tfCOREN;
-	private JTextField tfRua;
+	private JTextField tfEndereco;
 	private JTextField tfBairro;
 	private JTextField tfObservacoes;
 	private JFormattedTextField tfCPF;
@@ -206,15 +209,15 @@ public class Usuario extends JFrame implements ActionListener{
 		contentPane.add(tfCOREN);
 		tfCOREN.setColumns(10);
 		
-		JLabel lblRua = new JLabel("Rua");
-		lblRua.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblRua.setBounds(20, 198, 70, 14);
-		contentPane.add(lblRua);
+		JLabel lblEndereco = new JLabel("Endere\u00E7o");
+		lblEndereco.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblEndereco.setBounds(20, 198, 70, 14);
+		contentPane.add(lblEndereco);
 		
-		tfRua = new JTextField();
-		tfRua.setBounds(99, 195, 509, 20);
-		contentPane.add(tfRua);
-		tfRua.setColumns(10);
+		tfEndereco = new JTextField();
+		tfEndereco.setBounds(99, 195, 509, 20);
+		contentPane.add(tfEndereco);
+		tfEndereco.setColumns(10);
 		
 		JLabel lblNumero = new JLabel("N\u00FAmero");
 		lblNumero.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -254,7 +257,7 @@ public class Usuario extends JFrame implements ActionListener{
 		tfUF = new JTextField();
 		tfUF.setBounds(495, 225, 57, 20);
 		contentPane.add(tfUF);
-		tfUF.setColumns(10);
+		tfUF.setColumns(2);
 		
 		JLabel lblCEP = new JLabel("CEP");
 		lblCEP.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -389,46 +392,75 @@ public class Usuario extends JFrame implements ActionListener{
 		setLocationRelativeTo(null);
 				
 	}
+	
+	private void limparCampos() {
+		this.tfBairro.setText("");
+		this.tfCategoria.setText("");
+		this.tfCEP.setText("");
+		this.tfCidade.setText("");
+		this.tfCOREN.setText("");
+		this.tfCPF.setText("");
+		this.tfCRMCOREN.setText("");
+		this.tfDataNascimento.setText("");
+		this.tfEspecCateg.setText("");
+		this.tfEstadoCivil.setText("");
+		this.tfNome.setText("");
+		this.tfNumero.setText("");
+		this.tfObservacoes.setText("");
+		this.tfRG.setText("");
+		this.tfEndereco.setText("");
+		this.tfSenha.setText("");
+		this.tfTelefone.setText("");
+		this.tfUF.setText("");
+		this.tfUsuario.setText("");
+		this.tfNome.requestFocus();
+		this.idFuncionario = 0;
+	}
+	
+	public void preencheDto() {
+		ec.getDto().bairro = this.tfBairro.getText() == null ? "" : this.tfBairro.getText();
+		ec.getDto().categoria = this.tfCategoria.getText() == null ? "" : this.tfCategoria.getText();
+		ec.getDto().cep = this.tfCEP.getText() == null ? "" : this.tfCEP.getText();
+		ec.getDto().cidade = this.tfCidade.getText() == null ? "" : this.tfCidade.getText();
+		ec.getDto().coren = this.tfCOREN.getText() == null ? "" : this.tfCOREN.getText();
+		ec.getDto().cpf = this.tfCPF.getText() == null ? "" : this.tfCPF.getText();
+		ec.getDto().crm = this.tfCRMCOREN.getText() == null ? "" : this.tfCRMCOREN.getText();
+		ec.getDto().dataCadastro = (new Date()).toString() == null ? "" : (new Date()).toString();
+		ec.getDto().dataNascimento = this.tfDataNascimento.getText() == null ? "" : this.tfDataNascimento.getText();
+		ec.getDto().especialidade = this.tfEspecCateg.getText() == null ? "" : this.tfEspecCateg.getText();
+		ec.getDto().estadoCivil = this.tfEstadoCivil.getText() == null ? "" : this.tfEstadoCivil.getText();
+		ec.getDto().idTipo = this.cbTipo.getSelectedIndex();
+		ec.getDto().nome = this.tfNome.getText() == null ? "" : this.tfNome.getText();
+		ec.getDto().numero = Integer.parseInt(this.tfNumero.getText()) == 0 ? 0 : Integer.parseInt(this.tfNumero.getText());
+		ec.getDto().observacoes = this.tfObservacoes.getText() == null ? "" : this.tfObservacoes.getText();
+		ec.getDto().rg = this.tfRG.getText() == null ? "" : this.tfRG.getText();
+		ec.getDto().endereco = this.tfEndereco.getText() == null ? "" : this.tfEndereco.getText();
+		ec.getDto().senha = this.tfSenha.getText() == null ? "" : this.tfSenha.getText();
+		ec.getDto().status = this.cbStatus.getSelectedIndex();
+		ec.getDto().telefone = this.tfTelefone.getText() == null ? "" : this.tfTelefone.getText();
+		ec.getDto().uf = this.tfUF.getText() == null ? "" : this.tfUF.getText();
+		ec.getDto().usuario = this.tfUsuario.getText() == null ? "" : this.tfUsuario.getText();
+	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		EmployeeController ec = new EmployeeController();
-		
-		ec.getDto().bairro = this.tfBairro.getText();
-		ec.getDto().categoria = this.tfCategoria.getText();
-		ec.getDto().cep = this.tfCEP.getText();
-		ec.getDto().cidade = this.tfCidade.getText();
-		ec.getDto().coren = this.tfCOREN.getText();
-		ec.getDto().cpf = this.tfCPF.getText();
-		ec.getDto().crm = this.tfCRMCOREN.getText();
-		ec.getDto().dataCadastro = (new Date()).toString();
-		ec.getDto().dataNascimento = this.tfDataNascimento.getText();
-		ec.getDto().especialidade = this.tfEspecCateg.getText();
-		ec.getDto().estadoCivil = this.tfEstadoCivil.getText();
-		ec.getDto().idTipo = this.cbTipo.getSelectedIndex();
-		ec.getDto().nome = this.tfNome.getText();
-		ec.getDto().numero = Integer.parseInt(this.tfNumero.getText());
-		ec.getDto().observacoes = this.tfObservacoes.getText();
-		ec.getDto().rg = this.tfRG.getText();
-		ec.getDto().rua = this.tfRua.getText();
-		ec.getDto().senha = this.tfSenha.getText();
-		ec.getDto().status = this.cbStatus.getSelectedIndex();
-		ec.getDto().telefone = this.tfTelefone.getText();
-		ec.getDto().uf = this.tfUF.getText();
-		ec.getDto().usuario = this.tfUsuario.getText();
-		
+	public void actionPerformed(ActionEvent e) {	
 		if(e.getActionCommand() == "NOVO") {
-			
+			limparCampos();
 		}
 		
-		if(e.getActionCommand() == "SALVAR") {
+		if(e.getActionCommand() == "SALVAR") {	
+			this.preencheDto();
 			ec.cadastraFuncionario();
 		}
 		
 		if(e.getActionCommand() == "EDITAR") {
-			ec.getDto().idFuncionario = this.idFuncionario;
-			ec.editarFuncionario();
+			if(this.idFuncionario != 0) {
+				this.preencheDto();
+				ec.getDto().idFuncionario = this.idFuncionario;
+				ec.editarFuncionario();
+			}else {
+				JOptionPane.showMessageDialog(this, "Antes de editar, busque um funcionário!");
+			}
 		}
 		
 		if(e.getActionCommand() == "DELETAR") {
@@ -437,6 +469,7 @@ public class Usuario extends JFrame implements ActionListener{
 		
 		if(e.getActionCommand() == "BUSCAR") {
 			String scpf = JOptionPane.showInputDialog("Digite o CPF para buscar:");
+			
 			ec.findEmployee(scpf);
 			
 			this.idFuncionario = ec.getDto().idFuncionario;
@@ -454,7 +487,7 @@ public class Usuario extends JFrame implements ActionListener{
 			this.tfNumero.setText(Integer.toString(ec.getDto().numero));
 			this.tfObservacoes.setText(ec.getDto().observacoes);
 			this.tfRG.setText(ec.getDto().rg);
-			this.tfRua.setText(ec.getDto().rua);
+			this.tfEndereco.setText(ec.getDto().endereco);
 			this.tfSenha.setText(ec.getDto().senha);
 			this.tfTelefone.setText(ec.getDto().telefone);
 			this.tfUF.setText(ec.getDto().uf);

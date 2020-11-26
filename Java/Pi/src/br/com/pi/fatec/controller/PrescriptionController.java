@@ -1,43 +1,67 @@
 package br.com.pi.fatec.controller;
 
+import javax.swing.JOptionPane;
+
+import br.com.pi.fatec.dto.DiagnosisDTO;
+import br.com.pi.fatec.dto.PrescriptionDTO;
+import br.com.pi.fatec.model.DiagnosisDAO;
+import br.com.pi.fatec.model.PrescriptionDAO;
+
 public class PrescriptionController {
-	private int idReceita;
-	private String dataReceita;
-	private String prescricao;
-	private int idDiagnostico;
-	private String observacao;
+	private PrescriptionDTO dto;
 	
+	private PrescriptionDAO receitaDAO = null;
 	
-	public int getIdReceita() {
-		return idReceita;
-	}
-	public void setIdReceita(int idReceita) {
-		this.idReceita = idReceita;
-	}
-	public String getDataReceita() {
-		return dataReceita;
-	}
-	public void setDataReceita(String dataReceita) {
-		this.dataReceita = dataReceita;
-	}
-	public String getPrescricao() {
-		return prescricao;
-	}
-	public void setPrescricao(String prescricao) {
-		this.prescricao = prescricao;
-	}
-	public int getIdDiagnostico() {
-		return idDiagnostico;
-	}
-	public void setIdDiagnostico(int idDiagnostico) {
-		this.idDiagnostico = idDiagnostico;
-	}
-	public String getObservacao() {
-		return observacao;
-	}
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
+	public PrescriptionDTO getDto() {
+		if(dto == null) {
+			dto = new PrescriptionDTO();
+		}
+		return dto;
 	}
 	
+	private PrescriptionDAO getReceitaDAO() {
+		if(this.receitaDAO == null) {
+			this.receitaDAO = new PrescriptionDAO();
+		}
+		return receitaDAO;
+	}
 	
+	public void cadastraReceita() {
+		try {		
+			this.getReceitaDAO().dto = this.getDto();
+			
+			this.getReceitaDAO().create();
+			
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "Erro ao criar o registro de receita: " + ex.getMessage());
+		}
+	}
+	
+	public void editarReceita() {
+		try {
+			this.getReceitaDAO().dto = this.getDto();
+			
+			this.getReceitaDAO().update();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao atualizar o registro de receita: " + e.getMessage());
+		}
+	}
+	
+	public void deletarReceita(int id) {
+		try {
+			this.getReceitaDAO().delete(id);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao deletar o registro de receita: " + e.getMessage());
+		}
+	}
+
+	public void findReceita(String idReceita) {
+		try {
+			this.getReceitaDAO().read(idReceita);
+			
+			this.dto = this.getReceitaDAO().dto;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao buscar o registro de receita: " + e.getMessage());
+		}
+	}
 }

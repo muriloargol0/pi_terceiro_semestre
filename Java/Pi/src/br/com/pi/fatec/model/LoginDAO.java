@@ -16,20 +16,20 @@ public class LoginDAO {
 		try {
 			SqlCnn cnn = new SqlCnn();
 						
-			PreparedStatement stmt = cnn.getConnection().prepareStatement("SELECT USUARIO, SENHA, ID_TIPO FROM FUNCIONARIO WHERE USUARIO = ?");
+			PreparedStatement stmt = cnn.getConnection().prepareStatement("SELECT USUARIO, SENHA, ID_TIPO, ID_FUNCIONARIO, NOME FROM FUNCIONARIO WHERE USUARIO = ?");
 			stmt.setString(1, user);
 			ResultSet rs = stmt.executeQuery();
 			
 			if(rs.next()) {
 				String username = rs.getString("USUARIO");
 				String password = rs.getString("SENHA");
-				int idTipo = rs.getInt("ID_TIPO");
-				
+								
 				if(user.equals(username) && password.equals(String.valueOf(pw))) {
 					
 					Globals g = new Globals();
-					g.nome = username;
-					g.idTipo = idTipo;
+					g.nome = rs.getString("NOME");
+					g.idTipo = rs.getInt("ID_TIPO");
+					g.idFuncionario = rs.getInt("ID_FUNCIONARIO");
 					
 					return true;
 				}

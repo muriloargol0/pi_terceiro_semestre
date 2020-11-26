@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
@@ -13,10 +14,13 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
+import br.com.pi.fatec.globals.Globals;
+
 public class Menu extends JFrame implements ActionListener {
 
+	Globals g = new Globals();
 	private JPanel contentPane;
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -55,16 +59,40 @@ public class Menu extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "DIAGNÓSTICO") {
-			Diagnostico diagnostico = new Diagnostico();
+			if(g.idTipo == 1 || g.idTipo == 2) {
+				Diagnostico diagnostico = new Diagnostico();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Apenas médicos e enfermeiras fazem diagnósticos!");
+			}
 		}
+		
 		if(e.getActionCommand() == "PACIENTE") {
-			Paciente paciente = new Paciente();
+			if(g.idTipo == 2 || g.idTipo == 4) {
+				Paciente paciente = new Paciente();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Apenas enfermeiras e recepcionistas conseguem cadastrar pacientes!");
+			}
 		}
+		
+		
 		if(e.getActionCommand() == "RECEITA") {
-			Receita receita = new Receita();
+			if(g.idTipo == 1) {	
+				Receita receita = new Receita(null);
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Apenas médicos conseguem alterar receitas!");
+			}
 		}
+		
 		if(e.getActionCommand() == "USUÁRIO") {
-			Usuario usuario = new Usuario();
+			if(g.idTipo == 3) {
+				Usuario usuario = new Usuario();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Apenas administradores conseguem cadastrar usuários!");
+			}
 		}
 	}
 }

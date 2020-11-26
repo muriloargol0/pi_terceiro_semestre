@@ -63,4 +63,8 @@ public class DiagnosisController {
 			JOptionPane.showMessageDialog(null, "Erro ao buscar o registro do Diagnósco: " + e.getMessage());
 		}
 	}
+	
+	public String[] getProntuario(int idPaciente){
+		return this.getDiagnosticoDAO().getProntuario(idPaciente);
+	}
 }

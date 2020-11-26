@@ -22,7 +22,7 @@ public abstract class DataObject extends SqlCnn {
 		
 		ano = data.substring(0, 4);
 		mes = data.substring(5, 7);
-		dia = data.substring(8, 9);
+		dia = data.substring(8, 10);
 		
 		return dia+mes+ano;
 	}
@@ -30,9 +30,9 @@ public abstract class DataObject extends SqlCnn {
 	public String formatarData(String data) {
 		String dia, mes, ano;
 		
-		ano = data.substring(6, 9);
-		mes = data.substring(3, 4);
-		dia = data.substring(0, 1);
+		ano = data.substring(6, 10);
+		mes = data.substring(3, 5);
+		dia = data.substring(0, 2);
 		
 		return ano+"-"+mes+"-"+dia;
 	}

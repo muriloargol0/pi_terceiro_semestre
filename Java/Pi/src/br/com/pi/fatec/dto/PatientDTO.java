@@ -6,7 +6,7 @@ public class PatientDTO {
 	public String tipoSanguineo;
 	public String dataCadastro;
 	public String email;
-	public String rua;
+	public String endereco;
 	public String cpf;
 	public String cep;
 	public String bairro;

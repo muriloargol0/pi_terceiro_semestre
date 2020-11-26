@@ -4,10 +4,13 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -17,12 +20,17 @@ import javax.swing.border.EmptyBorder;
 import br.com.pi.fatec.controller.DiagnosisController;
 import br.com.pi.fatec.controller.PatientController;
 import br.com.pi.fatec.controller.PrescriptionController;
+import br.com.pi.fatec.dto.DiagnosisDTO;
+import br.com.pi.fatec.dto.ReportDTO;
+import br.com.pi.fatec.globals.Globals;
+import br.com.pi.fatec.report.Relatorio;
 
 public class Receita extends JFrame implements ActionListener{
 
+	PrescriptionController pc;
+	Globals g = new Globals();
 	private JPanel contentPane;
 	private JTextField tfProntuario;
-	private JTextField tfIdade;
 	private JTextField tfPaciente;
 	private JTextField tfObservacoes;
 	private JTextField tfData;
@@ -31,11 +39,18 @@ public class Receita extends JFrame implements ActionListener{
 	private JButton btnSalvar;
 	private JButton btnImprimir;
 	private JButton btnFechar;
+	private JTextField tfidDiagnostico;
+	
+	private List<ReportDTO> lista = new ArrayList<ReportDTO>();
 	
 	/**
 	 * Create the frame.
 	 */
-	public Receita() {
+	public Receita(DiagnosisDTO diagnosisDTO) {
+		if(diagnosisDTO == null) {
+			diagnosisDTO = new DiagnosisDTO();
+		}
+		pc = new PrescriptionController();
 		setTitle("RECEITA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 500);
@@ -44,44 +59,44 @@ public class Receita extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblProntuario = new JLabel("Prontu\u00E1rio");
-		lblProntuario.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblProntuario.setBounds(30, 50, 60, 14);
-		contentPane.add(lblProntuario);
+		JLabel lblPaciente = new JLabel("Paciente");
+		lblPaciente.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPaciente.setBounds(42, 50, 60, 14);
+		contentPane.add(lblPaciente);
 		
-		tfProntuario = new JTextField();
-		tfProntuario.setBounds(100, 47, 132, 20);
+		tfProntuario = new JTextField((diagnosisDTO.idPaciente == 0 ? "" : diagnosisDTO.idPaciente).toString());//traz os valores da tela diagnostico
+		tfProntuario.setBounds(112, 47, 120, 20);
 		contentPane.add(tfProntuario);
 		tfProntuario.setColumns(10);
 		
-		JLabel lblPaciente = new JLabel("Paciente");
-		lblPaciente.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPaciente.setBounds(256, 50, 60, 14);
-		contentPane.add(lblPaciente);
+		JLabel lblNome = new JLabel("Nome");
+		lblNome.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNome.setBounds(243, 50, 40, 14);
+		contentPane.add(lblNome);
 		
-		tfPaciente = new JTextField();
+		tfPaciente = new JTextField(diagnosisDTO.nome);
 		tfPaciente.setColumns(10);
-		tfPaciente.setBounds(326, 47, 428, 20);
+		tfPaciente.setBounds(293, 47, 444, 20);
 		contentPane.add(tfPaciente);
 		
-		JLabel lblIdade = new JLabel("Idade");
-		lblIdade.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblIdade.setBounds(44, 75, 46, 14);
-		contentPane.add(lblIdade);
+		JLabel lblidDiagnostico = new JLabel("Diagn\u00F3stico");
+		lblidDiagnostico.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblidDiagnostico.setBounds(32, 75, 70, 14);
+		contentPane.add(lblidDiagnostico);
 		
-		tfIdade = new JTextField();
-		tfIdade.setColumns(10);
-		tfIdade.setBounds(100, 72, 132, 20);
-		contentPane.add(tfIdade);
+		tfidDiagnostico = new JTextField(diagnosisDTO.idDianostico);
+		tfidDiagnostico.setBounds(112, 72, 86, 20);
+		contentPane.add(tfidDiagnostico);
+		tfidDiagnostico.setColumns(10);
 		
 		JLabel lblObservacoes = new JLabel("Observa\u00E7\u00F5es");
 		lblObservacoes.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblObservacoes.setBounds(232, 75, 84, 14);
+		lblObservacoes.setBounds(199, 75, 84, 14);
 		contentPane.add(lblObservacoes);		
 		
-		tfObservacoes = new JTextField();
+		tfObservacoes = new JTextField(diagnosisDTO.observacoes);
 		tfObservacoes.setColumns(10);
-		tfObservacoes.setBounds(326, 72, 428, 20);
+		tfObservacoes.setBounds(293, 72, 444, 20);
 		contentPane.add(tfObservacoes);
 		
 		JSeparator separator = new JSeparator();
@@ -159,18 +174,51 @@ public class Receita extends JFrame implements ActionListener{
 		setLocationRelativeTo(null);
 				
 	}
+	
+	public void preencheReceita() {
+		
+	}
+	
+	public void preencherDto() {
+		pc.getDto().dataReceita = this.tfData.getText();
+		pc.getDto().prescricao = this.tfPrescricao.getText();
+		pc.getDto().observacao = this.tfObservacao.getText();
+		pc.getDto().idDiagnostico = Integer.parseInt(this.tfidDiagnostico.getText());
+	}
+	
+	ReportDTO r = new ReportDTO();
+	
+	public void preencherRelatorio() {
+		r.nomeMedico = g.nome;
+		r.nomePaciente = this.tfPaciente.getText();
+		r.dataReceita = this.tfData.getText();
+		r.prescricao = this.tfPrescricao.getText();
+		r.observacao = this.tfObservacao.getText();	
+		lista.add(r);		
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "SALVAR") {
-			PrescriptionController pc = new PrescriptionController();
-			
-			pc.setDataReceita(this.tfData.getText());
-			pc.setPrescricao(this.tfPrescricao.getText());
-			pc.setObservacao(this.tfObservacao.getText());
+			if(tfidDiagnostico != null) {
+				this.preencherDto();
+				pc.cadastraReceita();
+			}else {
+				JOptionPane.showMessageDialog(this, "Não é possível criar uma receita sem um diagnóstico.");
+			}			
 		}
 		
 		if(e.getActionCommand() == "IMPRIMIR") {
+			//if(idReceita != null)
+				this.preencherRelatorio();
+							
+				Relatorio Receita = new Relatorio();
+				
+				try {
+					Receita.gerarRelatorio(lista);
+				} catch (Exception e2) {
+					
+				}
 			
 		}
 		
@@ -178,5 +226,4 @@ public class Receita extends JFrame implements ActionListener{
 			this.dispose();
 		}		
 	}
-
 }

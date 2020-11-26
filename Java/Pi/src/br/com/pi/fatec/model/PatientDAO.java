@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 
@@ -19,12 +22,15 @@ public class PatientDAO extends DataObject {
 	public int create() throws SQLException {
 		Connection cnn = super.getConnection();
 		
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); // Cria um formato
+	    Date date = new Date();  // Pega a data do sistema
+		
 		try {
 			PreparedStatement stmt = cnn.prepareStatement("INSERT INTO PACIENTE (" + 
 					",TIPO_SANGUINEO"+
 					",DATA_CADASTRO" + 
 					",EMAIL" + 
-					",RUA" + 
+					",ENDERECO" + 
 					",DATA_NASCIMENTO" + 
 					",CPF" + 
 					",CEP" + 
@@ -42,10 +48,11 @@ public class PatientDAO extends DataObject {
 					",RESPONSAVEL" + 
 					",ANEXO" +
 					") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+			
 			stmt.setString(1, this.dto.tipoSanguineo);
-			stmt.setString(2, this.dto.dataCadastro);
+			stmt.setString(2, dateFormat.format(date)); // seta o formato para aquela data
 			stmt.setString(3, this.dto.email);
-			stmt.setString(4, this.dto.rua);
+			stmt.setString(4, this.dto.endereco);
 			stmt.setString(5, this.formatarData(dto.dataNascimento));
 			stmt.setString(6, this.dto.cpf);
 			stmt.setString(7, this.dto.cep);
@@ -91,7 +98,7 @@ public class PatientDAO extends DataObject {
 					",TIPO_SANGUINEO = ?"+
 					",DATA_CADASTRO = ?" + 
 					",EMAIL = ?" + 
-					",RUA = ?" + 
+					",ENDERECO = ?" + 
 					",DATA_NASCIMENTO = ?" + 
 					",CPF = ?" + 
 					",CEP = ?" + 
@@ -114,7 +121,7 @@ public class PatientDAO extends DataObject {
 			stmt.setString(1, this.dto.tipoSanguineo);
 			stmt.setString(2, this.dto.dataCadastro);
 			stmt.setString(3, this.dto.email);
-			stmt.setString(4, this.dto.rua);
+			stmt.setString(4, this.dto.endereco);
 			stmt.setString(5, this.formatarData(dto.dataNascimento));
 			stmt.setString(6, this.dto.cpf);
 			stmt.setString(7, this.dto.cep);
@@ -188,7 +195,7 @@ public class PatientDAO extends DataObject {
 				this.dto.estadoCivil = rs.getString("ESTADO_CIVIL");
 				this.dto.email = rs.getString("EMAIL");
 				this.dto.telefone = rs.getString("TELEFONE");
-				this.dto.rua = rs.getString("RUA");
+				this.dto.endereco = rs.getString("ENDERECO");
 				this.dto.numero = rs.getInt("NUMERO");
 				this.dto.bairro = rs.getString("BAIRRO");
 				this.dto.cidade = rs.getString("CIDADE");

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
@@ -20,6 +22,10 @@ public class EmployeeDAO extends DataObject {
 	
 	public int create() throws SQLException {
 		Connection cnn = super.getConnection();
+		
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); // Cria um formato
+	    Date date = new Date();  // Pega a data do sistema
+	    
 
 		try {
 			PreparedStatement stmt = cnn.prepareStatement("INSERT INTO FUNCIONARIO (" + 
@@ -31,7 +37,7 @@ public class EmployeeDAO extends DataObject {
 			           ",CPF" +
 			           ",ESTADO_CIVIL" +
 			           ",CEP" + 
-			           ",RUA" + 
+			           ",ENDERECO" + 
 			           ",NUMERO" +
 			           ",BAIRRO" +
 			           ",CIDADE" +
@@ -55,14 +61,14 @@ public class EmployeeDAO extends DataObject {
 			stmt.setString(6, this.dto.cpf);
 			stmt.setString(7, this.dto.estadoCivil);
 			stmt.setString(8, this.dto.cep);
-			stmt.setString(9, this.dto.rua);
+			stmt.setString(9, this.dto.endereco);
 			stmt.setInt(10, this.dto.numero);
 			stmt.setString(11, this.dto.bairro);
 			stmt.setString(12, this.dto.cidade);
 			stmt.setInt(13, this.dto.idTipo + 1);
 			stmt.setString(14, this.dto.uf);
 			stmt.setString(15, this.dto.observacoes);
-			stmt.setString(16, this.dto.dataCadastro);
+			stmt.setString(16, dateFormat.format(date)); // seta o formato para aquela data
 			stmt.setString(17, this.dto.crm);
 			stmt.setString(18, this.dto.especialidade);
 			stmt.setString(19, this.dto.coren);
@@ -103,7 +109,7 @@ public class EmployeeDAO extends DataObject {
 		           ",CPF = ?" +
 		           ",ESTADO_CIVIL = ?" +
 		           ",CEP = ?" + 
-		           ",RUA = ? " + 
+		           ",ENDERECO = ? " + 
 		           ",NUMERO = ?" +
 		           ",BAIRRO = ?" +
 		           ",CIDADE = ?" +
@@ -127,7 +133,7 @@ public class EmployeeDAO extends DataObject {
 			stmt.setString(6, this.dto.cpf);
 			stmt.setString(7, this.dto.estadoCivil);
 			stmt.setString(8, this.dto.cep);
-			stmt.setString(9, this.dto.rua);
+			stmt.setString(9, this.dto.endereco);
 			stmt.setInt(10, this.dto.numero);
 			stmt.setString(11, this.dto.bairro);
 			stmt.setString(12, this.dto.cidade);
@@ -194,7 +200,7 @@ public class EmployeeDAO extends DataObject {
 				this.dto.cpf = rs.getString("CPF");
 				this.dto.estadoCivil = rs.getString("ESTADO_CIVIL");
 				this.dto.cep = rs.getString("CEP");
-				this.dto.rua = rs.getString("RUA");
+				this.dto.endereco = rs.getString("ENDERECO");
 				this.dto.numero = rs.getInt("NUMERO");
 				this.dto.bairro = rs.getString("BAIRRO");
 				this.dto.cidade = rs.getString("CIDADE");

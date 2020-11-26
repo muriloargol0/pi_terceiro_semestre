@@ -3,6 +3,7 @@ package br.com.pi.fatec.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.Format;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -25,6 +26,7 @@ import javax.swing.JFormattedTextField;
 
 public class Paciente extends JFrame implements ActionListener {
 
+	Globals g = new Globals();
 	PatientController pc;
 	private int idPaciente = 0;
 	private JPanel contentPane;
@@ -37,7 +39,7 @@ public class Paciente extends JFrame implements ActionListener {
 	private JTextField tfNumero;
 	private JTextField tfCidade;
 	private JFormattedTextField tfCEP;
-	private JTextField tfRua;
+	private JTextField tfEndereco;
 	private JTextField tfBairro;
 	private JFormattedTextField tfTelefone;
 	private JTextField tfUF;
@@ -231,15 +233,15 @@ public class Paciente extends JFrame implements ActionListener {
 //		contentPane.add(tfTelefone);
 //		tfTelefone.setColumns(10);
 		
-		JLabel lblRua = new JLabel("Rua");
-		lblRua.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblRua.setBounds(20, 198, 70, 14);
-		contentPane.add(lblRua);
+		JLabel lblEndereco = new JLabel("Endereço");
+		lblEndereco.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblEndereco.setBounds(20, 198, 70, 14);
+		contentPane.add(lblEndereco);
 		
-		tfRua = new JTextField();
-		tfRua.setBounds(99, 195, 509, 20);
-		contentPane.add(tfRua);
-		tfRua.setColumns(10);
+		tfEndereco = new JTextField();
+		tfEndereco.setBounds(99, 195, 509, 20);
+		contentPane.add(tfEndereco);
+		tfEndereco.setColumns(10);
 		
 		JLabel lblNumero = new JLabel("N\u00FAmero");
 		lblNumero.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -279,7 +281,7 @@ public class Paciente extends JFrame implements ActionListener {
 		tfUF = new JTextField();
 		tfUF.setBounds(495, 225, 57, 20);
 		contentPane.add(tfUF);
-		tfUF.setColumns(10);
+		tfUF.setColumns(2);
 		
 		JLabel lblCEP = new JLabel("CEP");
 		lblCEP.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -356,7 +358,7 @@ public class Paciente extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 				
 	}
-	
+		
 	private void limparCampos() {
 		this.tfNome.setText("");
 		this.tfBairro.setText("");
@@ -370,7 +372,7 @@ public class Paciente extends JFrame implements ActionListener {
 		this.tfObservacoes.setText("");
 		this.tfResponsavel.setText("");
 		this.tfRG.setText("");
-		this.tfRua.setText("");
+		this.tfEndereco.setText("");
 		this.tfSexo.setText("");
 		this.tfTelefone.setText("");
 		this.tfTipoSanguineo.setText("");
@@ -379,7 +381,7 @@ public class Paciente extends JFrame implements ActionListener {
 	}
 	
 	public void preencheDto() {
-		pc.getDto().bairro = this.tfBairro.getText() == null ? "" : this.tfBairro.getText();
+		pc.getDto().bairro = this.tfBairro.getText(); // == null ? "" : this.tfBairro.getText();
 		pc.getDto().cep = this.tfCEP.getText();
 		pc.getDto().cidade = this.tfCidade.getText();
 		pc.getDto().cpf = this.tfCPF.getText();
@@ -392,38 +394,42 @@ public class Paciente extends JFrame implements ActionListener {
 		pc.getDto().observacoes = this.tfObservacoes.getText();
 		pc.getDto().responsavel = this.tfResponsavel.getText();
 		pc.getDto().rg = this.tfRG.getText();
-		pc.getDto().rua = this.tfRua.getText();
+		pc.getDto().endereco = this.tfEndereco.getText();
 		pc.getDto().sexo = this.tfSexo.getText();
 		pc.getDto().status = this.cbStatus.getSelectedIndex();
 		pc.getDto().telefone = this.tfTelefone.getText();
 		pc.getDto().tipoSanguineo = this.tfTipoSanguineo.getText();
 		pc.getDto().uf = this.tfUF.getText();
 	}
-	
+		
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand() == "NOVO") {
-			
-			//TESTE GLOBALS
-			Globals g = new Globals();
-			System.out.println("Nome: " + g.nome);
-			System.out.println("Tipo:" + g.idTipo);
-			limparCampos();
-		}
+		if(g.idTipo == 4)
+			if(e.getActionCommand() == "NOVO") {
+				limparCampos();
+			}
 		
 		if(e.getActionCommand() == "SALVAR") {
-			this.preencheDto();
-			pc.cadastraPaciente();
+			if(g.idTipo == 4 || g.idTipo == 2) {				
+				this.preencheDto();
+				pc.cadastraPaciente();
+			}else {
+				JOptionPane.showMessageDialog(this, "Você não tem permissão para fazer essa alteração!");
+			}
 		}
 		
 		if(e.getActionCommand() == "EDITAR") {
-			if(this.idPaciente != 0) {
-				this.preencheDto();
-				pc.getDto().idPaciente = this.idPaciente;
-				pc.editarPaciente();
-			}else {
-				JOptionPane.showMessageDialog(this, "Antes de editar, clique em buscar e selecione um paciente!");
-			}			
+//			if(g.idTipo == 4 || g.idTipo == 2) {
+				if(this.idPaciente != 0) {
+					this.preencheDto();
+					pc.getDto().idPaciente = this.idPaciente;
+					pc.editarPaciente();
+				}else {
+					JOptionPane.showMessageDialog(this, "Antes de editar, busque um paciente!");
+				}
+//			}else {
+//				JOptionPane.showMessageDialog(this, "Você não tem permissão para fazer essa alteração!");
+//			}
 		}
 		
 		if(e.getActionCommand() == "BUSCAR") {
@@ -444,7 +450,7 @@ public class Paciente extends JFrame implements ActionListener {
 			this.tfEstadoCivil.setText(pc.getDto().estadoCivil);
 			this.tfEmail.setText(pc.getDto().email);
 			this.tfTelefone.setText(pc.getDto().telefone);
-			this.tfRua.setText(pc.getDto().rua);
+			this.tfEndereco.setText(pc.getDto().endereco);
 			this.tfNumero.setText(Integer.toString(pc.getDto().numero));
 			this.tfBairro.setText(pc.getDto().bairro);
 			this.tfCidade.setText(pc.getDto().cidade);

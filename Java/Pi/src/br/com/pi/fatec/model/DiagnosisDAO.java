@@ -138,4 +138,26 @@ public class DiagnosisDAO extends DataObject {
 			super.closeConnection();
 		}
 	}
+	
+	public String[] getProntuario(int idPaciente) {
+		String[] paciente = new String[3];
+		
+		try {
+			PreparedStatement stmt = super.getConnection().prepareStatement("SELECT ID_PACIENTE, NOME, OBSERVACOES FROM PACIENTE WHERE ID_PACIENTE = ?");
+						
+			stmt.setInt(1, idPaciente);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				paciente[0] = rs.getString("ID_PACIENTE");
+				paciente[1] = rs.getString("NOME");
+				paciente[2] = rs.getString("OBSERVACOES");
+			}
+		} catch (Exception e) {
+			System.out.println("Erro ao buscar prontuário: "+ e.toString());
+		}
+		return paciente;
+	}
+	
 }

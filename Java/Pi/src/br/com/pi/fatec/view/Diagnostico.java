@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import br.com.pi.fatec.controller.DiagnosisController;
+import br.com.pi.fatec.globals.Globals;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,10 +26,10 @@ import javax.swing.SwingConstants;
 public class Diagnostico extends JFrame implements ActionListener, KeyListener {
 	
 	private int idDiagnostico = 0;
-	
+	Globals g = new Globals();
+	DiagnosisController dc;
 	private JPanel contentPane;
 	private JTextField tfProntuario;
-	private JTextField tfidDiagnostico;
 	private JTextField tfPaciente;
 	private JTextField tfObservacoes;
 	private JTextField tfData;
@@ -50,11 +51,13 @@ public class Diagnostico extends JFrame implements ActionListener, KeyListener {
 	private JButton btnGerarReceita;
 	private JButton btnFechar;
 	private JButton btnEditar;
-
+	private int idPaciente;
+	
 	/**
 	 * Create the frame.
 	 */
 	public Diagnostico() {
+		dc = new DiagnosisController();
 		setTitle("DIAGN\u00D3STICO");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 500);
@@ -63,45 +66,35 @@ public class Diagnostico extends JFrame implements ActionListener, KeyListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblProntuario = new JLabel("Prontu\u00E1rio");
-		lblProntuario.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblProntuario.setBounds(30, 50, 60, 14);
-		contentPane.add(lblProntuario);
+		JLabel lblPaciente = new JLabel("Paciente");
+		lblPaciente.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPaciente.setBounds(42, 50, 60, 14);
+		contentPane.add(lblPaciente);
 		
 		tfProntuario = new JTextField();
-		tfProntuario.setBounds(100, 47, 132, 20);
+		tfProntuario.setBounds(112, 47, 120, 20);
 		contentPane.add(tfProntuario);
 		tfProntuario.setColumns(10);
 		tfProntuario.addKeyListener(this);
 		
-		JLabel lblPaciente = new JLabel("Paciente");
-		lblPaciente.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPaciente.setBounds(256, 50, 60, 14);
-		contentPane.add(lblPaciente);
+		JLabel lblNome = new JLabel("Nome");
+		lblNome.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNome.setBounds(243, 50, 40, 14);
+		contentPane.add(lblNome);
 		
 		tfPaciente = new JTextField();
 		tfPaciente.setColumns(10);
-		tfPaciente.setBounds(326, 47, 428, 20);
+		tfPaciente.setBounds(293, 47, 444, 20);
 		contentPane.add(tfPaciente);
-		
-		JLabel lblidDiagnostico = new JLabel("Id Diagnostico");
-		lblidDiagnostico.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblidDiagnostico.setBounds(20, 75, 70, 14);
-		contentPane.add(lblidDiagnostico);	
-		
-		tfidDiagnostico = new JTextField();
-		tfidDiagnostico.setColumns(10);
-		tfidDiagnostico.setBounds(100, 72, 132, 20);
-		contentPane.add(tfidDiagnostico);
 		
 		JLabel lblObservacoes = new JLabel("Observa\u00E7\u00F5es");
 		lblObservacoes.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblObservacoes.setBounds(232, 75, 84, 14);
+		lblObservacoes.setBounds(18, 74, 84, 17);
 		contentPane.add(lblObservacoes);
 		
 		tfObservacoes = new JTextField();
 		tfObservacoes.setColumns(10);
-		tfObservacoes.setBounds(326, 72, 428, 20);
+		tfObservacoes.setBounds(112, 72, 625, 20);
 		contentPane.add(tfObservacoes);
 		
 		JSeparator separator = new JSeparator();
@@ -162,7 +155,7 @@ public class Diagnostico extends JFrame implements ActionListener, KeyListener {
 		
 		JLabel lblPressão = new JLabel("Press\u00E3o");
 		lblPressão.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPressão.setBounds(30, 171, 60, 14);
+		lblPressão.setBounds(30, 171, 60, 17);
 		contentPane.add(lblPressão);
 				
 		tfPressao = new JTextField();
@@ -192,7 +185,7 @@ public class Diagnostico extends JFrame implements ActionListener, KeyListener {
 		
 		lblSintomas = new JLabel("Sintomas");
 		lblSintomas.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblSintomas.setBounds(30, 196, 60, 14);
+		lblSintomas.setBounds(30, 196, 60, 20);
 		contentPane.add(lblSintomas);
 		
 		tfSintomas = new JTextField();
@@ -203,7 +196,7 @@ public class Diagnostico extends JFrame implements ActionListener, KeyListener {
 		
 		lblDiagnostico = new JLabel("Diagn\u00F3stico");
 		lblDiagnostico.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDiagnostico.setBounds(19, 282, 71, 14);
+		lblDiagnostico.setBounds(19, 282, 71, 20);
 		contentPane.add(lblDiagnostico);
 		
 		tfDiagnostico = new JTextField();
@@ -241,18 +234,14 @@ public class Diagnostico extends JFrame implements ActionListener, KeyListener {
 		setLocationRelativeTo(null);
 		
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		DiagnosisController dc = new DiagnosisController();
-		
+	
+	
+	public void preencherDto() {
 		dc.getDto().anexo = this.btnAnexar.getText();
 		dc.getDto().colesterol = this.tfColesterol.getText();
 		dc.getDto().dataDiagnostico = this.tfData.getText();
 		dc.getDto().diagnostico = this.tfDiagnostico.getText();
 		dc.getDto().glicemia = this.tfGlicemia.getText();
-		dc.getDto().idDianostico = Integer.parseInt(this.tfidDiagnostico.getText());
 		dc.getDto().idPaciente = Integer.parseInt(this.tfProntuario.getText());
 		dc.getDto().nome = this.tfPaciente.getText();
 		dc.getDto().observacoes = this.tfObservacoes.getText();
@@ -260,7 +249,10 @@ public class Diagnostico extends JFrame implements ActionListener, KeyListener {
 		dc.getDto().sintomas = this.tfSintomas.getText();
 		dc.getDto().temperatura = this.tfTemperatura.getText();
 		//Colocar a "assinatura do médico"?
-		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "Anexar") {
 			
 		}
@@ -279,7 +271,14 @@ public class Diagnostico extends JFrame implements ActionListener, KeyListener {
 		}
 		
 		if(e.getActionCommand() == "GERAR RECEITA") {
-			Receita receita = new Receita();
+			if(g.idTipo == 1) {
+				this.preencherDto();
+				Receita receita = new Receita(this.dc.getDto());
+				
+			}else {
+				JOptionPane.showMessageDialog(this, "Só médicos podem gerar receita!");
+			}
+			
 			
 		}	
 		
@@ -296,31 +295,28 @@ public class Diagnostico extends JFrame implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-//		if(e.getKeyCode() == 10) {
-//			try {
-//				int idPac = Integer.parseInt(this.tfProntuario.getText());
-//				
-//				System.out.println(idPac);
-//				
-//				DiagnosisController dc = new DiagnosisController();
-//				
-//				String[] pacienteDados = dc.getProntuario(idPac);
-//				
-//				System.out.println("aqui " + pacienteDados[0]);
-//				
-//				this.idPaciente = Integer.parseInt(pacienteDados[0]);
-//				
-//				this.tfPaciente.setText(pacienteDados[1]);
-//				this.tfidDiagnostico.setText(pacienteDados[2]);
-//				this.tfObservacoes.setText(pacienteDados[3]);
-//				
-//			} catch (Exception e2) {
-//				this.tfPaciente.setText("");
-//				this.tfPaciente.requestFocus();
-//				JOptionPane.showMessageDialog(this, "O id do paciente precisa ser um número inteiro!");
-//			}
-//		}
-//		textFieldPaciente.setText(textFieldProntuario.getText());
+		if(e.getKeyCode() == 10) {
+			try {
+				int idPac = Integer.parseInt(this.tfProntuario.getText());
+				
+				System.out.println(idPac);
+							
+				String[] pacienteDados = dc.getProntuario(idPac);
+				
+				System.out.println("aqui " + pacienteDados[0]);
+				
+				this.idPaciente = pacienteDados[0] == null ? 0 : Integer.parseInt(pacienteDados[0]);
+				
+				this.tfPaciente.setText(pacienteDados[1]);
+				this.tfProntuario.setText(pacienteDados[0]);
+				this.tfObservacoes.setText(pacienteDados[2]);
+				
+			} catch (Exception e2) {
+				this.tfPaciente.setText("");
+				this.tfPaciente.requestFocus();
+				JOptionPane.showMessageDialog(this, "O id do paciente precisa ser um número inteiro!" +e2.toString());
+			}
+		}
 	}
 
 	@Override
