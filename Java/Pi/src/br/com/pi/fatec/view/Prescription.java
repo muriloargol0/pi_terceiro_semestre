@@ -248,6 +248,9 @@ public class Prescription extends JFrame implements ActionListener{
 		
 	}
 	
+	/***
+	 * Preenche o DTO da tela para poder transferir as informações para o controller e depois para o DAO
+	 */
 	public void preencherDto() {
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");

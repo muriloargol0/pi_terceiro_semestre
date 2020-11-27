@@ -28,6 +28,9 @@ public class Login extends JFrame implements ActionListener{
     	createScreen();
     }
     
+    /***
+     * Cria a tela de Login
+     */
 	public void createScreen() {
 		Container screen = getContentPane();
 		setLayout(null);

@@ -55,7 +55,7 @@ public class Patient extends JFrame implements ActionListener {
 	JButton btnEditar;
 		
 	/**
-	 * Create the frame.
+	 * Cria a tela de Paciente
 	 */
 	public Patient() {
 		this.pc = new PatientController();
@@ -364,6 +364,9 @@ public class Patient extends JFrame implements ActionListener {
 				
 	}
 		
+	/***
+	 * Limpa os campos da tela
+	 */
 	private void limparCampos() {
 		this.tfNome.setText("");
 		this.tfBairro.setText("");
@@ -385,6 +388,9 @@ public class Patient extends JFrame implements ActionListener {
 		this.tfNome.requestFocus();
 	}
 	
+	/***
+	 * Preenche o DTO da tela para poder transferir as informações para o controller e depois para o DAO
+	 */
 	public void preencheDto() {
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");

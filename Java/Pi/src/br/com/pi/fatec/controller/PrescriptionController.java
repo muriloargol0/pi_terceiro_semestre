@@ -12,6 +12,10 @@ public class PrescriptionController {
 	
 	private PrescriptionDAO receitaDAO = null;
 	
+	/***
+	 * Verifica se já existe uma instância do DTO, se já existir retorna o já existente
+	 * @return classe DTO para transporte de dados
+	 */
 	public PrescriptionDTO getDto() {
 		if(dto == null) {
 			dto = new PrescriptionDTO();
@@ -19,6 +23,10 @@ public class PrescriptionController {
 		return dto;
 	}
 	
+	/***
+	 * Verifica se já existe uma instância do DAO, se já existir retorna o já existente
+	 * @return classe DAO para manipulação de dados do banco
+	 */
 	private PrescriptionDAO getReceitaDAO() {
 		if(this.receitaDAO == null) {
 			this.receitaDAO = new PrescriptionDAO();
@@ -26,6 +34,10 @@ public class PrescriptionController {
 		return receitaDAO;
 	}
 	
+	/***
+	 * Faz o intermédio entre a View e o DAO para persistir os dados no banco
+	 * @return Retorna o id do registro cadastrado
+	 */
 	public int cadastraReceita() {
 		try {		
 			this.getReceitaDAO().dto = this.getDto();
@@ -38,6 +50,9 @@ public class PrescriptionController {
 		return 0;
 	}
 	
+	/***
+	 * Faz o intermédio entre a View e o DAO para atualizar os dados no banco
+	 */
 	public void editarReceita() {
 		try {
 			this.getReceitaDAO().dto = this.getDto();
@@ -48,14 +63,11 @@ public class PrescriptionController {
 		}
 	}
 	
-	public void deletarReceita(int id) {
-		try {
-			this.getReceitaDAO().delete(id);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erro ao deletar o registro de receita: " + e.getMessage());
-		}
-	}
-	
+	/***
+	 * Faz o intermédio entre a tela e o DAO para localizar uma receita pelo id do diagnóstico
+	 * @param idDiagnosis número inteiro correspondente ao id diagnóstico no banco de dados
+	 * @return retorna o DTO preenchido com os dados da Receita que pertence ao diagnóstico de origem
+	 */
 	public PrescriptionDTO findPrescriptionByDiagnosis(int idDiagnosis) {
 		PrescriptionDTO pdto = new PrescriptionDTO();
 		
@@ -69,6 +81,10 @@ public class PrescriptionController {
 		return pdto;
 	}
 
+	/***
+	 * Faz o intermédio entre a tela e o DAO para localizar uma receita no banco de dados 
+	 * @param idReceita número inteiro correspondente ao id da receita no banco de dados
+	 */
 	public void findPrescription(String idReceita) {
 		try {
 			this.getReceitaDAO().read(idReceita);

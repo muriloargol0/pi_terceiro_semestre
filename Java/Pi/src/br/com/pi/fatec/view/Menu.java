@@ -22,7 +22,7 @@ public class Menu extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	
 	/**
-	 * Create the frame.
+	 * Cria a tela de Menu
 	 */
 	public Menu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

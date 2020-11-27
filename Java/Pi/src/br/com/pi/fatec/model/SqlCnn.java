@@ -7,6 +7,9 @@ import java.sql.SQLException;
 public class SqlCnn {
 	private Connection cnn = null;
 	
+	/***
+	 * Realiza a conexão com a base de dados
+	 */
 	protected void doConnection() {
 		String server = System.getenv("LocalServer");
 		String db = "PI"; //System.getenv("PITS");
@@ -29,6 +32,10 @@ public class SqlCnn {
 		}
 	}
 	
+	/***
+	 * Verifica se já existe uma conexão aberta, se não existir ele abre uma conexão.
+	 * @return retorna a conexão aberta
+	 */
 	protected Connection getConnection() {
 		if(this.cnn == null) {
 			doConnection();
@@ -37,6 +44,10 @@ public class SqlCnn {
 		return this.cnn;
 	}
 	
+	/***
+	 * Fecha a conexão com a base de dados
+	 * @throws SQLException Se algo der errado durante a execução do método uma exceção será lançada
+	 */
 	protected void closeConnection() throws SQLException {
 		try {
 			this.cnn.close();

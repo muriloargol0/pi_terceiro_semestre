@@ -11,6 +11,10 @@ public class DiagnosisController {
 	
 	private DiagnosisDAO diagnosticoDAO = null;
 	
+	/***
+	 * Verifica se já existe uma instância do DTO, se já existir retorna o já existente
+	 * @return classe DTO para transporte de dados
+	 */
 	public DiagnosisDTO getDto() {
 		if(dto == null) {
 			dto = new DiagnosisDTO();
@@ -18,6 +22,10 @@ public class DiagnosisController {
 		return dto;
 	}
 	
+	/***
+	 * Verifica se já existe uma instância do DAO, se já existir retorna o já existente
+	 * @return classe DAO para manipulação de dados do banco
+	 */
 	private DiagnosisDAO getDiagnosticoDAO() {
 		if(this.diagnosticoDAO == null) {
 			this.diagnosticoDAO = new DiagnosisDAO();
@@ -25,6 +33,10 @@ public class DiagnosisController {
 		return diagnosticoDAO;
 	}
 	
+	/***
+	 * Faz o intermédio entre a View e o DAO para persistir os dados no banco
+	 * @return Retorna o id do registro cadastrado
+	 */
 	public int cadastraDiagnostico() {
 		try {		
 			this.getDiagnosticoDAO().dto = this.getDto();
@@ -35,6 +47,9 @@ public class DiagnosisController {
 		return 0;
 	}
 	
+	/***
+	 * Faz o intermédio entre a View e o DAO para atualizar os dados no banco
+	 */
 	public void editarDiagnostico() {
 		try {
 			this.getDiagnosticoDAO().dto = this.getDto();
@@ -45,6 +60,10 @@ public class DiagnosisController {
 		}
 	}
 
+	/***
+	 * Faz o intermédio entre a View e o DAO para localizar algum diagnóstico no banco
+	 * @param idDiagnostico número inteiro correspondente ao id do diagnostico
+	 */
 	public void findDiagnosis(String idDiagnostico) {
 		try {
 			this.getDiagnosticoDAO().read(idDiagnostico);
@@ -55,10 +74,20 @@ public class DiagnosisController {
 		}
 	}
 	
+	/***
+	 * Faz o intermédio entre a View e o DAO para buscar o prontuário, não traz todos os campos
+	 * @param idPaciente número inteiro correspondente ao id do paciente
+	 * @return retorna um Array de String contendo as informações do paciente
+	 */
 	public String[] getProntuario(int idPaciente){
 		return this.getDiagnosticoDAO().getProntuario(idPaciente);
 	}
 	
+	/***
+	 * Faz o intermédio entre a View e o DAO para buscar o prontuário completo
+	 * @param idPaciente número inteiro correspondente ao id do paciente
+	 * @return retorna um Array de String contendo as informações do paciente
+	 */
 	public String[] getProntuarioMedico(int idPaciente){
 		return this.getDiagnosticoDAO().getProntuarioMedico(idPaciente);
 	}

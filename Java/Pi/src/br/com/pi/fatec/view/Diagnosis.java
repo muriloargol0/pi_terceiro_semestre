@@ -61,7 +61,7 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 	private JTextField tfIdDiagnostico;
 	
 	/**
-	 * Create the frame.
+	 * Cria a tela de Diagnóstico
 	 */
 	public Diagnosis() {
 		
@@ -279,7 +279,9 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 		
 	}
 	
-	
+	/***
+	 * Preenche o DTO da tela para poder transferir as informações para o controller e depois para o DAO
+	 */
 	public void preencherDto() {
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -299,6 +301,9 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 		dc.getDto().idFuncionario = g.idFuncionario;
 	}
 
+	/***
+	 * Método que contém a definição do que será feito quando um evento for disparado
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "Anexar") {

@@ -65,6 +65,9 @@ public class Employee extends JFrame implements ActionListener{
 	JButton btnEditar;
 	JButton btnDeletar;
 	
+	/***
+	 * Cria a tela de Usuários
+	 */
 	public Employee() {
 		
 		ec = new EmployeeController();
@@ -371,6 +374,9 @@ public class Employee extends JFrame implements ActionListener{
 				
 	}
 	
+	/***
+	 * Limpa os campos da tela
+	 */
 	private void limparCampos() {
 		this.tfBairro.setText("");
 		this.tfCategoria.setText("");
@@ -395,6 +401,9 @@ public class Employee extends JFrame implements ActionListener{
 		this.idFuncionario = 0;
 	}
 	
+	/***
+	 * Preenche o DTO da tela para poder transferir as informações para o controller e depois para o DAO
+	 */
 	public void preencheDto() {
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -423,6 +432,9 @@ public class Employee extends JFrame implements ActionListener{
 		ec.getDto().usuario = this.tfUsuario.getText() == null ? "" : this.tfUsuario.getText();
 	}
 
+	/***
+	 * Método que contém a definição do que será feito quando um evento for disparado
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {	
 		if(e.getActionCommand() == "NOVO") {

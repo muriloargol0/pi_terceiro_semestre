@@ -149,6 +149,11 @@ public class PrescriptionDAO extends DataObject{
 		}
 	}
 	
+	/***
+	 * Busca a receita na base de dados 
+	 * @param idReceita número inteiro que corresponde ao id da receita no banco de dados
+	 * @return Array de string contendo as informações da receita
+	 */
 	public String[] getReceita(int idReceita) {
 		String[] receita = new String[8];
 		
