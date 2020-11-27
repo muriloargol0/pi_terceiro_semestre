@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.Format;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
@@ -24,7 +25,7 @@ import br.com.pi.fatec.globals.Globals;
 import javax.swing.SwingConstants;
 import javax.swing.JFormattedTextField;
 
-public class Paciente extends JFrame implements ActionListener {
+public class Patient extends JFrame implements ActionListener {
 
 	Globals g = new Globals();
 	PatientController pc;
@@ -48,11 +49,15 @@ public class Paciente extends JFrame implements ActionListener {
 	private JTextField tfResponsavel;
 	private JTextField tfTipoSanguineo;
 	private JComboBox cbStatus;
+	JButton btnDeletar;
+	JButton btnBuscar;
+	JButton btnSalvar;
+	JButton btnEditar;
 		
 	/**
 	 * Create the frame.
 	 */
-	public Paciente() {
+	public Patient() {
 		this.pc = new PatientController();
 		
 		setTitle("PACIENTE");
@@ -324,22 +329,22 @@ public class Paciente extends JFrame implements ActionListener {
 		contentPane.add(tfObservacoes);
 		tfObservacoes.setColumns(10);
 		
-		JButton btnDeletar = new JButton("DELETAR");
+		btnDeletar = new JButton("DELETAR");
 		btnDeletar.setBounds(465, 392, 132, 35);
 		btnDeletar.addActionListener(this);
 		contentPane.add(btnDeletar);
 		
-		JButton btnBuscar = new JButton("BUSCAR");
+		btnBuscar = new JButton("BUSCAR");
 		btnBuscar.setBounds(45, 22, 132, 35);
 		contentPane.add(btnBuscar);
 		btnBuscar.addActionListener(this);
 		
-		JButton btnSalvar = new JButton("SALVAR");
+		btnSalvar = new JButton("SALVAR");
 		btnSalvar.setBounds(185, 392, 132, 35);
 		btnSalvar.addActionListener(this);
 		contentPane.add(btnSalvar);
 		
-		JButton btnEditar = new JButton("EDITAR");
+		btnEditar = new JButton("EDITAR");
 		btnEditar.setBounds(325, 392, 132, 35);
 		btnEditar.addActionListener(this);
 		contentPane.add(btnEditar);
@@ -381,11 +386,14 @@ public class Paciente extends JFrame implements ActionListener {
 	}
 	
 	public void preencheDto() {
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		
 		pc.getDto().bairro = this.tfBairro.getText(); // == null ? "" : this.tfBairro.getText();
 		pc.getDto().cep = this.tfCEP.getText();
 		pc.getDto().cidade = this.tfCidade.getText();
 		pc.getDto().cpf = this.tfCPF.getText();
-		pc.getDto().dataCadastro = (new Date()).toString();
+		pc.getDto().dataCadastro = formatter.format(date);
 		pc.getDto().dataNascimento = this.tfDataNascimento.getText();
 		pc.getDto().email = this.tfEmail.getText();
 		pc.getDto().estadoCivil = this.tfEstadoCivil.getText();
@@ -404,32 +412,42 @@ public class Paciente extends JFrame implements ActionListener {
 		
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(g.idTipo == 4)
-			if(e.getActionCommand() == "NOVO") {
-				limparCampos();
-			}
+		if(e.getActionCommand() == "NOVO") {
+			this.btnSalvar.setEnabled(true);
+			this.btnEditar.setEnabled(false);
+			this.btnDeletar.setEnabled(false);
+			limparCampos();
+		}
 		
 		if(e.getActionCommand() == "SALVAR") {
 			if(g.idTipo == 4 || g.idTipo == 2) {				
 				this.preencheDto();
-				pc.cadastraPaciente();
+				this.idPaciente = pc.cadastraPaciente();
+				
+				this.btnSalvar.setEnabled(false);
+				this.btnSalvar.setEnabled(true);
+				this.btnDeletar.setEnabled(true);
+				
+				JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!");
 			}else {
 				JOptionPane.showMessageDialog(this, "Você não tem permissão para fazer essa alteração!");
 			}
 		}
 		
 		if(e.getActionCommand() == "EDITAR") {
-//			if(g.idTipo == 4 || g.idTipo == 2) {
+			if(g.idTipo == 4 || g.idTipo == 2) {
 				if(this.idPaciente != 0) {
 					this.preencheDto();
 					pc.getDto().idPaciente = this.idPaciente;
 					pc.editarPaciente();
+					
+					JOptionPane.showMessageDialog(this, "Registro editado com sucesso!");
 				}else {
 					JOptionPane.showMessageDialog(this, "Antes de editar, busque um paciente!");
 				}
-//			}else {
-//				JOptionPane.showMessageDialog(this, "Você não tem permissão para fazer essa alteração!");
-//			}
+			}else {
+				JOptionPane.showMessageDialog(this, "Você não tem permissão para fazer essa alteração!");
+			}
 		}
 		
 		if(e.getActionCommand() == "BUSCAR") {
@@ -457,6 +475,10 @@ public class Paciente extends JFrame implements ActionListener {
 			this.tfUF.setText(pc.getDto().uf);
 			this.tfCEP.setText(pc.getDto().cep);
 			this.tfObservacoes.setText(pc.getDto().observacoes);
+			
+			this.btnEditar.setEnabled(true);
+			this.btnSalvar.setEnabled(false);
+			this.btnDeletar.setEnabled(true);
 		} 
 		
 		if(e.getActionCommand() == "FECHAR") {

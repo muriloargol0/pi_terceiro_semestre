@@ -12,12 +12,12 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import br.com.pi.fatec.dto.PatientDTO;
-import br.com.pi.fatec.view.Paciente;
+import br.com.pi.fatec.view.Patient;
 
 public class PatientDAO extends DataObject {	
 	
 	public PatientDTO dto;
-	public Paciente view;
+	public Patient view;
 	
 	public int create() throws SQLException {
 		Connection cnn = super.getConnection();
@@ -27,7 +27,7 @@ public class PatientDAO extends DataObject {
 		
 		try {
 			PreparedStatement stmt = cnn.prepareStatement("INSERT INTO PACIENTE (" + 
-					",TIPO_SANGUINEO"+
+					"TIPO_SANGUINEO"+
 					",DATA_CADASTRO" + 
 					",EMAIL" + 
 					",ENDERECO" + 
@@ -95,7 +95,7 @@ public class PatientDAO extends DataObject {
 			
 		try {
 			PreparedStatement stmt = cnn.prepareStatement("UPDATE PACIENTE SET" + 
-					",TIPO_SANGUINEO = ?"+
+					" TIPO_SANGUINEO = ?"+
 					",DATA_CADASTRO = ?" + 
 					",EMAIL = ?" + 
 					",ENDERECO = ?" + 
@@ -114,8 +114,7 @@ public class PatientDAO extends DataObject {
 					",OBSERVACOES = ?" + 
 					",SEXO = ?" + 
 					",RESPONSAVEL = ?" + 
-					//",ANEXO = ?" +
-					"WHERE ID_PACIENTE = ? "
+					" WHERE ID_PACIENTE = ? "
 					);
 			
 			stmt.setString(1, this.dto.tipoSanguineo);
@@ -123,7 +122,7 @@ public class PatientDAO extends DataObject {
 			stmt.setString(3, this.dto.email);
 			stmt.setString(4, this.dto.endereco);
 			stmt.setString(5, this.formatarData(dto.dataNascimento));
-			stmt.setString(6, this.dto.cpf);
+			stmt.setString(6, this.dto.cpf.replace(".", "").replace("-", ""));
 			stmt.setString(7, this.dto.cep);
 			stmt.setString(8, this.dto.bairro);
 			stmt.setString(9, this.dto.cidade);
@@ -137,8 +136,7 @@ public class PatientDAO extends DataObject {
 			stmt.setString(17, this.dto.observacoes);
 			stmt.setString(18, this.dto.sexo);
 			stmt.setString(19, this.dto.responsavel);
-			//stmt.setString(20, this.dto.anexo);
-			
+			stmt.setInt(20, this.dto.idPaciente);
 			stmt.executeUpdate();
 			
 			return true;
@@ -176,7 +174,7 @@ public class PatientDAO extends DataObject {
 		this.dto = new PatientDTO();
 		
 		try {	
-			PreparedStatement stmt = cnn.prepareStatement("SELECT * FROM PACIENTE WHERE CPF = ?");
+			PreparedStatement stmt = cnn.prepareStatement("SELECT * FROM PACIENTE WHERE CPF = ? AND STTS = 1");
 			
 			stmt.setString(1, param);
 			

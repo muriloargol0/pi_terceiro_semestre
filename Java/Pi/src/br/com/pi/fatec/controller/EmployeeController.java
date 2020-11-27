@@ -26,15 +26,14 @@ public class EmployeeController {
 		return funcionarioDAO;
 	}
 	
-	public void cadastraFuncionario() {
+	public int cadastraFuncionario() {
 		try {		
 			this.getFuncionarioDAO().dto = this.getDto();
-			
-			this.getFuncionarioDAO().create();
-			
+			return this.getFuncionarioDAO().create();
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "Erro ao criar o registro do Funcionário: " + ex.getMessage());
 		}
+		return 0;
 	}
 	
 	public void editarFuncionario() {

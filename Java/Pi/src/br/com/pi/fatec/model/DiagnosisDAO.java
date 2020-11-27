@@ -10,12 +10,12 @@ import javax.swing.JOptionPane;
 
 import br.com.pi.fatec.dto.DiagnosisDTO;
 import br.com.pi.fatec.dto.EmployeeDTO;
-import br.com.pi.fatec.view.Diagnostico;
+import br.com.pi.fatec.view.Diagnosis;
 
 public class DiagnosisDAO extends DataObject {
 	
 	public DiagnosisDTO dto;
-	public Diagnostico view;
+	public Diagnosis view;
 
 	@Override
 	public int create() throws SQLException {
@@ -23,7 +23,7 @@ public class DiagnosisDAO extends DataObject {
 
 		try {
 			PreparedStatement stmt = cnn.prepareStatement("INSERT INTO DIAGNOSTICO (" + 
-					",DATA_DIAGNOSTICO" +
+					"DATA_DIAGNOSTICO" +
 			           ",TEMPERATURA" +
 			           ",PRESSAO_SANGUINEA" +
 			           ",GLICEMIA" +

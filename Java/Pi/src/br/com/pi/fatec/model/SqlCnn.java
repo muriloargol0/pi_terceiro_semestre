@@ -40,6 +40,8 @@ public class SqlCnn {
 	protected void closeConnection() throws SQLException {
 		try {
 			this.cnn.close();
+			this.cnn = null;
+			
 		} catch (Exception ex) {
 			throw new SQLException("Não possível fechar a conexão! Erro: " + ex.getMessage());
 		}

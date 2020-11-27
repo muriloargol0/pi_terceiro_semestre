@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import java.awt.List;
 
-public class HistoricoDiagnostico extends JFrame {
+public class DiagnosisHistory extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField tfCPFPaciente;
@@ -24,7 +24,7 @@ public class HistoricoDiagnostico extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public HistoricoDiagnostico() {
+	public DiagnosisHistory() {
 		setTitle("HIST\u00D3RICO DE DIAGN\u00D3STICO");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 500);

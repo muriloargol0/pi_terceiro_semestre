@@ -25,7 +25,7 @@ import br.com.pi.fatec.dto.ReportDTO;
 import br.com.pi.fatec.globals.Globals;
 import br.com.pi.fatec.report.Relatorio;
 
-public class Receita extends JFrame implements ActionListener{
+public class Prescription extends JFrame implements ActionListener{
 
 	PrescriptionController pc;
 	Globals g = new Globals();
@@ -46,7 +46,7 @@ public class Receita extends JFrame implements ActionListener{
 	/**
 	 * Create the frame.
 	 */
-	public Receita(DiagnosisDTO diagnosisDTO) {
+	public Prescription(DiagnosisDTO diagnosisDTO) {
 		if(diagnosisDTO == null) {
 			diagnosisDTO = new DiagnosisDTO();
 		}

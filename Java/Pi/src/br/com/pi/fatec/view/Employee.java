@@ -17,6 +17,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JLabel;
@@ -31,7 +32,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 
-public class Usuario extends JFrame implements ActionListener{
+public class Employee extends JFrame implements ActionListener{
 
 	Globals g = new Globals();
 	EmployeeController ec;
@@ -58,11 +59,16 @@ public class Usuario extends JFrame implements ActionListener{
 	private JTextField tfSenha;
 	private JComboBox cbStatus;
 	private JComboBox cbTipo;
+	JButton btnBuscarUsuario;
+	JButton btnSalvar;
+	JButton btnNovo;
+	JButton btnEditar;
+	JButton btnDeletar;
 	
-	/**
-	 * Create the frame.
-	 */
-	public Usuario() {
+	public Employee() {
+		
+		ec = new EmployeeController();
+		
 		setTitle("USU\u00C1RIOS");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 500);
@@ -90,6 +96,7 @@ public class Usuario extends JFrame implements ActionListener{
 		cbStatus.setModel(new DefaultComboBoxModel(new String[] {"Inativo", "Ativo"}));
 		cbStatus.setBounds(674, 75, 80, 20);
 		contentPane.add(cbStatus);
+		cbStatus.setSelectedIndex(1);
 		
 		JLabel lblRG = new JLabel("RG");
 		lblRG.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -121,15 +128,9 @@ public class Usuario extends JFrame implements ActionListener{
 			pe.printStackTrace();
 			}
 			catch ( Exception ex ) {
-			// process remaining Exceptions here
 			ex.printStackTrace();
 			}
-		
-//		tfCPF = new JTextField();
-//		tfCPF.setBounds(242, 105, 105, 20);
-//		contentPane.add(tfCPF);
-//		tfCPF.setColumns(10);
-		
+
 		JLabel lblDataNascimento = new JLabel("Data Nascimento");
 		lblDataNascimento.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDataNascimento.setBounds(351, 108, 105, 14);
@@ -145,19 +146,11 @@ public class Usuario extends JFrame implements ActionListener{
 		try {
 			formaterDataNascimento.setMask("##/##/####");
 			formaterDataNascimento.install(tfDataNascimento);
-			}
-			catch (ParseException pe) {
+		}catch (ParseException pe) {
 			pe.printStackTrace();
-			}
-			catch ( Exception ex ) {
-			// process remaining Exceptions here
+		}catch ( Exception ex ) {
 			ex.printStackTrace();
-			}
-		
-//		tfDataNascimento = new JTextField();
-//		tfDataNascimento.setColumns(10);
-//		tfDataNascimento.setBounds(466, 105, 100, 20);
-//		contentPane.add(tfDataNascimento);
+		}
 		
 		JLabel lblCRM = new JLabel("CRM");
 		lblCRM.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -224,7 +217,7 @@ public class Usuario extends JFrame implements ActionListener{
 		lblNumero.setBounds(618, 198, 46, 14);
 		contentPane.add(lblNumero);
 		
-		tfNumero = new JTextField("1");
+		tfNumero = new JTextField();
 		tfNumero.setBounds(674, 195, 80, 20);
 		contentPane.add(tfNumero);
 		tfNumero.setColumns(10);
@@ -274,19 +267,11 @@ public class Usuario extends JFrame implements ActionListener{
 		try {
 			formaterCEP.setMask("##.###-###");
 			formaterCEP.install(tfCEP);
-			}
-			catch (ParseException pe) {
+		}catch (ParseException pe) {
 			pe.printStackTrace();
-			}
-			catch ( Exception ex ) {
-			// process remaining Exceptions here
+		}catch ( Exception ex ) {
 			ex.printStackTrace();
-			}
-		
-//		tfCEP = new JTextField();
-//		tfCEP.setBounds(604, 225, 150, 20);
-//		contentPane.add(tfCEP);
-//		tfCEP.setColumns(10);
+		}
 		
 		JLabel lblObservacoes = new JLabel("Observa\u00E7\u00F5es");
 		lblObservacoes.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -324,19 +309,12 @@ public class Usuario extends JFrame implements ActionListener{
 		try {
 			formaterTelefone.setMask("(##) #####-####");
 			formaterTelefone.install(tfTelefone);
-			}
-			catch (ParseException pe) {
+		}catch (ParseException pe) {
 			pe.printStackTrace();
-			}
-			catch ( Exception ex ) {
-			// process remaining Exceptions here
+		}catch (Exception ex ) {
 			ex.printStackTrace();
-			}
+		}
 		
-//		tfTelefone = new JTextField();
-//		tfTelefone.setBounds(618, 165, 136, 20);
-//		contentPane.add(tfTelefone);
-//		tfTelefone.setColumns(10);
 
         JLabel lblUsuario = new JLabel("Usu\u00E1rio");
         lblUsuario.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -358,27 +336,27 @@ public class Usuario extends JFrame implements ActionListener{
         contentPane.add(tfSenha);
         tfSenha.setColumns(10);
         
-        JButton btnBuscarUsuario = new JButton("BUSCAR");
+        btnBuscarUsuario = new JButton("BUSCAR");
 		btnBuscarUsuario.setBounds(45, 22, 132, 35);
 		contentPane.add(btnBuscarUsuario);
 		btnBuscarUsuario.addActionListener(this);
         
-		JButton btnSalvar = new JButton("SALVAR");
+		btnSalvar = new JButton("SALVAR");
 		btnSalvar.setBounds(185, 392, 132, 35);
 		btnSalvar.addActionListener(this);
 		contentPane.add(btnSalvar);
 		
-		JButton btnNovo = new JButton("NOVO");
+		btnNovo = new JButton("NOVO");
 		btnNovo.setBounds(45, 392, 132, 35);
 		btnNovo.addActionListener(this);
 		contentPane.add(btnNovo);
 		
-		JButton btnEditar = new JButton("EDITAR");
+		btnEditar = new JButton("EDITAR");
 		btnEditar.setBounds(325, 392, 132, 35);
 		btnEditar.addActionListener(this);
 		contentPane.add(btnEditar);
 		
-		JButton btnDeletar = new JButton("DELETAR");
+		btnDeletar = new JButton("DELETAR");
 		btnDeletar.setBounds(465, 392, 132, 35);
 		btnDeletar.addActionListener(this);
 		contentPane.add(btnDeletar);
@@ -418,23 +396,26 @@ public class Usuario extends JFrame implements ActionListener{
 	}
 	
 	public void preencheDto() {
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		
 		ec.getDto().bairro = this.tfBairro.getText() == null ? "" : this.tfBairro.getText();
 		ec.getDto().categoria = this.tfCategoria.getText() == null ? "" : this.tfCategoria.getText();
 		ec.getDto().cep = this.tfCEP.getText() == null ? "" : this.tfCEP.getText();
+		ec.getDto().endereco = this.tfEndereco.getText();
 		ec.getDto().cidade = this.tfCidade.getText() == null ? "" : this.tfCidade.getText();
 		ec.getDto().coren = this.tfCOREN.getText() == null ? "" : this.tfCOREN.getText();
 		ec.getDto().cpf = this.tfCPF.getText() == null ? "" : this.tfCPF.getText();
 		ec.getDto().crm = this.tfCRMCOREN.getText() == null ? "" : this.tfCRMCOREN.getText();
-		ec.getDto().dataCadastro = (new Date()).toString() == null ? "" : (new Date()).toString();
+		ec.getDto().dataCadastro = formatter.format(date);
 		ec.getDto().dataNascimento = this.tfDataNascimento.getText() == null ? "" : this.tfDataNascimento.getText();
 		ec.getDto().especialidade = this.tfEspecCateg.getText() == null ? "" : this.tfEspecCateg.getText();
 		ec.getDto().estadoCivil = this.tfEstadoCivil.getText() == null ? "" : this.tfEstadoCivil.getText();
-		ec.getDto().idTipo = this.cbTipo.getSelectedIndex();
+		ec.getDto().idTipo = this.cbTipo.getSelectedIndex() + 1;
 		ec.getDto().nome = this.tfNome.getText() == null ? "" : this.tfNome.getText();
 		ec.getDto().numero = Integer.parseInt(this.tfNumero.getText()) == 0 ? 0 : Integer.parseInt(this.tfNumero.getText());
 		ec.getDto().observacoes = this.tfObservacoes.getText() == null ? "" : this.tfObservacoes.getText();
 		ec.getDto().rg = this.tfRG.getText() == null ? "" : this.tfRG.getText();
-		ec.getDto().endereco = this.tfEndereco.getText() == null ? "" : this.tfEndereco.getText();
 		ec.getDto().senha = this.tfSenha.getText() == null ? "" : this.tfSenha.getText();
 		ec.getDto().status = this.cbStatus.getSelectedIndex();
 		ec.getDto().telefone = this.tfTelefone.getText() == null ? "" : this.tfTelefone.getText();
@@ -445,12 +426,23 @@ public class Usuario extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {	
 		if(e.getActionCommand() == "NOVO") {
+			this.cbTipo.setEnabled(true);
+			this.btnSalvar.setEnabled(true);
+			this.btnEditar.setEnabled(false);
+			this.btnDeletar.setEnabled(false);
+			
 			limparCampos();
 		}
 		
 		if(e.getActionCommand() == "SALVAR") {	
 			this.preencheDto();
-			ec.cadastraFuncionario();
+			
+			this.idFuncionario = ec.cadastraFuncionario();
+			
+			JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!");
+			
+			this.btnSalvar.setEnabled(false);
+			this.btnDeletar.setEnabled(true);
 		}
 		
 		if(e.getActionCommand() == "EDITAR") {
@@ -458,13 +450,25 @@ public class Usuario extends JFrame implements ActionListener{
 				this.preencheDto();
 				ec.getDto().idFuncionario = this.idFuncionario;
 				ec.editarFuncionario();
+				
+				JOptionPane.showMessageDialog(this, "Usuário editado com sucesso!");
 			}else {
 				JOptionPane.showMessageDialog(this, "Antes de editar, busque um funcionário!");
 			}
 		}
 		
 		if(e.getActionCommand() == "DELETAR") {
-			ec.deletarFuncionario(ec.getDto().idFuncionario);
+			int dialogButton = JOptionPane.YES_NO_OPTION;
+			int dialogResult = JOptionPane.showConfirmDialog (this, "Deseja realmente excluir o (a) funcionário (a) "+ this.tfNome.getText() + "?","Cuidado!", dialogButton);
+			
+			if(dialogResult == JOptionPane.YES_OPTION){
+				if(this.idFuncionario != 0) {
+					ec.deletarFuncionario(ec.getDto().idFuncionario);
+					this.limparCampos();
+				}else {
+					JOptionPane.showMessageDialog(this, "Antes de deletar, busque um funcionário!");
+				}	
+			}
 		}
 		
 		if(e.getActionCommand() == "BUSCAR") {
@@ -487,13 +491,23 @@ public class Usuario extends JFrame implements ActionListener{
 			this.tfNumero.setText(Integer.toString(ec.getDto().numero));
 			this.tfObservacoes.setText(ec.getDto().observacoes);
 			this.tfRG.setText(ec.getDto().rg);
-			this.tfEndereco.setText(ec.getDto().endereco);
 			this.tfSenha.setText(ec.getDto().senha);
 			this.tfTelefone.setText(ec.getDto().telefone);
 			this.tfUF.setText(ec.getDto().uf);
 			this.tfUsuario.setText(ec.getDto().usuario);
 			this.cbStatus.setSelectedIndex(ec.getDto().status);
 			this.cbTipo.setSelectedIndex(ec.getDto().idTipo - 1);
+			
+			this.btnEditar.setEnabled(true);
+			this.btnSalvar.setEnabled(false);
+			this.btnDeletar.setEnabled(true);
+			
+			if(g.idFuncionario == this.idFuncionario) {
+				this.cbTipo.setEnabled(false);
+			}else {
+				this.cbTipo.setEnabled(true);
+			}
+			
 		}
 		
 		if(e.getActionCommand() == "FECHAR") {

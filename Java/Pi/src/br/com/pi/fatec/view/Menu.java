@@ -60,7 +60,7 @@ public class Menu extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "DIAGNÓSTICO") {
 			if(g.idTipo == 1 || g.idTipo == 2) {
-				Diagnostico diagnostico = new Diagnostico();
+				Diagnosis diagnostico = new Diagnosis();
 			}
 			else {
 				JOptionPane.showMessageDialog(this, "Apenas médicos e enfermeiras fazem diagnósticos!");
@@ -69,7 +69,7 @@ public class Menu extends JFrame implements ActionListener {
 		
 		if(e.getActionCommand() == "PACIENTE") {
 			if(g.idTipo == 2 || g.idTipo == 4) {
-				Paciente paciente = new Paciente();
+				Patient paciente = new Patient();
 			}
 			else {
 				JOptionPane.showMessageDialog(this, "Apenas enfermeiras e recepcionistas conseguem cadastrar pacientes!");
@@ -79,7 +79,7 @@ public class Menu extends JFrame implements ActionListener {
 		
 		if(e.getActionCommand() == "RECEITA") {
 			if(g.idTipo == 1) {	
-				Receita receita = new Receita(null);
+				Prescription receita = new Prescription(null);
 			}
 			else {
 				JOptionPane.showMessageDialog(this, "Apenas médicos conseguem alterar receitas!");
@@ -88,7 +88,7 @@ public class Menu extends JFrame implements ActionListener {
 		
 		if(e.getActionCommand() == "USUÁRIO") {
 			if(g.idTipo == 3) {
-				Usuario usuario = new Usuario();
+				Employee usuario = new Employee();
 			}
 			else {
 				JOptionPane.showMessageDialog(this, "Apenas administradores conseguem cadastrar usuários!");

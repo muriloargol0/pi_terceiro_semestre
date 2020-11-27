@@ -13,52 +13,51 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import br.com.pi.fatec.dto.EmployeeDTO;
-import br.com.pi.fatec.view.Usuario;
+import br.com.pi.fatec.view.Employee;
 
 public class EmployeeDAO extends DataObject {
 	
 	public EmployeeDTO dto;
-	public Usuario view;
+	public Employee view;
 	
 	public int create() throws SQLException {
 		Connection cnn = super.getConnection();
 		
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); // Cria um formato
 	    Date date = new Date();  // Pega a data do sistema
-	    
 
 		try {
 			PreparedStatement stmt = cnn.prepareStatement("INSERT INTO FUNCIONARIO (" + 
-					",SENHA" +
-			           ",STTS" +
-			           ",NOME" +
-			           ",DATA_NASCIMENTO" +
-			           ",RG" +
-			           ",CPF" +
-			           ",ESTADO_CIVIL" +
-			           ",CEP" + 
-			           ",ENDERECO" + 
-			           ",NUMERO" +
-			           ",BAIRRO" +
-			           ",CIDADE" +
-			           ",ID_TIPO" +
-			           ",UF" +
-			           ",OBSERVACOES" + 
-			           ",DATA_CADASTRO" +
-			           ",CRM" + 
-			           ",ESPECIALIDADE" +
-			           ",COREN" +
-			           ",CATEGORIA" +
-			           ",TELEFONE" +
-					
-					") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+			"SENHA" +
+	           ",STTS" +
+	           ",NOME" +
+	           ",DATA_NASCIMENTO" +
+	           ",RG" +
+	           ",CPF" +
+	           ",ESTADO_CIVIL" +
+	           ",CEP" + 
+	           ",ENDERECO" + 
+	           ",NUMERO" +
+	           ",BAIRRO" +
+	           ",CIDADE" +
+	           ",ID_TIPO" +
+	           ",UF" +
+	           ",OBSERVACOES" + 
+	           ",DATA_CADASTRO" +
+	           ",CRM" + 
+	           ",ESPECIALIDADE" +
+	           ",COREN" +
+	           ",CATEGORIA" +
+	           ",TELEFONE" +
+	           ", USUARIO" +				
+			") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setString(1, this.dto.senha);
 			stmt.setInt(2, this.dto.status);
 			stmt.setString(3, this.dto.nome);
 			stmt.setString(4, this.formatarData(dto.dataNascimento));
 			stmt.setString(5, this.dto.rg);
-			stmt.setString(6, this.dto.cpf);
+			stmt.setString(6, this.dto.cpf.replace(".", "").replace("-", ""));
 			stmt.setString(7, this.dto.estadoCivil);
 			stmt.setString(8, this.dto.cep);
 			stmt.setString(9, this.dto.endereco);
@@ -68,12 +67,13 @@ public class EmployeeDAO extends DataObject {
 			stmt.setInt(13, this.dto.idTipo + 1);
 			stmt.setString(14, this.dto.uf);
 			stmt.setString(15, this.dto.observacoes);
-			stmt.setString(16, dateFormat.format(date)); // seta o formato para aquela data
+			stmt.setString(16, this.dto.dataCadastro);
 			stmt.setString(17, this.dto.crm);
 			stmt.setString(18, this.dto.especialidade);
 			stmt.setString(19, this.dto.coren);
 			stmt.setString(20, this.dto.categoria);
 			stmt.setString(21, this.dto.telefone);
+			stmt.setString(22, this.dto.usuario);
 			
 			stmt.executeUpdate();
 			
@@ -101,7 +101,7 @@ public class EmployeeDAO extends DataObject {
 
 		try {
 			PreparedStatement stmt = cnn.prepareStatement("UPDATE FUNCIONARIO SET " + 
-				   ",SENHA = ?" +
+				   "SENHA = ?" +
 		           ",STTS = ?" +
 		           ",NOME = ?" +
 		           ",DATA_NASCIMENTO = ?" +
@@ -125,12 +125,14 @@ public class EmployeeDAO extends DataObject {
 		           " WHERE ID_FUNCIONARIO = ? "
 		           );
 			
+			System.out.println(this.dto.dataCadastro);
+			
 			stmt.setString(1, this.dto.senha);
 			stmt.setInt(2, this.dto.status);
 			stmt.setString(3, this.dto.nome);
 			stmt.setString(4, this.formatarData(dto.dataNascimento));
 			stmt.setString(5, this.dto.rg);
-			stmt.setString(6, this.dto.cpf);
+			stmt.setString(6, this.dto.cpf.replace(".", "").replace("-", ""));
 			stmt.setString(7, this.dto.estadoCivil);
 			stmt.setString(8, this.dto.cep);
 			stmt.setString(9, this.dto.endereco);

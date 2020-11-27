@@ -8,12 +8,12 @@ import java.sql.Statement;
 
 import br.com.pi.fatec.dto.DiagnosisDTO;
 import br.com.pi.fatec.dto.PrescriptionDTO;
-import br.com.pi.fatec.view.Receita;
+import br.com.pi.fatec.view.Prescription;
 
 public class PrescriptionDAO extends DataObject{
 	
 	public PrescriptionDTO dto;
-	public Receita view;
+	public Prescription view;
 	
 	public int create() throws SQLException {
 		Connection cnn = super.getConnection();

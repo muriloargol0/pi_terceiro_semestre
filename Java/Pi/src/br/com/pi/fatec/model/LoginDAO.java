@@ -16,7 +16,7 @@ public class LoginDAO {
 		try {
 			SqlCnn cnn = new SqlCnn();
 						
-			PreparedStatement stmt = cnn.getConnection().prepareStatement("SELECT USUARIO, SENHA, ID_TIPO, ID_FUNCIONARIO, NOME FROM FUNCIONARIO WHERE USUARIO = ?");
+			PreparedStatement stmt = cnn.getConnection().prepareStatement("SELECT USUARIO, SENHA, ID_TIPO, ID_FUNCIONARIO, NOME FROM FUNCIONARIO WHERE USUARIO = ? AND STTS = 1");
 			stmt.setString(1, user);
 			ResultSet rs = stmt.executeQuery();
 			

@@ -23,7 +23,7 @@ import javax.swing.JSeparator;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 
-public class Diagnostico extends JFrame implements ActionListener, KeyListener {
+public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 	
 	private int idDiagnostico = 0;
 	Globals g = new Globals();
@@ -56,7 +56,7 @@ public class Diagnostico extends JFrame implements ActionListener, KeyListener {
 	/**
 	 * Create the frame.
 	 */
-	public Diagnostico() {
+	public Diagnosis() {
 		dc = new DiagnosisController();
 		setTitle("DIAGN\u00D3STICO");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -273,7 +273,7 @@ public class Diagnostico extends JFrame implements ActionListener, KeyListener {
 		if(e.getActionCommand() == "GERAR RECEITA") {
 			if(g.idTipo == 1) {
 				this.preencherDto();
-				Receita receita = new Receita(this.dc.getDto());
+				Prescription receita = new Prescription(this.dc.getDto());
 				
 			}else {
 				JOptionPane.showMessageDialog(this, "Só médicos podem gerar receita!");
