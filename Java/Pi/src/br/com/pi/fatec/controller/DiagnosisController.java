@@ -44,14 +44,6 @@ public class DiagnosisController {
 			JOptionPane.showMessageDialog(null, "Erro ao atualizar o registro de Diagnóstico: " + e.getMessage());
 		}
 	}
-	
-	public void deletarDiagnostico(int id) {
-		try {
-			this.getDiagnosticoDAO().delete(id);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erro ao deletar o registro do Diagnóstico: " + e.getMessage());
-		}
-	}
 
 	public void findDiagnosis(String idDiagnostico) {
 		try {

@@ -284,18 +284,17 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		
+		dc.getDto().idDianostico = Integer.parseInt(this.tfIdDiagnostico.getText());
 		dc.getDto().anexo = this.btnAnexar.getText();
 		dc.getDto().colesterol = this.tfColesterol.getText();
 		dc.getDto().dataDiagnostico = formatter.format(date);
 		dc.getDto().diagnostico = this.tfDiagnostico.getText() == null ? "" : this.tfDiagnostico.getText();
-		System.out.println(dc.getDto().diagnostico);
 		dc.getDto().glicemia = this.tfGlicemia.getText();
 		dc.getDto().idPaciente = Integer.parseInt(this.tfPaciente.getText());
 		dc.getDto().nome = this.tfNome.getText();
 		dc.getDto().observacoes = this.tfObservacoes.getText();
 		dc.getDto().pressaoSanguinea = this.tfPressao.getText();
 		dc.getDto().sintomas = this.tfSintomas.getText() == null ? "" : this.tfSintomas.getText();
-		System.out.println(dc.getDto().sintomas);
 		dc.getDto().temperatura = this.tfTemperatura.getText();
 		dc.getDto().idFuncionario = g.idFuncionario;
 	}
@@ -311,7 +310,6 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 			
 			dc.findDiagnosis(sdiag);
 			
-			this.idDiagnostico = dc.getDto().idDianostico;
 			this.idFuncionario = dc.getDto().idFuncionario;
 			this.idPaciente = dc.getDto().idPaciente;
 			this.tfIdDiagnostico.setText(Integer.toString(dc.getDto().idDianostico));
@@ -387,12 +385,8 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 			if(g.idTipo == 2) {
 				try {
 					int idPac = Integer.parseInt(this.tfPaciente.getText());
-					
-					//System.out.println(idPac);
 								
 					String[] pacienteDados = dc.getProntuario(idPac);
-					
-					//System.out.println("aqui " + pacienteDados[0]);
 					
 					this.idPaciente = pacienteDados[0] == null ? 0 : Integer.parseInt(pacienteDados[0]);
 					
@@ -411,13 +405,8 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 				this.idFuncionario = g.idFuncionario;
 				try {
 					int idPac = Integer.parseInt(this.tfPaciente.getText());
-					//int idDiag = Integer.parseInt(this.tfIdDiagnostico.getText());
-					
-					//System.out.println(idPac);
 								
 					String[] pacienteDados = dc.getProntuarioMedico(idPac);
-					
-					//System.out.println("aqui " + pacienteDados[0]);
 					
 					this.idPaciente = pacienteDados[0] == null ? 0 : Integer.parseInt(pacienteDados[0]);
 					
@@ -432,6 +421,10 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 					this.tfIdDiagnostico.setText(pacienteDados[8]);
 					this.tfSintomas.setText(pacienteDados[9]);
 					this.tfDiagnostico.setText(pacienteDados[10]);
+					
+					if(this.idPaciente > 0) {
+						this.btnGerarReceita.setEnabled(true);
+					}
 
 				} catch (Exception e2) {
 					this.tfNome.setText("");

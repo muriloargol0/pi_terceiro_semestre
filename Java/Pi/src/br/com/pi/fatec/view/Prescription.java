@@ -26,6 +26,7 @@ import br.com.pi.fatec.controller.DiagnosisController;
 import br.com.pi.fatec.controller.PatientController;
 import br.com.pi.fatec.controller.PrescriptionController;
 import br.com.pi.fatec.dto.DiagnosisDTO;
+import br.com.pi.fatec.dto.PrescriptionDTO;
 import br.com.pi.fatec.dto.ReportDTO;
 import br.com.pi.fatec.globals.Globals;
 import br.com.pi.fatec.report.Relatorio;
@@ -47,6 +48,7 @@ public class Prescription extends JFrame implements ActionListener{
 	private JButton btnBuscar;
 	private JTextField tfIdDiagnostico;
 	private int idReceita;
+	private int idDiagnostico;
 	
 	private List<ReportDTO> lista = new ArrayList<ReportDTO>();
 	
@@ -54,14 +56,17 @@ public class Prescription extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public Prescription(DiagnosisDTO diagnosisDTO) {
+		pc = new PrescriptionController();
+		
 		if(diagnosisDTO == null) {
 			diagnosisDTO = new DiagnosisDTO();
+		}else {
+			this.idDiagnostico = diagnosisDTO.idDianostico;
 		}
 		
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		
-		pc = new PrescriptionController();
 		setTitle("RECEITA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 500);
@@ -208,35 +213,36 @@ public class Prescription extends JFrame implements ActionListener{
 		
 		setVisible(true);
 		setLocationRelativeTo(null);
+		
+		if(diagnosisDTO.idDianostico > 0) {
+			this.preencheReceita(diagnosisDTO.idDianostico);
+		}
 				
 	}
 	
-	public void preencheReceita() {
+	public void preencheReceita(int idDiagnostico) {
 		try {
-			int idDiag = Integer.parseInt(this.tfIdDiagnostico.getText());
-			//int idDiag = Integer.parseInt(this.tfIdDiagnostico.getText());
+			PrescriptionDTO pdto = new PrescriptionDTO();
 			
-			//System.out.println(idPac);
-						
-			pc.findPrescription(idDiag);
+			pdto = this. pc.findPrescriptionByDiagnosis(idDiagnostico);
 			
-			//System.out.println("aqui " + pacienteDados[0]);
-			
-			this.idReceita = receitaDados[0] == null ? 0 : Integer.parseInt(receitaDados[0]);
-			
-			this.tfData.setText(pacienteDados[1]);
-			this.tfIdDiagnostico.setText(pacienteDados[0]);
-			this.tfIdPaciente.setText(pacienteDados[2]);
-			this.tfNome.setText(pacienteDados[3]);
-			this.tfObservacao.setText(pacienteDados[7]);
-			this.tfObservacoes.setText(pacienteDados[6]);
-			this.tfPrescricao.setText(pacienteDados[4]);
+			if(pdto.idReceita > 0) {
+				this.idReceita = pdto.idReceita;
+				
+				this.tfData.setText(pdto.dataReceita);
+				this.tfIdDiagnostico.setText(Integer.toString(pdto.idDiagnostico));
+				this.tfIdPaciente.setText(Integer.toString(pdto.idPaciente));
+				this.tfNome.setText(pdto.nome);
+				this.tfObservacao.setText(pdto.observacao);
+				this.tfObservacoes.setText(pdto.observacoes);
+				this.tfPrescricao.setText(pdto.prescricao);
+			}
 
 		} catch (Exception e2) {
 			this.tfNome.setText("");
 			this.tfIdDiagnostico.setText("");
 			this.tfNome.requestFocus();
-			JOptionPane.showMessageDialog(this, "O id do paciente precisa ser um número inteiro!" +e2.toString());
+			JOptionPane.showMessageDialog(this, "O id do paciente precisa ser um número inteiro!" + e2.toString());
 		}
 		
 		
@@ -246,6 +252,8 @@ public class Prescription extends JFrame implements ActionListener{
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		
+		//pc.getDto().idDiagnostico = this.idDiagnostico;
+		pc.getDto().idReceita = this.idReceita;
 		pc.getDto().dataReceita = formatter.format(date);
 		pc.getDto().prescricao = this.tfPrescricao.getText();
 		pc.getDto().observacao = this.tfObservacao.getText();
@@ -266,14 +274,21 @@ public class Prescription extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "SALVAR") {
-			if(tfIdDiagnostico != null) {
+			if(this.idReceita == 0) {
+				if(tfIdDiagnostico != null) {
+					this.preencherDto();
+					pc.cadastraReceita();
+					
+					JOptionPane.showMessageDialog(this, "Receita salva com sucesso!");
+				}else {
+					JOptionPane.showMessageDialog(this, "Não é possível criar uma receita sem um diagnóstico.");
+				}
+			}else{
 				this.preencherDto();
-				pc.cadastraReceita();
+				pc.editarReceita();
 				
-				JOptionPane.showMessageDialog(this, "Receita salva com sucesso!");
-			}else {
-				JOptionPane.showMessageDialog(this, "Não é possível criar uma receita sem um diagnóstico.");
-			}			
+				JOptionPane.showMessageDialog(this, "Receita editada com sucesso!");
+			}
 		}
 		
 		if(e.getActionCommand() == "BUSCAR") {

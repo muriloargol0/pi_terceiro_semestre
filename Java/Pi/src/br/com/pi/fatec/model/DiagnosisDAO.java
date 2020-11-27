@@ -35,7 +35,7 @@ public class DiagnosisDAO extends DataObject {
 			           ",ID_PACIENTE" +
 					") VALUES (?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			
-			stmt.setString(1, this.formatarData(dto.dataDiagnostico));
+			stmt.setString(1, dto.dataDiagnostico);
 			stmt.setString(2, this.dto.temperatura);
 			stmt.setString(3, this.dto.pressaoSanguinea);
 			stmt.setString(4, this.dto.glicemia);

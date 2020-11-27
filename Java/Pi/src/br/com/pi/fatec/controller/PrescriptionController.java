@@ -55,6 +55,19 @@ public class PrescriptionController {
 			JOptionPane.showMessageDialog(null, "Erro ao deletar o registro de receita: " + e.getMessage());
 		}
 	}
+	
+	public PrescriptionDTO findPrescriptionByDiagnosis(int idDiagnosis) {
+		PrescriptionDTO pdto = new PrescriptionDTO();
+		
+		try {
+			pdto = this.getReceitaDAO().getPrescriptionByDiagnosis(idDiagnosis);			
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao buscar receita pelo diagnóstico: " + e.getMessage());
+		}
+		
+		return pdto;
+	}
 
 	public void findPrescription(String idReceita) {
 		try {

@@ -26,7 +26,7 @@ public class PrescriptionDAO extends DataObject{
 			           ",OBSERVACAO" +
 					") VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			
-			stmt.setString(1, this.formatarData(dto.dataReceita));
+			stmt.setString(1, dto.dataReceita);
 			stmt.setString(2, this.dto.prescricao);
 			stmt.setInt(3, this.dto.idDiagnostico);
 			stmt.setString(4, this.dto.observacao);
@@ -57,17 +57,14 @@ public class PrescriptionDAO extends DataObject{
 
 		try {
 			PreparedStatement stmt = cnn.prepareStatement("UPDATE RECEITA SET " + 
-					",DATA_RECEITA" +
-			           ",PRESCRICAO" +
-			           ",ID_DIAGNOSTICO" +
-			           ",OBSERVACAO" +
+			           " PRESCRICAO = ? " +
+			           ",OBSERVACAO = ? " +
 		           " WHERE ID_RECEITA = ? "
 		           );
 			
-			stmt.setString(1, this.formatarData(dto.dataReceita));
-			stmt.setString(2, this.dto.prescricao);
-			stmt.setInt(3, this.dto.idDiagnostico);
-			stmt.setString(4, this.dto.observacao);
+			stmt.setString(1, this.dto.prescricao);
+			stmt.setString(2, this.dto.observacao);
+			stmt.setInt(3, this.dto.idReceita);
 			
 			stmt.executeUpdate();
 			
@@ -84,6 +81,40 @@ public class PrescriptionDAO extends DataObject{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public PrescriptionDTO getPrescriptionByDiagnosis(int idDiagnosis) throws SQLException {
+		Connection cnn = super.getConnection();
+		
+		PrescriptionDTO pdto = new PrescriptionDTO();
+		
+		try {
+			PreparedStatement stmt = cnn.prepareStatement("SELECT P.ID_PACIENTE, P.NOME, P.OBSERVACOES, R.* " + 
+					"FROM PACIENTE P, DIAGNOSTICO D, RECEITA R WHERE D.ID_DIAGNOSTICO = ? AND " + 
+					"R.ID_DIAGNOSTICO = D.ID_DIAGNOSTICO AND P.ID_PACIENTE = D.ID_PACIENTE");
+			
+			stmt.setInt(1, idDiagnosis);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				pdto.idReceita = rs.getInt("ID_RECEITA");
+				pdto.idDiagnostico = rs.getInt("ID_DIAGNOSTICO");
+				pdto.prescricao = rs.getString("PRESCRICAO");
+				pdto.dataReceita = formatarDataRetorno(rs.getString("DATA_RECEITA"));
+				pdto.observacao = rs.getString("OBSERVACAO");
+				pdto.idPaciente = rs.getInt("ID_PACIENTE");
+				pdto.nome = rs.getString("NOME");
+				pdto.observacoes = rs.getString("OBSERVACOES");
+			}
+			
+		} catch (Exception e) {
+			throw new SQLException(e.toString());
+		} finally {
+			super.closeConnection();
+		}
+		
+		return pdto;
+	}
 
 	@Override
 	public void read(String param) throws SQLException {
@@ -92,7 +123,9 @@ public class PrescriptionDAO extends DataObject{
 		this.dto = new PrescriptionDTO();
 		
 		try {
-			PreparedStatement stmt = cnn.prepareStatement("SELECT P.NOME, P.OBSERVACOES, R.* FROM PACIENTE P, DIAGNOSTICO D, RECEITA R WHERE ID_RECEITA = ? AND R.ID_DIAGNOSTICO = D.ID_DIAGNOSTICO AND P.ID_PACIENTE = D.ID_PACIENTE");
+			PreparedStatement stmt = cnn.prepareStatement("SELECT P.ID_PACIENTE, P.NOME, P.OBSERVACOES, R.* FROM PACIENTE P, " + 
+					" DIAGNOSTICO D, RECEITA R WHERE R.ID_RECEITA = ? AND " + 
+					" R.ID_DIAGNOSTICO = D.ID_DIAGNOSTICO AND P.ID_PACIENTE = D.ID_PACIENTE");
 			
 			stmt.setString(1, param);
 			
