@@ -6,10 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
 import br.com.pi.fatec.controller.DiagnosisController;
 import br.com.pi.fatec.globals.Globals;
@@ -18,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JTabbedPane;
 import javax.swing.JSeparator;
 import java.awt.Color;
@@ -29,10 +34,10 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 	Globals g = new Globals();
 	DiagnosisController dc;
 	private JPanel contentPane;
-	private JTextField tfProntuario;
 	private JTextField tfPaciente;
+	private JTextField tfNome;
 	private JTextField tfObservacoes;
-	private JTextField tfData;
+	private JFormattedTextField tfData;
 	private JTextField tfPressao;
 	private JLabel lblAnexar;
 	private JLabel lblGlicemia;
@@ -52,12 +57,19 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 	private JButton btnFechar;
 	private JButton btnEditar;
 	private int idPaciente;
+	private int idFuncionario;
+	private JTextField tfIdDiagnostico;
 	
 	/**
 	 * Create the frame.
 	 */
 	public Diagnosis() {
+		
 		dc = new DiagnosisController();
+		
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		
 		setTitle("DIAGN\u00D3STICO");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 500);
@@ -71,30 +83,30 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 		lblPaciente.setBounds(42, 50, 60, 14);
 		contentPane.add(lblPaciente);
 		
-		tfProntuario = new JTextField();
-		tfProntuario.setBounds(112, 47, 120, 20);
-		contentPane.add(tfProntuario);
-		tfProntuario.setColumns(10);
-		tfProntuario.addKeyListener(this);
+		tfPaciente = new JTextField();
+		tfPaciente.setBounds(112, 47, 120, 20);
+		contentPane.add(tfPaciente);
+		tfPaciente.setColumns(10);
+		tfPaciente.addKeyListener(this);
 		
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNome.setBounds(243, 50, 40, 14);
 		contentPane.add(lblNome);
 		
-		tfPaciente = new JTextField();
-		tfPaciente.setColumns(10);
-		tfPaciente.setBounds(293, 47, 444, 20);
-		contentPane.add(tfPaciente);
+		tfNome = new JTextField();
+		tfNome.setColumns(10);
+		tfNome.setBounds(293, 47, 444, 20);
+		contentPane.add(tfNome);
 		
 		JLabel lblObservacoes = new JLabel("Observa\u00E7\u00F5es");
 		lblObservacoes.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblObservacoes.setBounds(18, 74, 84, 17);
+		lblObservacoes.setBounds(199, 74, 84, 17);
 		contentPane.add(lblObservacoes);
 		
 		tfObservacoes = new JTextField();
 		tfObservacoes.setColumns(10);
-		tfObservacoes.setBounds(112, 72, 625, 20);
+		tfObservacoes.setBounds(293, 72, 444, 20);
 		contentPane.add(tfObservacoes);
 		
 		JSeparator separator = new JSeparator();
@@ -128,10 +140,19 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 		lblData.setBounds(44, 146, 46, 14);
 		contentPane.add(lblData);
 		
-		tfData = new JTextField();
+		tfData = new JFormattedTextField(formatter.format(date));
 		tfData.setBounds(100, 143, 132, 20);
 		contentPane.add(tfData);
 		tfData.setColumns(10);
+		MaskFormatter formaterData = new MaskFormatter();
+		try {
+			formaterData.setMask("##/##/####");
+			formaterData.install(tfData);
+		}catch (ParseException pe) {
+			pe.printStackTrace();
+		}catch ( Exception ex ) {
+			ex.printStackTrace();
+		}
 		
 		lblTemperatura = new JLabel("Temperatura");
 		lblTemperatura.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -223,6 +244,7 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 		btnGerarReceita = new JButton("GERAR RECEITA");
 		btnGerarReceita.setBounds(325, 392, 132, 35);
 		btnGerarReceita.addActionListener(this);
+		btnGerarReceita.setEnabled(false);
 		contentPane.add(btnGerarReceita);
 		
 		btnFechar = new JButton("FECHAR");
@@ -230,25 +252,52 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 		btnFechar.addActionListener(this);
 		contentPane.add(btnFechar);
 		
+		JLabel lblidDiagnostico = new JLabel("Diagn\u00F3sitco");
+		lblidDiagnostico.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblidDiagnostico.setBounds(30, 75, 72, 14);
+		contentPane.add(lblidDiagnostico);
+		
+		tfIdDiagnostico = new JTextField();
+		tfIdDiagnostico.setBounds(112, 72, 86, 20);
+		contentPane.add(tfIdDiagnostico);
+		tfIdDiagnostico.setColumns(10);
+		tfIdDiagnostico.setEnabled(false);
+		
 		setVisible(true);
 		setLocationRelativeTo(null);
+		
+		if(g.idTipo == 2) {
+			tfSintomas.setEnabled(false);
+			tfDiagnostico.setEnabled(false);
+			btnGerarReceita.setEnabled(false);
+			btnEditar.setEnabled(false);
+		}
+		if(g.idTipo == 1) {
+			btnSalvar.setEnabled(false);
+			tfData.setEnabled(false);
+		}
 		
 	}
 	
 	
 	public void preencherDto() {
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		
 		dc.getDto().anexo = this.btnAnexar.getText();
 		dc.getDto().colesterol = this.tfColesterol.getText();
-		dc.getDto().dataDiagnostico = this.tfData.getText();
-		dc.getDto().diagnostico = this.tfDiagnostico.getText();
+		dc.getDto().dataDiagnostico = formatter.format(date);
+		dc.getDto().diagnostico = this.tfDiagnostico.getText() == null ? "" : this.tfDiagnostico.getText();
+		System.out.println(dc.getDto().diagnostico);
 		dc.getDto().glicemia = this.tfGlicemia.getText();
-		dc.getDto().idPaciente = Integer.parseInt(this.tfProntuario.getText());
-		dc.getDto().nome = this.tfPaciente.getText();
+		dc.getDto().idPaciente = Integer.parseInt(this.tfPaciente.getText());
+		dc.getDto().nome = this.tfNome.getText();
 		dc.getDto().observacoes = this.tfObservacoes.getText();
 		dc.getDto().pressaoSanguinea = this.tfPressao.getText();
-		dc.getDto().sintomas = this.tfSintomas.getText();
+		dc.getDto().sintomas = this.tfSintomas.getText() == null ? "" : this.tfSintomas.getText();
+		System.out.println(dc.getDto().sintomas);
 		dc.getDto().temperatura = this.tfTemperatura.getText();
-		//Colocar a "assinatura do médico"?
+		dc.getDto().idFuncionario = g.idFuncionario;
 	}
 
 	@Override
@@ -258,28 +307,67 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 		}
 		
 		if(e.getActionCommand() == "BUSCAR") {
+			String sdiag = JOptionPane.showInputDialog("Digite o número do diagnóstico:");
 			
+			dc.findDiagnosis(sdiag);
+			
+			this.idDiagnostico = dc.getDto().idDianostico;
+			this.idFuncionario = dc.getDto().idFuncionario;
+			this.idPaciente = dc.getDto().idPaciente;
+			this.tfIdDiagnostico.setText(Integer.toString(dc.getDto().idDianostico));
+			this.tfColesterol.setText(dc.getDto().colesterol);
+			this.tfData.setText(dc.getDto().dataDiagnostico);
+			this.tfDiagnostico.setText(dc.getDto().diagnostico);
+			this.tfGlicemia.setText(dc.getDto().glicemia);
+			this.tfObservacoes.setText(dc.getDto().observacoes);
+			this.tfNome.setText(dc.getDto().nome);
+			this.tfPressao.setText(dc.getDto().pressaoSanguinea);
+			this.tfPaciente.setText(Integer.toString(dc.getDto().idPaciente));
+			this.tfSintomas.setText(dc.getDto().sintomas);
+			this.tfTemperatura.setText(dc.getDto().temperatura);
+			//anexo?
+			
+			this.btnEditar.setEnabled(true);
+			this.btnSalvar.setEnabled(false);
 		}
 		
 		if(e.getActionCommand() == "SALVAR") {
-			dc.cadastraDiagnostico();
+			this.preencherDto();
+			System.out.println(dc.getDto().idFuncionario);
+			
+			this.idDiagnostico = dc.cadastraDiagnostico();
+			
+			JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!");
+			
+			this.btnSalvar.setEnabled(false);
+			this.btnGerarReceita.setEnabled(true);
 		}
 		
 		if(e.getActionCommand() == "EDITAR") {
-			dc.getDto().idDianostico = this.idDiagnostico;
-			dc.editarDiagnostico();
+			if(this.tfIdDiagnostico.getText() != "") {
+				if(this.idFuncionario == g.idFuncionario) {
+					this.preencherDto();
+					dc.getDto().idDianostico = Integer.parseInt(this.tfIdDiagnostico.getText());
+					dc.editarDiagnostico();
+					
+					JOptionPane.showMessageDialog(this, "Diagnóstico editado com sucesso!");
+				}else {
+					JOptionPane.showMessageDialog(this, "Só o médico que fez o diagnóstico pode alterá-lo!");
+				}
+			}else {
+				JOptionPane.showMessageDialog(this, "Antes de editar, busque um diagnóstico!");
+			}
 		}
+		
+		this.btnGerarReceita.setEnabled(true);
 		
 		if(e.getActionCommand() == "GERAR RECEITA") {
 			if(g.idTipo == 1) {
 				this.preencherDto();
 				Prescription receita = new Prescription(this.dc.getDto());
-				
 			}else {
 				JOptionPane.showMessageDialog(this, "Só médicos podem gerar receita!");
 			}
-			
-			
 		}	
 		
 		if(e.getActionCommand() == "FECHAR") {
@@ -296,29 +384,65 @@ public class Diagnosis extends JFrame implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == 10) {
-			try {
-				int idPac = Integer.parseInt(this.tfProntuario.getText());
+			if(g.idTipo == 2) {
+				try {
+					int idPac = Integer.parseInt(this.tfPaciente.getText());
+					
+					//System.out.println(idPac);
+								
+					String[] pacienteDados = dc.getProntuario(idPac);
+					
+					//System.out.println("aqui " + pacienteDados[0]);
+					
+					this.idPaciente = pacienteDados[0] == null ? 0 : Integer.parseInt(pacienteDados[0]);
+					
+					this.tfNome.setText(pacienteDados[1]);
+					this.tfPaciente.setText(pacienteDados[0]);
+					this.tfObservacoes.setText(pacienteDados[2]);
+					
+				} catch (Exception e2) {
+					this.tfNome.setText("");
+					this.tfNome.requestFocus();
+					JOptionPane.showMessageDialog(this, "O id do paciente precisa ser um número inteiro!" +e2.toString());
+				}
+			}
 				
-				System.out.println(idPac);
-							
-				String[] pacienteDados = dc.getProntuario(idPac);
-				
-				System.out.println("aqui " + pacienteDados[0]);
-				
-				this.idPaciente = pacienteDados[0] == null ? 0 : Integer.parseInt(pacienteDados[0]);
-				
-				this.tfPaciente.setText(pacienteDados[1]);
-				this.tfProntuario.setText(pacienteDados[0]);
-				this.tfObservacoes.setText(pacienteDados[2]);
-				
-			} catch (Exception e2) {
-				this.tfPaciente.setText("");
-				this.tfPaciente.requestFocus();
-				JOptionPane.showMessageDialog(this, "O id do paciente precisa ser um número inteiro!" +e2.toString());
+			if(g.idTipo == 1) {	
+				this.idFuncionario = g.idFuncionario;
+				try {
+					int idPac = Integer.parseInt(this.tfPaciente.getText());
+					//int idDiag = Integer.parseInt(this.tfIdDiagnostico.getText());
+					
+					//System.out.println(idPac);
+								
+					String[] pacienteDados = dc.getProntuarioMedico(idPac);
+					
+					//System.out.println("aqui " + pacienteDados[0]);
+					
+					this.idPaciente = pacienteDados[0] == null ? 0 : Integer.parseInt(pacienteDados[0]);
+					
+					this.tfNome.setText(pacienteDados[1]);
+					this.tfPaciente.setText(pacienteDados[0]);
+					this.tfObservacoes.setText(pacienteDados[2]);
+					this.tfData.setText(pacienteDados[3]);
+					this.tfColesterol.setText(pacienteDados[7]);
+					this.tfGlicemia.setText(pacienteDados[6]);
+					this.tfPressao.setText(pacienteDados[4]);
+					this.tfTemperatura.setText(pacienteDados[5]);
+					this.tfIdDiagnostico.setText(pacienteDados[8]);
+					this.tfSintomas.setText(pacienteDados[9]);
+					this.tfDiagnostico.setText(pacienteDados[10]);
+
+				} catch (Exception e2) {
+					this.tfNome.setText("");
+					this.tfIdDiagnostico.setText("");
+					this.tfNome.requestFocus();
+					JOptionPane.showMessageDialog(this, "O id do paciente precisa ser um número inteiro!" +e2.toString());
+				}
 			}
 		}
 	}
-
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub

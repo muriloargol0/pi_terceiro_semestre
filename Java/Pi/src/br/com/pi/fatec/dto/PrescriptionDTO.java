@@ -6,5 +6,8 @@ public class PrescriptionDTO {
 	public String prescricao;
 	public int idDiagnostico;
 	public String observacao;
+	public String nome;
+	public String observacoes;
+	public int idPaciente;
 
 }

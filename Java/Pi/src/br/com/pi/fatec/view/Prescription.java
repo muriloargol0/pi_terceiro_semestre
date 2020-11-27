@@ -4,10 +4,14 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,6 +20,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
 import br.com.pi.fatec.controller.DiagnosisController;
 import br.com.pi.fatec.controller.PatientController;
@@ -30,16 +35,18 @@ public class Prescription extends JFrame implements ActionListener{
 	PrescriptionController pc;
 	Globals g = new Globals();
 	private JPanel contentPane;
-	private JTextField tfProntuario;
-	private JTextField tfPaciente;
+	private JTextField tfIdPaciente;
+	private JTextField tfNome;
 	private JTextField tfObservacoes;
-	private JTextField tfData;
+	private JFormattedTextField tfData;
 	private JTextField tfPrescricao;
 	private JTextField tfObservacao;
 	private JButton btnSalvar;
 	private JButton btnImprimir;
 	private JButton btnFechar;
-	private JTextField tfidDiagnostico;
+	private JButton btnBuscar;
+	private JTextField tfIdDiagnostico;
+	private int idReceita;
 	
 	private List<ReportDTO> lista = new ArrayList<ReportDTO>();
 	
@@ -50,6 +57,10 @@ public class Prescription extends JFrame implements ActionListener{
 		if(diagnosisDTO == null) {
 			diagnosisDTO = new DiagnosisDTO();
 		}
+		
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		
 		pc = new PrescriptionController();
 		setTitle("RECEITA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -64,30 +75,33 @@ public class Prescription extends JFrame implements ActionListener{
 		lblPaciente.setBounds(42, 50, 60, 14);
 		contentPane.add(lblPaciente);
 		
-		tfProntuario = new JTextField((diagnosisDTO.idPaciente == 0 ? "" : diagnosisDTO.idPaciente).toString());//traz os valores da tela diagnostico
-		tfProntuario.setBounds(112, 47, 120, 20);
-		contentPane.add(tfProntuario);
-		tfProntuario.setColumns(10);
+		tfIdPaciente = new JTextField((diagnosisDTO.idPaciente == 0 ? "" : diagnosisDTO.idPaciente).toString());
+		tfIdPaciente.setBounds(112, 47, 120, 20);
+		contentPane.add(tfIdPaciente);
+		tfIdPaciente.setColumns(10);
+		tfIdPaciente.setEnabled(false);
 		
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNome.setBounds(243, 50, 40, 14);
 		contentPane.add(lblNome);
 		
-		tfPaciente = new JTextField(diagnosisDTO.nome);
-		tfPaciente.setColumns(10);
-		tfPaciente.setBounds(293, 47, 444, 20);
-		contentPane.add(tfPaciente);
+		tfNome = new JTextField(diagnosisDTO.nome);
+		tfNome.setColumns(10);
+		tfNome.setBounds(293, 47, 444, 20);
+		contentPane.add(tfNome);
+		tfNome.setEnabled(false);
 		
 		JLabel lblidDiagnostico = new JLabel("Diagn\u00F3stico");
 		lblidDiagnostico.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblidDiagnostico.setBounds(32, 75, 70, 14);
 		contentPane.add(lblidDiagnostico);
 		
-		tfidDiagnostico = new JTextField(diagnosisDTO.idDianostico);
-		tfidDiagnostico.setBounds(112, 72, 86, 20);
-		contentPane.add(tfidDiagnostico);
-		tfidDiagnostico.setColumns(10);
+		tfIdDiagnostico = new JTextField(Integer.toString(diagnosisDTO.idDianostico));
+		tfIdDiagnostico.setEnabled(false);
+		tfIdDiagnostico.setBounds(112, 72, 86, 20);
+		contentPane.add(tfIdDiagnostico);
+		tfIdDiagnostico.setColumns(10);
 		
 		JLabel lblObservacoes = new JLabel("Observa\u00E7\u00F5es");
 		lblObservacoes.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -95,6 +109,7 @@ public class Prescription extends JFrame implements ActionListener{
 		contentPane.add(lblObservacoes);		
 		
 		tfObservacoes = new JTextField(diagnosisDTO.observacoes);
+		tfObservacoes.setEnabled(false);
 		tfObservacoes.setColumns(10);
 		tfObservacoes.setBounds(293, 72, 444, 20);
 		contentPane.add(tfObservacoes);
@@ -130,10 +145,20 @@ public class Prescription extends JFrame implements ActionListener{
 		lblData.setBounds(20, 146, 70, 14);
 		contentPane.add(lblData);
 		
-		tfData = new JTextField();
+		tfData = new JFormattedTextField(formatter.format(date));
+		tfData.setEnabled(false);
 		tfData.setBounds(100, 143, 132, 20);
 		contentPane.add(tfData);
 		tfData.setColumns(10);
+		MaskFormatter formaterData = new MaskFormatter();
+		try {
+			formaterData.setMask("##/##/####");
+			formaterData.install(tfData);
+		}catch (ParseException pe) {
+			pe.printStackTrace();
+		}catch ( Exception ex ) {
+			ex.printStackTrace();
+		}
 		
 		JLabel lblPrescricao = new JLabel("Prescrição");
 		lblPrescricao.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -156,19 +181,30 @@ public class Prescription extends JFrame implements ActionListener{
 		contentPane.add(tfObservacao);
 		
 		btnSalvar = new JButton("SALVAR");
-		btnSalvar.setBounds(100, 392, 132, 35);
+		btnSalvar.setBounds(185, 392, 132, 35);
 		btnSalvar.addActionListener(this);
 		contentPane.add(btnSalvar);
 		
 		btnImprimir = new JButton("IMPRIMIR");
-		btnImprimir.setBounds(242, 392, 132, 35);
+		btnImprimir.setBounds(325, 392, 132, 35);
 		btnImprimir.addActionListener(this);
 		contentPane.add(btnImprimir);
 		
 		btnFechar = new JButton("FECHAR");
-		btnFechar.setBounds(384, 392, 132, 35);
+		btnFechar.setBounds(465, 392, 132, 35);
 		btnFechar.addActionListener(this);
 		contentPane.add(btnFechar);
+		
+		btnBuscar = new JButton("BUSCAR");
+		btnBuscar.setBounds(45, 392, 132, 35);
+		btnBuscar.addActionListener(this);
+		contentPane.add(btnBuscar);
+		
+		if(g.idTipo != 1) {
+			JOptionPane.showMessageDialog(this, "Apenas médicos conseguem alterar receitas!");
+			this.tfPrescricao.setEditable(false);
+			this.tfObservacao.setEnabled(false);
+		}
 		
 		setVisible(true);
 		setLocationRelativeTo(null);
@@ -176,21 +212,51 @@ public class Prescription extends JFrame implements ActionListener{
 	}
 	
 	public void preencheReceita() {
+		try {
+			int idDiag = Integer.parseInt(this.tfIdDiagnostico.getText());
+			//int idDiag = Integer.parseInt(this.tfIdDiagnostico.getText());
+			
+			//System.out.println(idPac);
+						
+			pc.findPrescription(idDiag);
+			
+			//System.out.println("aqui " + pacienteDados[0]);
+			
+			this.idReceita = receitaDados[0] == null ? 0 : Integer.parseInt(receitaDados[0]);
+			
+			this.tfData.setText(pacienteDados[1]);
+			this.tfIdDiagnostico.setText(pacienteDados[0]);
+			this.tfIdPaciente.setText(pacienteDados[2]);
+			this.tfNome.setText(pacienteDados[3]);
+			this.tfObservacao.setText(pacienteDados[7]);
+			this.tfObservacoes.setText(pacienteDados[6]);
+			this.tfPrescricao.setText(pacienteDados[4]);
+
+		} catch (Exception e2) {
+			this.tfNome.setText("");
+			this.tfIdDiagnostico.setText("");
+			this.tfNome.requestFocus();
+			JOptionPane.showMessageDialog(this, "O id do paciente precisa ser um número inteiro!" +e2.toString());
+		}
+		
 		
 	}
 	
 	public void preencherDto() {
-		pc.getDto().dataReceita = this.tfData.getText();
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		
+		pc.getDto().dataReceita = formatter.format(date);
 		pc.getDto().prescricao = this.tfPrescricao.getText();
 		pc.getDto().observacao = this.tfObservacao.getText();
-		pc.getDto().idDiagnostico = Integer.parseInt(this.tfidDiagnostico.getText());
+		pc.getDto().idDiagnostico = Integer.parseInt(this.tfIdDiagnostico.getText());
 	}
 	
 	ReportDTO r = new ReportDTO();
 	
 	public void preencherRelatorio() {
 		r.nomeMedico = g.nome;
-		r.nomePaciente = this.tfPaciente.getText();
+		r.nomePaciente = this.tfNome.getText();
 		r.dataReceita = this.tfData.getText();
 		r.prescricao = this.tfPrescricao.getText();
 		r.observacao = this.tfObservacao.getText();	
@@ -200,12 +266,28 @@ public class Prescription extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "SALVAR") {
-			if(tfidDiagnostico != null) {
+			if(tfIdDiagnostico != null) {
 				this.preencherDto();
 				pc.cadastraReceita();
+				
+				JOptionPane.showMessageDialog(this, "Receita salva com sucesso!");
 			}else {
 				JOptionPane.showMessageDialog(this, "Não é possível criar uma receita sem um diagnóstico.");
 			}			
+		}
+		
+		if(e.getActionCommand() == "BUSCAR") {
+			String srec = JOptionPane.showInputDialog("Digite o número da receita:");
+			
+			pc.findPrescription(srec);
+			
+			this.tfData.setText(pc.getDto().dataReceita);
+			this.tfIdDiagnostico.setText(Integer.toString(pc.getDto().idDiagnostico));
+			this.tfObservacao.setText(pc.getDto().observacao);
+			this.tfObservacoes.setText(pc.getDto().observacoes);
+			this.tfNome.setText(pc.getDto().nome);
+			this.tfPrescricao.setText(pc.getDto().prescricao);
+			this.tfIdPaciente.setText(Integer.toString(pc.getDto().idPaciente));
 		}
 		
 		if(e.getActionCommand() == "IMPRIMIR") {
@@ -217,9 +299,8 @@ public class Prescription extends JFrame implements ActionListener{
 				try {
 					Receita.gerarRelatorio(lista);
 				} catch (Exception e2) {
-					
+					JOptionPane.showMessageDialog(this, e2.toString());
 				}
-			
 		}
 		
 		if(e.getActionCommand() == "FECHAR") {

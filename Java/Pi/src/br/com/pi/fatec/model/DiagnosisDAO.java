@@ -31,7 +31,9 @@ public class DiagnosisDAO extends DataObject {
 			           ",ANEXO" +
 			           ",SINTOMAS" +
 			           ",DIAGNOSTICO" +
-					") VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+			           ",ID_FUNCIONARIO" +
+			           ",ID_PACIENTE" +
+					") VALUES (?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setString(1, this.formatarData(dto.dataDiagnostico));
 			stmt.setString(2, this.dto.temperatura);
@@ -41,6 +43,8 @@ public class DiagnosisDAO extends DataObject {
 			stmt.setString(6, this.dto.anexo);
 			stmt.setString(7, this.dto.sintomas);
 			stmt.setString(8, this.dto.diagnostico);
+			stmt.setInt(9, this.dto.idFuncionario);
+			stmt.setInt(10, this.dto.idPaciente);
 			
 			stmt.executeUpdate();
 			
@@ -68,25 +72,24 @@ public class DiagnosisDAO extends DataObject {
 
 		try {
 			PreparedStatement stmt = cnn.prepareStatement("UPDATE DIAGNOSTICO SET " + 
-					",DATA_DIAGNOSTICO" +
-			           ",TEMPERATURA" +
-			           ",PRESSAO_SANGUINEA" +
-			           ",GLICEMIA" +
-			           ",COLESTEROL" +
-			           ",ANEXO" + 
-			           ",SINTOMAS" +
-			           ",DIAGNOSTICO" +
+					"TEMPERATURA = ?" +
+			           ",PRESSAO_SANGUINEA = ?" +
+			           ",GLICEMIA = ?" +
+			           ",COLESTEROL = ?" +
+			           ",ANEXO = ?" + 
+			           ",SINTOMAS = ?" +
+			           ",DIAGNOSTICO = ?" +
 		           " WHERE ID_DIAGNOSTICO = ? "
 		           );
-			
-			stmt.setString(1, this.formatarData(dto.dataDiagnostico));
-			stmt.setString(2, this.dto.temperatura);
-			stmt.setString(3, this.dto.pressaoSanguinea);
-			stmt.setString(4, this.dto.glicemia);
-			stmt.setString(5, this.dto.colesterol);
-			stmt.setString(6, this.dto.anexo);
-			stmt.setString(7, this.dto.sintomas);
-			stmt.setString(8, this.dto.diagnostico);
+
+			stmt.setString(1, this.dto.temperatura);
+			stmt.setString(2, this.dto.pressaoSanguinea);
+			stmt.setString(3, this.dto.glicemia);
+			stmt.setString(4, this.dto.colesterol);
+			stmt.setString(5, this.dto.anexo);
+			stmt.setString(6, this.dto.sintomas);
+			stmt.setString(7, this.dto.diagnostico);
+			stmt.setInt(8, this.dto.idDianostico);
 			
 			stmt.executeUpdate();
 			
@@ -111,7 +114,7 @@ public class DiagnosisDAO extends DataObject {
 		this.dto = new DiagnosisDTO();
 		
 		try {
-			PreparedStatement stmt = cnn.prepareStatement("SELECT * FROM DIAGNOSTICO D, PACIENTE P WHERE D.ID_DIAGNOSTICO = ? AND D.ID_PACIENTE = P.ID_PACIENTE");
+			PreparedStatement stmt = cnn.prepareStatement("SELECT P.NOME, P.OBSERVACOES, D.* FROM DIAGNOSTICO D, PACIENTE P WHERE D.ID_DIAGNOSTICO = ? AND D.ID_PACIENTE = P.ID_PACIENTE");
 			
 			stmt.setString(1, param);
 			
@@ -153,6 +156,39 @@ public class DiagnosisDAO extends DataObject {
 				paciente[0] = rs.getString("ID_PACIENTE");
 				paciente[1] = rs.getString("NOME");
 				paciente[2] = rs.getString("OBSERVACOES");
+			}
+		} catch (Exception e) {
+			System.out.println("Erro ao buscar prontuário: "+ e.toString());
+		}
+		return paciente;
+	}
+	
+	public String[] getProntuarioMedico(int idPaciente) {
+		String[] paciente = new String[11];
+		
+		try {
+			PreparedStatement stmt = super.getConnection().prepareStatement("SELECT P.ID_PACIENTE, P.NOME, P.OBSERVACOES, D.* FROM\r\n" + 
+					"DIAGNOSTICO D\r\n" + 
+					"INNER JOIN PACIENTE P ON D.ID_PACIENTE = P.ID_PACIENTE\r\n" + 
+					"WHERE P.ID_PACIENTE = ? AND D.ID_DIAGNOSTICO = (SELECT MAX(ID_DIAGNOSTICO) FROM DIAGNOSTICO WHERE ID_PACIENTE = ?)");
+						
+			stmt.setInt(1, idPaciente);
+			stmt.setInt(2, idPaciente);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				paciente[0] = rs.getString("ID_PACIENTE");
+				paciente[1] = rs.getString("NOME");
+				paciente[2] = rs.getString("OBSERVACOES");
+				paciente[3] = formatarDataRetorno(rs.getString("DATA_DIAGNOSTICO"));
+				paciente[4] = rs.getString("PRESSAO_SANGUINEA");
+				paciente[5] = rs.getString("TEMPERATURA");
+				paciente[6] = rs.getString("GLICEMIA");
+				paciente[7] = rs.getString("COLESTEROL");
+				paciente[8] = rs.getString("ID_DIAGNOSTICO");
+				paciente[9] = rs.getString("SINTOMAS");
+				paciente[10] = rs.getString("DIAGNOSTICO");
 			}
 		} catch (Exception e) {
 			System.out.println("Erro ao buscar prontuário: "+ e.toString());

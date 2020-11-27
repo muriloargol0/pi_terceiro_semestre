@@ -26,7 +26,7 @@ public class PrescriptionController {
 		return receitaDAO;
 	}
 	
-	public void cadastraReceita() {
+	public int cadastraReceita() {
 		try {		
 			this.getReceitaDAO().dto = this.getDto();
 			
@@ -35,6 +35,7 @@ public class PrescriptionController {
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "Erro ao criar o registro de receita: " + ex.getMessage());
 		}
+		return 0;
 	}
 	
 	public void editarReceita() {
@@ -55,7 +56,7 @@ public class PrescriptionController {
 		}
 	}
 
-	public void findReceita(String idReceita) {
+	public void findPrescription(String idReceita) {
 		try {
 			this.getReceitaDAO().read(idReceita);
 			

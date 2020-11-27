@@ -20,7 +20,7 @@ public class PrescriptionDAO extends DataObject{
 
 		try {
 			PreparedStatement stmt = cnn.prepareStatement("INSERT INTO RECEITA (" + 
-					",DATA_RECEITA" +
+					"DATA_RECEITA" +
 			           ",PRESCRICAO" +
 			           ",ID_DIAGNOSTICO" +
 			           ",OBSERVACAO" +
@@ -92,7 +92,7 @@ public class PrescriptionDAO extends DataObject{
 		this.dto = new PrescriptionDTO();
 		
 		try {
-			PreparedStatement stmt = cnn.prepareStatement("SELECT * FROM RECEITA WHERE ID_RECEITA = ?");
+			PreparedStatement stmt = cnn.prepareStatement("SELECT P.NOME, P.OBSERVACOES, R.* FROM PACIENTE P, DIAGNOSTICO D, RECEITA R WHERE ID_RECEITA = ? AND R.ID_DIAGNOSTICO = D.ID_DIAGNOSTICO AND P.ID_PACIENTE = D.ID_PACIENTE");
 			
 			stmt.setString(1, param);
 			
@@ -104,6 +104,9 @@ public class PrescriptionDAO extends DataObject{
 				this.dto.prescricao = rs.getString("PRESCRICAO");
 				this.dto.dataReceita = formatarDataRetorno(rs.getString("DATA_RECEITA"));
 				this.dto.observacao = rs.getString("OBSERVACAO");
+				this.dto.idPaciente = rs.getInt("ID_PACIENTE");
+				this.dto.nome = rs.getString("NOME");
+				this.dto.observacoes = rs.getString("OBSERVACOES");
 			}
 			
 		} catch (Exception e) {
@@ -111,5 +114,34 @@ public class PrescriptionDAO extends DataObject{
 		} finally {
 			super.closeConnection();
 		}
+	}
+	
+	public String[] getReceita(int idReceita) {
+		String[] receita = new String[8];
+		
+		try {
+			PreparedStatement stmt = super.getConnection().prepareStatement("SELECT P.ID_PACIENTE, P.NOME, P.OBSERVACOES, D.* FROM\r\n" + 
+					"DIAGNOSTICO D\r\n" + 
+					"INNER JOIN PACIENTE P ON D.ID_PACIENTE = P.ID_PACIENTE\r\n" + 
+					"WHERE P.ID_PACIENTE = ? AND D.ID_DIAGNOSTICO = (SELECT MAX(ID_DIAGNOSTICO) FROM DIAGNOSTICO WHERE ID_PACIENTE = ?)");
+						
+			stmt.setInt(1, idReceita);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				receita[0] = rs.getString("ID_RECEITA");
+				receita[1] = rs.getString("PRESCRICAO");
+				receita[2] = formatarDataRetorno(rs.getString("DATA_RECEITA"));
+				receita[3] = rs.getString("ID_DIAGNOSTICO");
+				receita[4] = rs.getString("OBSERVACAO");
+				receita[5] = rs.getString("NOME");
+				receita[6] = rs.getString("OBSERVACOES");
+				receita[7] = rs.getString("ID_PACIENTE");
+			}
+		} catch (Exception e) {
+			System.out.println("Erro ao buscar receita: "+ e.toString());
+		}
+		return receita;
 	}
 }

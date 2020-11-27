@@ -25,15 +25,14 @@ public class DiagnosisController {
 		return diagnosticoDAO;
 	}
 	
-	public void cadastraDiagnostico() {
+	public int cadastraDiagnostico() {
 		try {		
 			this.getDiagnosticoDAO().dto = this.getDto();
-			
-			this.getDiagnosticoDAO().create();
-			
+			return this.getDiagnosticoDAO().create();
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "Erro ao criar o registro de diagnóstico: " + ex.getMessage());
 		}
+		return 0;
 	}
 	
 	public void editarDiagnostico() {
@@ -66,5 +65,9 @@ public class DiagnosisController {
 	
 	public String[] getProntuario(int idPaciente){
 		return this.getDiagnosticoDAO().getProntuario(idPaciente);
+	}
+	
+	public String[] getProntuarioMedico(int idPaciente){
+		return this.getDiagnosticoDAO().getProntuarioMedico(idPaciente);
 	}
 }

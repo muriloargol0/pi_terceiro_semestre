@@ -78,12 +78,7 @@ public class Menu extends JFrame implements ActionListener {
 		
 		
 		if(e.getActionCommand() == "RECEITA") {
-			if(g.idTipo == 1) {	
-				Prescription receita = new Prescription(null);
-			}
-			else {
-				JOptionPane.showMessageDialog(this, "Apenas médicos conseguem alterar receitas!");
-			}
+			Prescription receita = new Prescription(null);
 		}
 		
 		if(e.getActionCommand() == "USUÁRIO") {
